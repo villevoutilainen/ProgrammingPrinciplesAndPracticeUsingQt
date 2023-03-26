@@ -21,6 +21,7 @@ void Shape::draw(Painter& painter) const
 {
     painter.save();
     painter.set_color(color());
+    painter.set_fill_color(fill_color());
     painter.set_line_style(style());
     draw_lines(painter);
     painter.restore();
@@ -88,37 +89,21 @@ void Polygon::add(Point p)
 
 void Polygon::draw_lines(Painter& painter) const
 {
-		if (number_of_points() < 3) error("less than 3 points in a Polygon");
-        Closed_polyline::draw_lines(painter);
+    if (number_of_points() < 3) error("less than 3 points in a Polygon");
+    Closed_polyline::draw_lines(painter);
 }
 
 void Open_polyline::draw_lines(Painter& painter) const
 {
-    /*
-		if (fill_color().visibility()) {
-			fl_color(fill_color().as_int());
-			fl_begin_complex_polygon();
-			for(int i=0; i<number_of_points(); ++i){
-				fl_vertex(point(i).x, point(i).y);
-			}
-			fl_end_complex_polygon();
-			fl_color(color().as_int());	// reset color
-		}
-		
-		if (color().visibility())
-			Shape::draw_lines();
-            */
+    Shape::draw_lines(painter);
 }
 
 
 void Closed_polyline::draw_lines(Painter& painter) const
 {
-    /*
-	Open_polyline::draw_lines();
-		
-	if (color().visibility())	// draw closing line:
-		fl_line(point(number_of_points()-1).x,point(number_of_points()-1).y,point(0).x,point(0).y);
-        */
+    if (color().visibility()) {
+        painter.draw_polygon(*this);
+    }
 }
 void Shape::move(int dx, int dy)
 {

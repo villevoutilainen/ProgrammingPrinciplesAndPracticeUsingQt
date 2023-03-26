@@ -2,6 +2,7 @@
 #include "Graph.h"
 #include <QApplication>
 #include <QPainter>
+#include <QVector>
 #include <QWidget>
 //#include "GUI.h"
 
@@ -12,11 +13,13 @@ class PainterPrivate
 public:
     QPainter* painter;
     QPen pen;
+    QBrush brush;
 };
 
 void Painter::draw_rectangle(const Point& p1, int w, int h)
 {
     impl->painter->setPen(impl->pen);
+    impl->painter->setBrush(impl->brush);
     impl->painter->drawRect(p1.x, p1.y, w, h);
 }
 
@@ -24,6 +27,18 @@ void Painter::draw_line(const Point& p1, const Point& p2)
 {
     impl->painter->setPen(impl->pen);
     impl->painter->drawLine(p1.x, p1.y, p2.x, p2.y);
+}
+
+void Painter::draw_polygon(const Shape& s)
+{
+    impl->painter->setPen(impl->pen);
+    impl->painter->setBrush(impl->brush);
+    QVector<QPoint> points;
+    for (int i = 0; i < s.number_of_points(); ++i) {
+        Point p = s.point(i);
+        points.push_back(QPoint(p.x, p.y));
+    }
+    impl->painter->drawPolygon(points.data(), points.size());
 }
 
 void Painter::save()
@@ -36,7 +51,7 @@ void Painter::restore()
     impl->painter->restore();
 }
 
-void Painter::set_color(Color color)
+static QColor map_color(Color color)
 {
     static const QMap<Color, QColor> color_map = {
         {Color::red, QColorConstants::Red},
@@ -54,7 +69,22 @@ void Painter::set_color(Color color)
         {Color::dark_magenta, QColorConstants::DarkMagenta},
         {Color::dark_cyan, QColorConstants::DarkCyan},
     };
-    impl->pen.setColor(color_map[color]);
+    return color_map[color];
+}
+
+void Painter::set_color(Color color)
+{
+    impl->pen.setColor(map_color(color));
+}
+
+void Painter::set_fill_color(Color color)
+{
+    if (color.visibility() != Color::invisible) {
+        impl->brush.setColor(map_color(color));
+        impl->brush.setStyle(Qt::SolidPattern);
+    } else {
+        impl->brush.setStyle(Qt::NoBrush);
+    }
 }
 
 void Painter::set_line_style(Line_style style)

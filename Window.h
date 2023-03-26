@@ -24,10 +24,12 @@ public:
 
     void draw_rectangle(const Point& p1, int w, int h);
     void draw_line(const Point& p1, const Point& p2);
+    void draw_polygon(const Shape& s);
     void save();
     void restore();
     void set_color(Color color);
     void set_line_style(Line_style style);
+    void set_fill_color(Color color);
 private:
     std::unique_ptr<PainterPrivate> impl;
 };
