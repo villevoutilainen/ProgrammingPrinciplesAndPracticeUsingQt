@@ -10,6 +10,8 @@ namespace Graph_lib {
 
 class Shape;	// "forward declare" Shape
 class Widget;
+class Color;
+class Line_style;
 
 class PainterPrivate;
 class Painter
@@ -22,6 +24,10 @@ public:
 
     void draw_rectangle(const Point& p1, int w, int h);
     void draw_line(const Point& p1, const Point& p2);
+    void save();
+    void restore();
+    void set_color(Color color);
+    void set_line_style(Line_style style);
 private:
     std::unique_ptr<PainterPrivate> impl;
 };

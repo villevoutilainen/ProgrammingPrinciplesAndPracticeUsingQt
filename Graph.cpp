@@ -19,16 +19,11 @@ void Shape::draw_lines(Painter& painter) const
 
 void Shape::draw(Painter& painter) const
 {
-    /*
-	Fl_Color oldc = fl_color();
-	// there is no good portable way of retrieving the current style
-	fl_color(lcolor.as_int());
-    fl_line_style(ls.style(),ls.width()); */
+    painter.save();
+    painter.set_color(color());
+    painter.set_line_style(style());
     draw_lines(painter);
-    /*
-	fl_color(oldc);	// reset color (to pevious) and style (to default)
-	fl_line_style(0);
-    */
+    painter.restore();
 }
 
 

@@ -11,16 +11,62 @@ class PainterPrivate
 {
 public:
     QPainter* painter;
+    QPen pen;
 };
 
 void Painter::draw_rectangle(const Point& p1, int w, int h)
 {
+    impl->painter->setPen(impl->pen);
     impl->painter->drawRect(p1.x, p1.y, w, h);
 }
 
 void Painter::draw_line(const Point& p1, const Point& p2)
 {
+    impl->painter->setPen(impl->pen);
     impl->painter->drawLine(p1.x, p1.y, p2.x, p2.y);
+}
+
+void Painter::save()
+{
+    impl->painter->save();
+}
+
+void Painter::restore()
+{
+    impl->painter->restore();
+}
+
+void Painter::set_color(Color color)
+{
+    static const QMap<Color, QColor> color_map = {
+        {Color::red, QColorConstants::Red},
+        {Color::blue, QColorConstants::Blue},
+        {Color::green, QColorConstants::Green},
+        {Color::yellow, QColorConstants::Yellow},
+        {Color::white, QColorConstants::White},
+        {Color::black, QColorConstants::Black},
+        {Color::magenta, QColorConstants::Magenta},
+        {Color::cyan, QColorConstants::Cyan},
+        {Color::dark_red, QColorConstants::DarkRed},
+        {Color::dark_green, QColorConstants::DarkGreen},
+        {Color::dark_yellow, QColorConstants::DarkYellow},
+        {Color::dark_blue, QColorConstants::DarkBlue},
+        {Color::dark_magenta, QColorConstants::DarkMagenta},
+        {Color::dark_cyan, QColorConstants::DarkCyan},
+    };
+    impl->pen.setColor(color_map[color]);
+}
+
+void Painter::set_line_style(Line_style style)
+{
+    static const QMap<Line_style, Qt::PenStyle> line_style_map = {
+        {Line_style::solid, Qt::SolidLine},
+        {Line_style::dash, Qt::DashLine},
+        {Line_style::dot, Qt::DotLine},
+        {Line_style::dashdot, Qt::DashDotLine},
+        {Line_style::dashdotdot, Qt::DashDotDotLine}
+    };
+    impl->pen.setStyle(line_style_map[style]);
 }
 
 class ApplicationPrivate

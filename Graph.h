@@ -34,6 +34,11 @@ private:
     int c;
 };
 
+inline bool operator<(Color a, Color b)
+{
+    return a.as_int() < b.as_int();
+}
+
 struct Line_style {
 	enum Line_style_type {
         solid,				// -------
@@ -52,6 +57,11 @@ private:
 	int s;
 	int w;
 };
+
+inline bool operator<(Line_style a, Line_style b)
+{
+    return a.style() < b.style();
+}
 
 class Font {
 public:
