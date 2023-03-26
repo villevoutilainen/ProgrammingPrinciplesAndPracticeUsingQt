@@ -147,18 +147,6 @@ Function::Function(Fct f, double r1, double r2, Point xy, int count, double xsca
 void Rectangle::draw_lines(Painter& painter) const
 {
     painter.draw_rectangle(point(0), w, h);
-    /*
-	if (fill_color().visibility()) {	// fill
-		fl_color(fill_color().as_int());
-		fl_rectf(point(0).x,point(0).y,w,h);
-		fl_color(color().as_int());	// reset color
-	}
-
-	if (color().visibility()) {	// edge on top of fill
-		fl_color(color().as_int());
-		fl_rect(point(0).x,point(0).y,w,h);
-	}
-    */
 }
 
 

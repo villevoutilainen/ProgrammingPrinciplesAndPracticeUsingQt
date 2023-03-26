@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
     Text text(Point(150, 20), "Well hello there!");
     text.set_font_size(20);
     text.set_font(Font::symbol);
+    Function fun(std::sin, 0, 100, Point(150, 60), 1000);
     w2.attach(r);
     w2.attach(line1);
     w2.attach(line2);
@@ -44,5 +45,6 @@ int main(int argc, char *argv[])
     w2.attach(closed_poly);
     w2.attach(poly);
     w2.attach(text);
+    w2.attach(fun);
     app.gui_main();
 }
