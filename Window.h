@@ -21,6 +21,7 @@ public:
     Painter& operator=(const Painter&) = delete;
 
     void draw_rectangle(const Point& p1, int w, int h);
+    void draw_line(const Point& p1, const Point& p2);
 private:
     std::unique_ptr<PainterPrivate> impl;
 };

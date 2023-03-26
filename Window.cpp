@@ -18,6 +18,11 @@ void Painter::draw_rectangle(const Point& p1, int w, int h)
     impl->painter->drawRect(p1.x, p1.y, w, h);
 }
 
+void Painter::draw_line(const Point& p1, const Point& p2)
+{
+    impl->painter->drawLine(p1.x, p1.y, p2.x, p2.y);
+}
+
 class ApplicationPrivate
 {
 public:

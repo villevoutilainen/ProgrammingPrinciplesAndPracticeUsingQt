@@ -12,9 +12,9 @@ class PainterPrivate
 
 void Shape::draw_lines(Painter& painter) const
 {
-    //if (color().visibility() && 1<points.size())	// draw sole pixel?
-    //	for (unsigned int i=1; i<points.size(); ++i)
-            //fl_line(points[i-1].x,points[i-1].y,points[i].x,points[i].y);
+    if (color().visibility() && 1<points.size())	// draw sole pixel?
+        for (unsigned int i=1; i<points.size(); ++i)
+            painter.draw_line(points[i-1], points[i]);
 }
 
 void Shape::draw(Painter& painter) const
