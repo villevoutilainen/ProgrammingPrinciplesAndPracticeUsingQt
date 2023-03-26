@@ -92,6 +92,11 @@ private:
 	int f;
 };
 
+inline bool operator<(Font a, Font b)
+{
+    return a.as_int() < b.as_int();
+}
+
 template<class T> class Vector_ref {
     vector<T*> v;
     vector<T*> owned;

@@ -125,13 +125,9 @@ void Lines::draw_lines(Painter& painter) const
 
 void Text::draw_lines(Painter& painter) const
 {
-    /*
-	int ofnt = fl_font();
-	int osz = fl_size();
-	fl_font(fnt.as_int(),fnt_sz);
-	fl_draw(lab.c_str(), point(0).x, point(0).y);
-	fl_font(ofnt,osz);
-    */
+    painter.set_font(font());
+    painter.set_font_size(font_size());
+    painter.draw_text(point(0), lab);
 }
 
 Function::Function(Fct f, double r1, double r2, Point xy, int count, double xscale, double yscale)

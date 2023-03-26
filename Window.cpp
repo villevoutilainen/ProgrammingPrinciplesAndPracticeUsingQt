@@ -14,6 +14,7 @@ public:
     QPainter* painter;
     QPen pen;
     QBrush brush;
+    QFont font;
 };
 
 void Painter::draw_rectangle(const Point& p1, int w, int h)
@@ -39,6 +40,12 @@ void Painter::draw_polygon(const Shape& s)
         points.push_back(QPoint(p.x, p.y));
     }
     impl->painter->drawPolygon(points.data(), points.size());
+}
+
+void Painter::draw_text(const Point& p1, const std::string text)
+{
+    impl->painter->setFont(impl->font);
+    impl->painter->drawText(QPoint(p1.x, p1.y), QString::fromStdString(text));
 }
 
 void Painter::save()
@@ -97,6 +104,31 @@ void Painter::set_line_style(Line_style style)
         {Line_style::dashdotdot, Qt::DashDotDotLine}
     };
     impl->pen.setStyle(line_style_map[style]);
+}
+
+void Painter::set_font_size(int s)
+{
+    impl->font.setPixelSize(s);
+}
+
+void Painter::set_font(Font f)
+{
+    static QMap<Font, QFont> fontMap = {
+        {Font::helvetica, QFont("Helvetica", 14) },
+        {Font::helvetica_bold, QFont("Helvetica", 14, QFont::Bold)},
+        {Font::helvetica_italic, QFont("Helvetica", 14, QFont::Normal, true)},
+        {Font::helvetica_bold_italic, QFont("Helvetica", 14, QFont::Bold, true)},
+        {Font::courier, QFont("Courier", 14) },
+        {Font::courier_bold, QFont("Courier", 14, QFont::Bold)},
+        {Font::courier_italic, QFont("Courier", 14, QFont::Normal, true)},
+        {Font::courier_bold_italic, QFont("Courier", 14, QFont::Bold, true)},
+        {Font::times, QFont("Times", 14) },
+        {Font::times_bold, QFont("Times", 14, QFont::Bold)},
+        {Font::times_italic, QFont("Times", 14, QFont::Normal, true)},
+        {Font::times_bold_italic, QFont("Times", 14, QFont::Bold, true)},
+    };
+    QFont painter_font = fontMap[f];
+    impl->font = painter_font;
 }
 
 class ApplicationPrivate

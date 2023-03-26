@@ -34,11 +34,15 @@ int main(int argc, char *argv[])
     poly.add(Point(130, 300));
     poly.add(Point(150, 350));
     poly.add(Point(180, 300));
+    Text text(Point(150, 20), "Well hello there!");
+    text.set_font_size(20);
+    text.set_font(Font::courier_bold_italic);
     w2.attach(r);
     w2.attach(line1);
     w2.attach(line2);
     w2.attach(open_poly);
     w2.attach(closed_poly);
     w2.attach(poly);
+    w2.attach(text);
     app.gui_main();
 }

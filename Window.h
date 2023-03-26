@@ -12,6 +12,7 @@ class Shape;	// "forward declare" Shape
 class Widget;
 class Color;
 class Line_style;
+class Font;
 
 class PainterPrivate;
 class Painter
@@ -25,11 +26,14 @@ public:
     void draw_rectangle(const Point& p1, int w, int h);
     void draw_line(const Point& p1, const Point& p2);
     void draw_polygon(const Shape& s);
+    void draw_text(const Point& p1, const std::string text);
     void save();
     void restore();
     void set_color(Color color);
     void set_line_style(Line_style style);
     void set_fill_color(Color color);
+    void set_font_size(int s);
+    void set_font(Font f);
 private:
     std::unique_ptr<PainterPrivate> impl;
 };
