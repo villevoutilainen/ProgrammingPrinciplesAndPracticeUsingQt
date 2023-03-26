@@ -126,6 +126,10 @@ void Painter::set_font(Font f)
         {Font::times_bold, QFont("Times", 14, QFont::Bold)},
         {Font::times_italic, QFont("Times", 14, QFont::Normal, true)},
         {Font::times_bold_italic, QFont("Times", 14, QFont::Bold, true)},
+        {Font::symbol, QFont("Symbol", 14)},
+        {Font::screen, QFont("Screen", 14)},
+        {Font::screen_bold, QFont("Screen", 14, QFont::Bold)},
+        {Font::zapf_dingbats, QFont("Zapf Dingbats", 14)}
     };
     QFont painter_font = fontMap[f];
     impl->font = painter_font;
