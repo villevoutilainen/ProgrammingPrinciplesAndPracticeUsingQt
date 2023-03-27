@@ -115,7 +115,7 @@ void Painter::set_line_style(Line_style style)
 
 void Painter::set_font_size(int s)
 {
-    impl->font.setPixelSize(s);
+    impl->font.setPointSize(s);
 }
 
 void Painter::set_font(Font f)
