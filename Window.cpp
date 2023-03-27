@@ -48,6 +48,13 @@ void Painter::draw_text(const Point& p1, const std::string text)
     impl->painter->drawText(QPoint(p1.x, p1.y), QString::fromStdString(text));
 }
 
+void Painter::draw_ellipse(const Point& p1, int r, int r2)
+{
+    impl->painter->setPen(impl->pen);
+    impl->painter->setBrush(impl->brush);
+    impl->painter->drawEllipse(QPoint(p1.x, p1.y), r, r2);
+}
+
 void Painter::save()
 {
     impl->painter->save();

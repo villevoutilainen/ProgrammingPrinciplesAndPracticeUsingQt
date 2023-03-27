@@ -38,6 +38,10 @@ int main(int argc, char *argv[])
     text.set_font_size(20);
     text.set_font(Font::symbol);
     Function fun(std::sin, 0, 100, Point(150, 60), 1000);
+    Circle cir(Point(250, 180), 40);
+    cir.set_fill_color(Color::dark_red);
+    Ellipse ell(Point(320, 260), 80, 40);
+    ell.set_fill_color(Color::dark_blue);
     w2.attach(r);
     w2.attach(line1);
     w2.attach(line2);
@@ -46,5 +50,7 @@ int main(int argc, char *argv[])
     w2.attach(poly);
     w2.attach(text);
     w2.attach(fun);
+    w2.attach(cir);
+    w2.attach(ell);
     app.gui_main();
 }

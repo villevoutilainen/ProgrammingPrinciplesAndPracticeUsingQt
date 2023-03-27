@@ -214,23 +214,14 @@ void Axis::move(int dx, int dy)
 
 void Circle::draw_lines(Painter& painter) const
 {
-    /*
-	if (fill_color().visibility()) {	// fill
-		fl_color(fill_color().as_int());
-		fl_pie(point(0).x,point(0).y,r+r-1,r+r-1,0,360);
-		fl_color(color().as_int());	// reset color
-	}
-
-	if (color().visibility()) {
-		fl_color(color().as_int());
-		fl_arc(point(0).x,point(0).y,r+r,r+r,0,360);
-	}
-    */
+    painter.draw_ellipse(point(0), r, r);
 }
 
 
 void Ellipse::draw_lines(Painter& painter) const
 {
+    painter.draw_ellipse(point(0), w, h);
+
     /*
 	if (fill_color().visibility()) {	// fill
 		fl_color(fill_color().as_int());
