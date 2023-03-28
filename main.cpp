@@ -5,7 +5,7 @@ using namespace Graph_lib;
 int main(int argc, char *argv[])
 {
     Application app;
-    Window w1(Point(20, 20), 400, 200, "Shazam!");
+    Window w1(Point(20, 20), 600, 400, "Shazam!");
     Window w2(Point(40, 40), 400, 400, "Woohoo!");
     Rectangle r(Point(10, 10), Point(100, 100));
     r.set_style(Line_style::dashdot);
@@ -42,6 +42,8 @@ int main(int argc, char *argv[])
     cir.set_fill_color(Color::dark_red);
     Ellipse ell(Point(320, 260), 80, 40);
     ell.set_fill_color(Color::dark_blue);
+    Image img(Point(0, 0), "/home/ville/Downloads/seance.jpg");
+    img.set_mask(Point(0, 0), 200, 200);
     w2.attach(r);
     w2.attach(line1);
     w2.attach(line2);
@@ -52,5 +54,6 @@ int main(int argc, char *argv[])
     w2.attach(fun);
     w2.attach(cir);
     w2.attach(ell);
+    w1.attach(img);
     app.gui_main();
 }

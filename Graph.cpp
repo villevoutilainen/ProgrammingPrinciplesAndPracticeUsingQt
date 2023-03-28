@@ -1,14 +1,10 @@
 #include "Graph.h"
 #include "Window.h"
+#include "Image_private.h"
 
 #include<map>
 
 namespace Graph_lib {
-
-class PainterPrivate
-{
-
-};
 
 void Shape::draw_lines(Painter& painter) const
 {
@@ -281,19 +277,20 @@ bool can_open(const string& s)
 }
 
 
+
 // somewhat overelaborate constructor
 // because errors related to image files can be such a pain to debug
 Image::Image(Point xy, string s, Suffix::Encoding e)
-	:w(0), h(0), fn(xy,"")
+    :w(0), h(0), fn(xy,""), impl(std::make_unique<ImagePrivate>())
 {
 	add(xy);
-/*
+
 	if (!can_open(s)) {
 		fn.set_label("cannot open \""+s+'\"');
-		p = new Bad_image(30,20);	// the "error image"
 		return;
 	}
-
+    impl->load(s);
+/*
 	if (e == Suffix::none) e = get_encoding(s);
 	
 	switch(e) {
@@ -313,15 +310,20 @@ Image::Image(Point xy, string s, Suffix::Encoding e)
     */
 }
 
+Image::~Image() {}
+
 void Image::draw_lines(Painter& painter) const
 {
     if (fn.label()!="") fn.draw_lines(painter);
-/*
-	if (w&&h)
-		p->draw(point(0).x,point(0).y,w,h,cx,cy);
+
+    if (w&&h) {
+        Point p = point(0);
+        p.x += cx;
+        p.y += cy;
+        painter.draw_image(point(0), p, w, h, *this);
+    }
 	else
-		p->draw(point(0).x,point(0).y);
-        */
+        painter.draw_image(point(0), *this);
 }
 
 } // Graph

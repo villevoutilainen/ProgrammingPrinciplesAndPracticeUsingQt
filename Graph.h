@@ -376,16 +376,18 @@ struct Suffix {
 
 Suffix::Encoding get_encoding(const string& s);
 
+class ImagePrivate;
 struct Image : Shape {
 	Image(Point xy, string s, Suffix::Encoding e = Suffix::none);
-    ~Image() { /*delete p;*/ }
+    ~Image();
     void draw_lines(Painter& painter) const override;
 	void set_mask(Point xy, int ww, int hh) { w=ww; h=hh; cx=xy.x; cy=xy.y; }
     void move(int dx,int dy) { Shape::move(dx,dy); /*p->draw(point(0).x,point(0).y);*/ }
+    ImagePrivate& get_impl() const {return *impl;}
 private:
 	int w,h,cx,cy; // define "masking box" within image relative to position (cx,cy)
-    //Fl_Image* p;
 	Text fn;
+    std::unique_ptr<ImagePrivate> impl;
 };
 
 }

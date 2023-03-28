@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "Graph.h"
+#include "Image_private.h"
 #include <QApplication>
 #include <QPainter>
 #include <QVector>
@@ -53,6 +54,16 @@ void Painter::draw_ellipse(const Point& p1, int r, int r2)
     impl->painter->setPen(impl->pen);
     impl->painter->setBrush(impl->brush);
     impl->painter->drawEllipse(QPoint(p1.x, p1.y), r, r2);
+}
+
+void Painter::draw_image(const Point& p1, const Image& img)
+{
+    impl->painter->drawImage(QPoint(p1.x, p1.y), img.get_impl().image);
+}
+
+void Painter::draw_image(const Point& p1, const Point& p2, int w, int h, const Image& img)
+{
+    impl->painter->drawImage(QPoint(p1.x, p1.y), img.get_impl().image, QRect(p2.x, p2.y, w, h));
 }
 
 void Painter::save()
@@ -141,6 +152,12 @@ void Painter::set_font(Font f)
     QFont painter_font = fontMap[f];
     impl->font = painter_font;
 }
+
+void ImagePrivate::load(const std::string& s)
+{
+    image.load(QString::fromStdString(s));
+}
+
 
 class ApplicationPrivate
 {

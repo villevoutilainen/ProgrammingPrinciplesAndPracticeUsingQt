@@ -13,6 +13,7 @@ class Widget;
 class Color;
 class Line_style;
 class Font;
+class Image;
 
 class PainterPrivate;
 class Painter
@@ -28,6 +29,8 @@ public:
     void draw_polygon(const Shape& s);
     void draw_text(const Point& p1, const std::string text);
     void draw_ellipse(const Point& p1, int r, int r2);
+    void draw_image(const Point& p1, const Image& img);
+    void draw_image(const Point& p1, const Point& p2, int w, int h, const Image& img);
     void save();
     void restore();
     void set_color(Color color);
