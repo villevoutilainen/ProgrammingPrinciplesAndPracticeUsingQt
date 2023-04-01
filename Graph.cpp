@@ -239,41 +239,7 @@ void Marked_polyline::draw_lines(Painter& painter) const
 	for (int i=0; i<number_of_points(); ++i) 
         draw_mark(painter, point(i),mark[i%mark.size()]);
 }
-/*
-void Marks::draw_lines() const
-{
-	for (int i=0; i<number_of_points(); ++i) 
-		fl_draw(mark.c_str(),point(i).x-4,point(i).y+4);
-}
-*/
 
-
-std::map<string,Suffix::Encoding> suffix_map;
-
-int init_suffix_map()
-{
-	suffix_map["jpg"] = Suffix::jpg;
-	suffix_map["JPG"] = Suffix::jpg;
-	suffix_map["jpeg"] = Suffix::jpg;
-	suffix_map["JPEG"] = Suffix::jpg;
-	suffix_map["gif"] = Suffix::gif;
-	suffix_map["GIF"] = Suffix::gif;
-	suffix_map["bmp"] = Suffix::bmp;
-	suffix_map["BMP"] = Suffix::bmp;
-	return 0;
-}
-
-Suffix::Encoding get_encoding(const string& s)
-		// try to deduce type from file name using a lookup table
-{
-	static int x = init_suffix_map();
-
-	string::const_iterator p = find(s.begin(),s.end(),'.');
-	if (p==s.end()) return Suffix::none;	// no suffix
-
-	string suf(p+1,s.end());
-	return suffix_map[suf];
-}
 
 bool can_open(const string& s)
             // check if a file named s exists and can be opened for reading
@@ -296,24 +262,6 @@ Image::Image(Point xy, string s, Suffix::Encoding e)
 		return;
 	}
     impl->load(s);
-/*
-	if (e == Suffix::none) e = get_encoding(s);
-	
-	switch(e) {
-	case Suffix::jpg:
-		p = new Fl_JPEG_Image(s.c_str());
-		break;
-	case Suffix::gif:
-		p = new Fl_GIF_Image(s.c_str());
-		break;
-//	case Suffix::bmp:
-//		p = new Fl_BMP_Image(s.c_str());
-//		break;
-	default:	// Unsupported image encoding
-		fn.set_label("unsupported file type \""+s+'\"');
-		p = new Bad_image(30,20);	// the "error image"
-	}
-    */
 }
 
 Image::~Image() {}
