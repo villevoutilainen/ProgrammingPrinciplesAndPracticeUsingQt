@@ -46,6 +46,11 @@ int main(int argc, char *argv[])
     Image img(Point(0, 0), "/home/ville/Downloads/seance.jpg");
     img.set_mask(Point(0, 0), 200, 200);
     Lines lines{Point(0, 0), Point(20, 20), Point(30, 30), Point(40, 10)};
+    Marked_polyline marked_polyline("o");
+    marked_polyline.add(Point(10, 20));
+    marked_polyline.add(Point(10, 120));
+    marked_polyline.add(Point(60, 30));
+    marked_polyline.add(Point(60, 40));
     w2.attach(r);
     w2.attach(line1);
     w2.attach(line2);
@@ -58,5 +63,6 @@ int main(int argc, char *argv[])
     w2.attach(ell);
     w1.attach(img);
     w3.attach(lines);
+    w3.attach(marked_polyline);
     app.gui_main();
 }

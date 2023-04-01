@@ -223,19 +223,21 @@ void Ellipse::draw_lines(Painter& painter) const
     painter.draw_ellipse(point(0), w, h);
 }
 
-void draw_mark(Point xy, char c)
+void draw_mark(Painter& painter, Point xy, char c)
 {
-	static const int dx = 4;
-	static const int dy = 4;
+    static const int dx = 4;
+    static const int dy = 4;
+    xy.x -= dx;
+    xy.y += dy;
 	string m(1,c);
-    //fl_draw(m.c_str(),xy.x-dx,xy.y+dy);
+    painter.draw_text(xy, m);
 }
 
 void Marked_polyline::draw_lines(Painter& painter) const
 {
     Open_polyline::draw_lines(painter);
 	for (int i=0; i<number_of_points(); ++i) 
-		draw_mark(point(i),mark[i%mark.size()]);
+        draw_mark(painter, point(i),mark[i%mark.size()]);
 }
 /*
 void Marks::draw_lines() const
