@@ -51,6 +51,8 @@ int main(int argc, char *argv[])
     marked_polyline.add(Point(10, 120));
     marked_polyline.add(Point(60, 30));
     marked_polyline.add(Point(60, 40));
+    Axis axis_x(Axis::x, Point(100, 200), 200, 20, "x");
+    Axis axis_y(Axis::y, Point(200, 300), 200, 20, "y");
     w2.attach(r);
     w2.attach(line1);
     w2.attach(line2);
@@ -64,5 +66,7 @@ int main(int argc, char *argv[])
     w1.attach(img);
     w3.attach(lines);
     w3.attach(marked_polyline);
+    w3.attach(axis_x);
+    w3.attach(axis_y);
     app.gui_main();
 }
