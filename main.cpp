@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
     Application app;
     Window w1(Point(20, 20), 600, 400, "Shazam!");
     Window w2(Point(40, 40), 400, 400, "Woohoo!");
+    Window w3(Point(40, 40), 400, 400, "More window!");
     Rectangle r(Point(10, 10), Point(100, 100));
     r.set_style(Line_style::dashdot);
     r.set_color(Color::red);
@@ -44,6 +45,7 @@ int main(int argc, char *argv[])
     ell.set_fill_color(Color::dark_blue);
     Image img(Point(0, 0), "/home/ville/Downloads/seance.jpg");
     img.set_mask(Point(0, 0), 200, 200);
+    Lines lines{Point(0, 0), Point(20, 20), Point(30, 30), Point(40, 10)};
     w2.attach(r);
     w2.attach(line1);
     w2.attach(line2);
@@ -55,5 +57,6 @@ int main(int argc, char *argv[])
     w2.attach(cir);
     w2.attach(ell);
     w1.attach(img);
+    w3.attach(lines);
     app.gui_main();
 }

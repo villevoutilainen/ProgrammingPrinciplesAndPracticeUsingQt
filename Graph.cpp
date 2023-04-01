@@ -6,6 +6,12 @@
 
 namespace Graph_lib {
 
+Shape::Shape(std::initializer_list<Point> points)
+{
+    for (auto&& x : points)
+        add(x);
+}
+
 void Shape::draw_lines(Painter& painter) const
 {
     if (color().visibility() && 1<points.size())	// draw sole pixel?
@@ -111,12 +117,10 @@ void Shape::move(int dx, int dy)
 
 void Lines::draw_lines(Painter& painter) const
 {
-    /*
-//	if (number_of_points()%2==1) error("odd number of points in set of lines");
+    if (number_of_points()%2==1) error("odd number of points in set of lines");
 	if (color().visibility())
 		for (int i=1; i<number_of_points(); i+=2)
-			fl_line(point(i-1).x,point(i-1).y,point(i).x,point(i).y);
-            */
+            painter.draw_line(point(i-1) ,point(i));
 }
 
 void Text::draw_lines(Painter& painter) const
