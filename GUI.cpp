@@ -4,6 +4,8 @@
 #include "std_lib_facilities.h"
 #include <sstream>
 
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QPushButton>
 
 using namespace Graph_lib;
@@ -87,12 +89,20 @@ void Out_box::attach(Window& win)
     */
 }
 
-/* REMOVE THIS, it's a redefinition
-Menu::Menu(Point xy, int w, int h, Kind kk, const string& s)
-:Widget(xy,w,h,s,0), k(kk), offset(0)
+Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)
+    : Widget(xy,w,h,label,0), k(kk), offset(0)
 {
+    WidgetPrivate& impl = get_impl();
+    QWidget* widget = new QPushButton();
+    impl.widget = widget;
+    if (k == Menu::horizontal) {
+        widget->setLayout(new QHBoxLayout());
+    } else {
+        widget->setLayout(new QVBoxLayout());
+    }
+
 }
-*/
+
 
 int Menu::attach(Button& b)
 {
@@ -109,6 +119,8 @@ int Menu::attach(Button& b)
 		offset+=b.height;
 		break;
 	}
+    WidgetPrivate& impl = get_impl();
+    impl.widget->layout()->addWidget(b.get_impl().widget);
 	selection.push_back(&b);
 	return int(selection.size()-1);
 }

@@ -58,6 +58,20 @@ int main(int argc, char *argv[])
     Axis axis_x(Axis::x, Point(100, 200), 200, 20, "x");
     Axis axis_y(Axis::y, Point(200, 300), 200, 20, "y");
     Button hello(Point(10, 10), 40, 40, "Hello!", []{std::cout << "Hello!" << std::endl;});
+    Menu menu(Point(10, 70), 200, 40, Menu::horizontal, "Our menu!");
+    Button menub1(Point(10, 10), 40, 40, "Oh!", []{std::cout << "Oh!" << std::endl;});
+    Button menub2(Point(10, 10), 40, 40, "My!", []{std::cout << "My!" << std::endl;});
+    Button menub3(Point(10, 10), 40, 40, "Zomg!", []{std::cout << "Zomg!" << std::endl;});
+    menu.attach(menub1);
+    menu.attach(menub2);
+    menu.attach(menub3);
+    Menu menu2(Point(10, 140), 80, 200, Menu::vertical, "Our vertical menu!");
+    Button menub4(Point(10, 10), 40, 40, "Gee!", []{std::cout << "Gee!" << std::endl;});
+    Button menub5(Point(10, 10), 40, 40, "Whizz!", []{std::cout << "Whizz!" << std::endl;});
+    Button menub6(Point(10, 10), 40, 40, "Bang!", []{std::cout << "Bang!" << std::endl;});
+    menu2.attach(menub4);
+    menu2.attach(menub5);
+    menu2.attach(menub6);
     w2.attach(r);
     w2.attach(line1);
     w2.attach(line2);
@@ -74,5 +88,7 @@ int main(int argc, char *argv[])
     w3.attach(axis_x);
     w3.attach(axis_y);
     w4.attach(hello);
+    w4.attach(menu);
+    w4.attach(menu2);
     app.gui_main();
 }

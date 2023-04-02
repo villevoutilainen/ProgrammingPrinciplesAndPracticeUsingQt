@@ -82,9 +82,7 @@ namespace Graph_lib {
 
     struct Menu : Widget {
         enum Kind { horizontal, vertical };
-        Menu(Point xy, int w, int h, Kind kk, const string& label)
-            : Widget(xy,w,h,label,0), k(kk), offset(0)
-        {}
+        Menu(Point xy, int w, int h, Kind kk, const string& label);
 
         Vector_ref<Button> selection;
         Kind k;
