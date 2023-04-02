@@ -106,12 +106,7 @@ namespace Graph_lib {
                 selection[i].move(dx,dy);
         }
 
-        void attach(Window& win)    // attach all buttons
-        {
-            for (int i=0; i<selection.size(); ++i) win.attach(selection[i]);
-            own = &win;
-        }
-
+        void attach(Window& win);    // attach all buttons
     };
 
 //------------------------------------------------------------------------------

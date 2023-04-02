@@ -103,6 +103,11 @@ Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)
 
 }
 
+void Menu::attach(Window& w)
+{
+    w.attach(*this);
+}
+
 
 int Menu::attach(Button& b)
 {
