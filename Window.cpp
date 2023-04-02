@@ -5,7 +5,8 @@
 #include <QPainter>
 #include <QVector>
 #include <QWidget>
-//#include "GUI.h"
+#include "GUI.h"
+#include "GUI_private.h"
 
 namespace Graph_lib {
 
@@ -264,7 +265,10 @@ void Window::draw()
 
 void Window::attach(Widget& w)
 {
-
+    QWidget* widget = w.get_impl().widget;
+    widget->setParent(impl.get());
+    widget->setGeometry(w.loc.x, w.loc.y, w.width, w.height);
+    widget->show();
     //begin();			// FTLK: begin attaching new Fl_Wigets to this window
     //	w.attach(*this);	// let the Widget create its Fl_Wigits
     //end();				// FTLK: stop attaching new Fl_Wigets to this window

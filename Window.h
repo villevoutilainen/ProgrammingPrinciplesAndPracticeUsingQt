@@ -9,11 +9,12 @@
 namespace Graph_lib {
 
 class Shape;	// "forward declare" Shape
-class Widget;
 class Color;
 class Line_style;
 class Font;
 class Image;
+
+class Widget;
 
 class PainterPrivate;
 class Painter

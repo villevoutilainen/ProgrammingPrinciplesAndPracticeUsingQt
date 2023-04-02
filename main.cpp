@@ -1,5 +1,8 @@
 #include "Window.h"
 #include "Graph.h"
+#include "GUI.h"
+
+#include <iostream>
 
 using namespace Graph_lib;
 int main(int argc, char *argv[])
@@ -8,6 +11,7 @@ int main(int argc, char *argv[])
     Window w1(Point(20, 20), 600, 400, "Shazam!");
     Window w2(Point(40, 40), 400, 400, "Woohoo!");
     Window w3(Point(40, 40), 400, 400, "More window!");
+    Window w4(Point(40, 40), 400, 400, "GUI window!");
     Rectangle r(Point(10, 10), Point(100, 100));
     r.set_style(Line_style::dashdot);
     r.set_color(Color::red);
@@ -53,6 +57,7 @@ int main(int argc, char *argv[])
     marked_polyline.add(Point(60, 40));
     Axis axis_x(Axis::x, Point(100, 200), 200, 20, "x");
     Axis axis_y(Axis::y, Point(200, 300), 200, 20, "y");
+    Button hello(Point(10, 10), 40, 40, "Hello!", []{std::cout << "Hello!" << std::endl;});
     w2.attach(r);
     w2.attach(line1);
     w2.attach(line2);
@@ -68,5 +73,6 @@ int main(int argc, char *argv[])
     w3.attach(marked_polyline);
     w3.attach(axis_x);
     w3.attach(axis_y);
+    w4.attach(hello);
     app.gui_main();
 }

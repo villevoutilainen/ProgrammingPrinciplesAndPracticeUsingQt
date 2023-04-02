@@ -19,6 +19,9 @@ set(PROJECT_SOURCES
         Graph.h
         Graph.cpp
         Image_private.h
+        GUI.cpp
+        GUI.h
+        GUI_private.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
