@@ -185,41 +185,24 @@ void Application::gui_main()
     impl->gui_main();
 }
 
-class WindowPrivate : public QWidget
-{
-public:
-    void attach(Shape& s)
-    {
-        shapes.push_back(&s);
-    }
-    void detach(Shape& s)
-    {
-        for (unsigned int i = shapes.size(); 0<i; --i)	// guess last attached will be first released
-            if (shapes[i-1]==&s)
-                shapes.erase(shapes.begin()+(i-1));//&shapes[i-1]);
-    }
-private:
-    void paintEvent(QPaintEvent *event) override
-    {
-        std::unique_ptr<PainterPrivate> priv =
-                std::make_unique<PainterPrivate>();
-        QPainter painter(this);
-        priv->painter = &painter;
-        Painter shape_painter(std::move(priv));
-        for (auto&& shape : shapes) {
-            shape->draw(shape_painter);
-        }
-    }
-    vector<Shape*> shapes;	// shapes attached to window
-    int w,h;					// window size
-};
-
 Painter::Painter(std::unique_ptr<PainterPrivate>&& pp)
     : impl(std::move(pp))
 {
 }
 
 Painter::~Painter() {}
+
+void WindowPrivate::paintEvent(QPaintEvent *event)
+{
+    std::unique_ptr<PainterPrivate> priv =
+            std::make_unique<PainterPrivate>();
+    QPainter painter(this);
+    priv->painter = &painter;
+    Painter shape_painter(std::move(priv));
+    for (auto&& shape : shapes) {
+        shape->draw(shape_painter);
+    }
+}
 
 
 Window::Window(int ww, int hh, const string& title)
@@ -299,6 +282,11 @@ void Window::put_on_top(Shape& p) {
 			return;
 		}
 	}
+}
+
+WindowPrivate& Window::get_impl() const
+{
+    return *impl;
 }
 
 int gui_main()

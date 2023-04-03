@@ -65,6 +65,8 @@ namespace Graph_lib {
         string get_string();
 
         void attach(Window& win);
+    private:
+        Window* window;
     };
 
 //------------------------------------------------------------------------------
@@ -76,6 +78,8 @@ namespace Graph_lib {
         void put(const string&);
 
         void attach(Window& win);
+    private:
+        Window* window;
     };
 
 //------------------------------------------------------------------------------

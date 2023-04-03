@@ -90,5 +90,11 @@ int main(int argc, char *argv[])
     w4.attach(hello);
     w4.attach(menu);
     w4.attach(menu2);
+    In_box in_box(Point(0, 0), 20, 20, "Give me a number!");
+    in_box.attach(w4);
+    In_box in_box2(Point(0, 0), 20, 20, "Give me a string!");
+    in_box2.attach(w4);
+    std::cout << "we got " << in_box.get_int() << " from our dialog!" << std::endl;
+    std::cout << "we got " << in_box2.get_string() << " from our dialog!" << std::endl;
     app.gui_main();
 }

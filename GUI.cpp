@@ -8,6 +8,8 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 
+#include <QInputDialog>
+
 using namespace Graph_lib;
 
 
@@ -37,31 +39,19 @@ void Button::attach(Window& win)
 
 int In_box::get_int()
 {
-    /*
-	Fl_Input& pi = reference_to<Fl_Input>(pw);
-//	return atoi(pi.value());
-	const char* p = pi.value();
-	if (!isdigit(p[0])) return -999999;
-	return atoi(p);
-    */
-    return 42;
+    return QInputDialog::getInt(&window->get_impl(), QString::fromStdString(label),
+                         QString::fromStdString(label));
 }
 
 string In_box::get_string()
 {
-    /*
-	Fl_Input& pi = reference_to<Fl_Input>(pw);
-	return string(pi.value());
-    */
-    return "";
+    return QInputDialog::getText(&window->get_impl(), QString::fromStdString(label),
+                         QString::fromStdString(label)).toStdString();
 }
 
 void In_box::attach(Window& win)
 {
-    /*
-	pw = new Fl_Input(loc.x, loc.y, width, height, label.c_str());
-	own = &win;
-    */
+    window = &win;
 }
 
 void Out_box::put(int i)
@@ -83,10 +73,7 @@ void Out_box::put(const string& s)
 
 void Out_box::attach(Window& win)
 {
-    /*
-	pw = new Fl_Output(loc.x, loc.y, width, height, label.c_str());
-	own = &win;
-    */
+    window = &win;
 }
 
 Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)
