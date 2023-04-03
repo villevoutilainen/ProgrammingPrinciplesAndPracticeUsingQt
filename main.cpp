@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     Window w1(Point(20, 20), 600, 400, "Shazam!");
     Window w2(Point(40, 40), 400, 400, "Woohoo!");
     Window w3(Point(40, 40), 400, 400, "More window!");
-    Window w4(Point(40, 40), 400, 400, "GUI window!");
+    Window w4(Point(40, 40), 800, 400, "GUI window!");
     Rectangle r(Point(10, 10), Point(100, 100));
     r.set_style(Line_style::dashdot);
     r.set_color(Color::red);
@@ -96,5 +96,9 @@ int main(int argc, char *argv[])
     in_box2.attach(w4);
     std::cout << "we got " << in_box.get_int() << " from our dialog!" << std::endl;
     std::cout << "we got " << in_box2.get_string() << " from our dialog!" << std::endl;
+    Out_box out_box(Point(0, 0), 20, 20, "Here's some data!");
+    out_box.attach(w4);
+    out_box.put(42);
+    out_box.put("String!");
     app.gui_main();
 }

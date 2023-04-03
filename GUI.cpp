@@ -9,6 +9,7 @@
 #include <QPushButton>
 
 #include <QInputDialog>
+#include <QMessageBox>
 
 using namespace Graph_lib;
 
@@ -56,19 +57,19 @@ void In_box::attach(Window& win)
 
 void Out_box::put(int i)
 {
-    /*
-	Fl_Output& po = reference_to<Fl_Output>(pw);
-	std::stringstream ss;
-	ss << i;
-	po.value(ss.str().c_str());
-    */
+    std::ostringstream os;
+    os << i;
+    QString data = QString::fromStdString(os.str());
+    data.resize(data.size() + label.size()*2, QChar(' ')); // hack to make the messagebox wider
+    QMessageBox::information(&window->get_impl(), QString::fromStdString(label), data);
 }
 
 void Out_box::put(const string& s)
 {
-    /*
-	reference_to<Fl_Output>(pw).value(s.c_str());
-    */
+    QString data = QString::fromStdString(s);
+    data.resize(data.size() + label.size()*2, QChar(' ')); // hack to make the messagebox wider
+    QMessageBox::information(&window->get_impl(), QString::fromStdString(label),
+                             data);
 }
 
 void Out_box::attach(Window& win)
