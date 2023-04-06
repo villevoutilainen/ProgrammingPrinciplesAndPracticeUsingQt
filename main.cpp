@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "Graph.h"
 #include "GUI.h"
+#include "Simple_window.h"
 
 #include <iostream>
 
@@ -100,5 +101,10 @@ int main(int argc, char *argv[])
     out_box.attach(w4);
     out_box.put(42);
     out_box.put("String!");
+    Simple_window simple_window(Point(0, 0), 400, 400, "Our simple window!");
+    simple_window.wait_for_button();
+    std::cout << "We know the button was clicked.." << std::endl;
+    simple_window.wait_for_button();
+    std::cout << "We know the button was clicked again.." << std::endl;
     app.gui_main();
 }

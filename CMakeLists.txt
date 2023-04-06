@@ -22,6 +22,8 @@ set(PROJECT_SOURCES
         GUI.cpp
         GUI.h
         GUI_private.h
+        Simple_window.cpp
+        Simple_window.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
