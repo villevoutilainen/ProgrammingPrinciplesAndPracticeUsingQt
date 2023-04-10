@@ -25,6 +25,7 @@ void Simple_window::wait_for_button()
     QEventLoop nested_loop;
     next_button.do_it = [&] {nested_loop.exit();};
     nested_loop.exec();
+    next_button.do_it = []{};
 }
 
 
