@@ -16,19 +16,23 @@ set(SMOKETEST_SOURCES
         main.cpp
 )
 
+set(LIBRARY_PUBLIC_HEADERS
+    Window.h
+    Graph.h
+    GUI.h
+    Simple_window.h
+)
+
 set(LIBRARY_SOURCES
-        Window.h
         Window.cpp
-        Graph.h
         Graph.cpp
         Image_private.h
         GUI.cpp
-        GUI.h
         GUI_private.h
         Simple_window.cpp
-        Simple_window.h
 )
 
+list (PREPEND LIBRARY_SOURCES ${LIBRARY_PUBLIC_HEADERS})
 set(PROJECT_SOURCES)
 
 list(APPEND PROJECT_SOURCES ${LIBRARY_SOURCES})
@@ -76,9 +80,22 @@ set_target_properties(Programming_Qt PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+set_target_properties(PPP PROPERTIES PUBLIC_HEADER "${LIBRARY_PUBLIC_HEADERS}")
+set_target_properties(PPPStatic PROPERTIES PUBLIC_HEADER "${LIBRARY_PUBLIC_HEADERS}")
+
 install(TARGETS Programming_Qt
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+install(TARGETS PPP
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+install(TARGETS PPPStatic
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(Programming_Qt)
