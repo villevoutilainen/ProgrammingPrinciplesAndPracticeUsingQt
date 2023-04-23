@@ -7,8 +7,7 @@
 #ifndef GUI_PRIVATE_GUARD
 #define GUI_PRIVATE_GUARD
 
-#include "Window.h"
-#include "Graph.h"
+#include <PPP/Graph.h>
 
 #include <QWidget>
 

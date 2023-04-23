@@ -7,8 +7,8 @@
 #ifndef GUI_GUARD
 #define GUI_GUARD
 
-#include "Window.h"
-#include "Graph.h"
+#include <PPP/Window.h>
+#include <PPP/Graph.h>
 
 namespace Graph_lib {
 

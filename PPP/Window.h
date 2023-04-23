@@ -1,9 +1,9 @@
 #ifndef WINDOW_GUARD
 #define WINDOW_GUARD 1
 
-#include "std_lib_facilities.h"
+#include <PPP/std_lib_facilities.h>
 
-#include "Point.h"
+#include <PPP/Point.h>
 //#include "GUI.h"
 
 namespace Graph_lib {

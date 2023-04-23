@@ -22,6 +22,7 @@ set(LIBRARY_PUBLIC_HEADERS
     PPP/GUI.h
     PPP/Simple_window.h
     PPP/Point.h
+    PPP/std_lib_facilities.h
 )
 
 set(LIBRARY_SOURCES
@@ -72,6 +73,9 @@ endif()
 target_link_libraries(Programming_Qt PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(PPP PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(PPPStatic PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_include_directories(Programming_Qt PRIVATE .)
+target_include_directories(PPP PRIVATE .)
+target_include_directories(PPPStatic PRIVATE .)
 
 set_target_properties(Programming_Qt PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

@@ -2,8 +2,8 @@
 #ifndef GRAPH_GUARD
 #define GRAPH_GUARD 1
 
-#include "Point.h"
-#include "std_lib_facilities.h"
+#include <PPP/Point.h>
+#include <PPP/std_lib_facilities.h>
 
 
 namespace Graph_lib {
