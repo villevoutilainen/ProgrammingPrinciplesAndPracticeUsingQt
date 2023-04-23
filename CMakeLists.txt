@@ -21,6 +21,7 @@ set(LIBRARY_PUBLIC_HEADERS
     PPP/Graph.h
     PPP/GUI.h
     PPP/Simple_window.h
+    PPP/Point.h
 )
 
 set(LIBRARY_SOURCES
