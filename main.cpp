@@ -1,7 +1,7 @@
-#include "Window.h"
-#include "Graph.h"
-#include "GUI.h"
-#include "Simple_window.h"
+#include "PPP/Window.h"
+#include "PPP/Graph.h"
+#include "PPP/GUI.h"
+#include "PPP/Simple_window.h"
 
 #include <iostream>
 

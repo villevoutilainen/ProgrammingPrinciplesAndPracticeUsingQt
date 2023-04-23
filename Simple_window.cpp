@@ -4,7 +4,7 @@
 // "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
 //
 
-#include "Simple_window.h"
+#include "PPP/Simple_window.h"
 #include <QEventLoop>
 //------------------------------------------------------------------------------
 

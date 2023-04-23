@@ -1,7 +1,7 @@
-#include "GUI.h"
-#include "GUI_private.h"
-#include "Window.h"
-#include "std_lib_facilities.h"
+#include "PPP/GUI.h"
+#include "PPP/GUI_private.h"
+#include "PPP/Window.h"
+#include "PPP/std_lib_facilities.h"
 #include <sstream>
 
 #include <QHBoxLayout>

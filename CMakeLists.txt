@@ -17,18 +17,18 @@ set(SMOKETEST_SOURCES
 )
 
 set(LIBRARY_PUBLIC_HEADERS
-    Window.h
-    Graph.h
-    GUI.h
-    Simple_window.h
+    PPP/Window.h
+    PPP/Graph.h
+    PPP/GUI.h
+    PPP/Simple_window.h
 )
 
 set(LIBRARY_SOURCES
         Window.cpp
         Graph.cpp
-        Image_private.h
+        PPP/Image_private.h
         GUI.cpp
-        GUI_private.h
+        PPP/GUI_private.h
         Simple_window.cpp
 )
 
@@ -90,12 +90,12 @@ install(TARGETS Programming_Qt
 install(TARGETS PPP
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/PPP)
 
 install(TARGETS PPPStatic
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/PPP)
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(Programming_Qt)
