@@ -12,8 +12,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-set(PROJECT_SOURCES
+set(SMOKETEST_SOURCES
         main.cpp
+)
+
+set(LIBRARY_SOURCES
         Window.h
         Window.cpp
         Graph.h
@@ -26,11 +29,23 @@ set(PROJECT_SOURCES
         Simple_window.h
 )
 
+set(PROJECT_SOURCES)
+
+list(APPEND PROJECT_SOURCES ${LIBRARY_SOURCES})
+list(APPEND PROJECT_SOURCES ${SMOKETEST_SOURCES})
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Programming_Qt
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
+    add_library(PPP SHARED
+        ${LIBRARY_SOURCES}
+    )
+    add_library(PPPStatic STATIC
+        ${LIBRARY_SOURCES}
+    )
+
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Programming_Qt APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -50,6 +65,8 @@ else()
 endif()
 
 target_link_libraries(Programming_Qt PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(PPP PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(PPPStatic PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
 set_target_properties(Programming_Qt PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
