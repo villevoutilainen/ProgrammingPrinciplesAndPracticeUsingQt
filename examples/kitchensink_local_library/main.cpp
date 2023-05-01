@@ -1,0 +1,110 @@
+#include "PPP/Window.h"
+#include "PPP/Graph.h"
+#include "PPP/GUI.h"
+#include "PPP/Simple_window.h"
+
+#include <iostream>
+
+using namespace Graph_lib;
+int main(int argc, char *argv[])
+{
+    Application app;
+    Window w1(Point(20, 20), 600, 400, "Shazam!");
+    Window w2(Point(40, 40), 400, 400, "Woohoo!");
+    Window w3(Point(40, 40), 400, 400, "More window!");
+    Window w4(Point(40, 40), 800, 400, "GUI window!");
+    Rectangle r(Point(10, 10), Point(100, 100));
+    r.set_style(Line_style::dashdot);
+    r.set_color(Color::red);
+    r.set_fill_color(Color::yellow);
+    Line line1(Point(10, 110), Point(100, 220));
+    line1.set_color(Color::blue);
+    line1.set_style(Line_style::dot);
+    Line line2(Point(10, 220), Point(100, 110));
+    line2.set_color(Color::dark_green);
+    Open_polyline open_poly;
+    open_poly.add(Point(110, 110));
+    open_poly.add(Point(115, 115));
+    open_poly.add(Point(115, 120));
+    open_poly.add(Point(120, 120));
+    open_poly.add(Point(120, 125));
+    open_poly.add(Point(125, 125));
+    Closed_polyline closed_poly;
+    closed_poly.add(Point(130, 130));
+    closed_poly.add(Point(130, 150));
+    closed_poly.add(Point(150, 150));
+    closed_poly.add(Point(150, 180));
+    closed_poly.set_fill_color(Color::cyan);
+    Polygon poly;
+    poly.add(Point(130, 200));
+    poly.add(Point(130, 300));
+    poly.add(Point(150, 350));
+    poly.add(Point(180, 300));
+    Text text(Point(150, 20), "Well hello there!");
+    text.set_font_size(20);
+    text.set_font(Font::symbol);
+    Function fun(std::sin, 0, 100, Point(150, 60), 1000);
+    Circle cir(Point(250, 180), 40);
+    cir.set_fill_color(Color::dark_red);
+    Ellipse ell(Point(320, 260), 80, 40);
+    ell.set_fill_color(Color::dark_blue);
+    Image img(Point(0, 0), "/home/ville/Downloads/seance.jpg");
+    img.set_mask(Point(0, 0), 200, 200);
+    Lines lines{Point(0, 0), Point(20, 20), Point(30, 30), Point(40, 10)};
+    Marked_polyline marked_polyline("o");
+    marked_polyline.add(Point(10, 20));
+    marked_polyline.add(Point(10, 120));
+    marked_polyline.add(Point(60, 30));
+    marked_polyline.add(Point(60, 40));
+    Axis axis_x(Axis::x, Point(100, 200), 200, 20, "x");
+    Axis axis_y(Axis::y, Point(200, 300), 200, 20, "y");
+    Button hello(Point(10, 10), 40, 40, "Hello!", []{std::cout << "Hello!" << std::endl;});
+    Menu menu(Point(10, 70), 200, 40, Menu::horizontal, "Our menu!");
+    Button menub1(Point(10, 10), 40, 40, "Oh!", []{std::cout << "Oh!" << std::endl;});
+    Button menub2(Point(10, 10), 40, 40, "My!", []{std::cout << "My!" << std::endl;});
+    Button menub3(Point(10, 10), 40, 40, "Zomg!", []{std::cout << "Zomg!" << std::endl;});
+    menu.attach(menub1);
+    menu.attach(menub2);
+    menu.attach(menub3);
+    Menu menu2(Point(10, 140), 80, 200, Menu::vertical, "Our vertical menu!");
+    Button menub4(Point(10, 10), 40, 40, "Gee!", []{std::cout << "Gee!" << std::endl;});
+    Button menub5(Point(10, 10), 40, 40, "Whizz!", []{std::cout << "Whizz!" << std::endl;});
+    Button menub6(Point(10, 10), 40, 40, "Bang!", []{std::cout << "Bang!" << std::endl;});
+    menu2.attach(menub4);
+    menu2.attach(menub5);
+    menu2.attach(menub6);
+    w2.attach(r);
+    w2.attach(line1);
+    w2.attach(line2);
+    w2.attach(open_poly);
+    w2.attach(closed_poly);
+    w2.attach(poly);
+    w2.attach(text);
+    w2.attach(fun);
+    w2.attach(cir);
+    w2.attach(ell);
+    w1.attach(img);
+    w3.attach(lines);
+    w3.attach(marked_polyline);
+    w3.attach(axis_x);
+    w3.attach(axis_y);
+    w4.attach(hello);
+    w4.attach(menu);
+    w4.attach(menu2);
+    In_box in_box(Point(0, 0), 20, 20, "Give me a number!");
+    in_box.attach(w4);
+    In_box in_box2(Point(0, 0), 20, 20, "Give me a string!");
+    in_box2.attach(w4);
+    std::cout << "we got " << in_box.get_int() << " from our dialog!" << std::endl;
+    std::cout << "we got " << in_box2.get_string() << " from our dialog!" << std::endl;
+    Out_box out_box(Point(0, 0), 20, 20, "Here's some data!");
+    out_box.attach(w4);
+    out_box.put(42);
+    out_box.put("String!");
+    Simple_window simple_window(Point(0, 0), 400, 400, "Our simple window!");
+    simple_window.wait_for_button();
+    std::cout << "We know the button was clicked.." << std::endl;
+    simple_window.wait_for_button();
+    std::cout << "We know the button was clicked again.." << std::endl;
+    app.gui_main();
+}
