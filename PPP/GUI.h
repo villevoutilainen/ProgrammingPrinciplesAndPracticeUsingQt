@@ -18,7 +18,7 @@ namespace Graph_lib {
 
 //------------------------------------------------------------------------------
 
-    class WidgetPrivate;
+    struct WidgetPrivate;
     class Widget {
     // Widget is a handle to an Fl_widget - it is *not* an Fl_widget
     // We try to keep our interface classes at arm's length from FLTK

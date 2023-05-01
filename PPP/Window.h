@@ -9,10 +9,10 @@
 namespace Graph_lib {
 
 class Shape;	// "forward declare" Shape
-class Color;
-class Line_style;
+struct Color;
+struct Line_style;
 class Font;
-class Image;
+struct Image;
 
 class Widget;
 
