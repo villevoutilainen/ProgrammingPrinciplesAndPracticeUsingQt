@@ -37,6 +37,7 @@
 #include<vector>
 #include<unordered_map>
 #include<algorithm>
+#include<functional>
 #include <array>
 #include <regex>
 #include<random>
