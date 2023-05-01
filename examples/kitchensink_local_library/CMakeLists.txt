@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-find_library(PPPStatic NAMES libPPPStatic.a PATHS . REQUIRED)
+find_library(PPPStatic NAMES libPPPStatic.a PPPStatic.lib PATHS . REQUIRED)
 
 set(PROJECT_SOURCES main.cpp)
 
@@ -40,7 +40,11 @@ else()
 endif()
 
 target_link_libraries(Programming_Qt PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_link_libraries(Programming_Qt PRIVATE ${CMAKE_SOURCE_DIR}/libPPPStatic.a)
+if (MSVC)
+    target_link_libraries(Programming_Qt PRIVATE ${CMAKE_SOURCE_DIR}/PPPStatic.lib)
+else()
+    target_link_libraries(Programming_Qt PRIVATE ${CMAKE_SOURCE_DIR}/libPPPStatic.a)
+endif()
 
 set_target_properties(Programming_Qt PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
