@@ -26,9 +26,9 @@ Widget::~Widget()
 Button::Button(Point xy, int w, int h, const string& label, Callback cb)
     : Widget(xy,w,h,label,cb)
 {
-    WidgetPrivate& impl = get_impl();
+    WidgetPrivate& w_impl = get_impl();
     QPushButton* button = new QPushButton();
-    impl.widget = button;
+    w_impl.widget = button;
     button->setText(QString::fromStdString(label));
     QObject::connect(button, &QPushButton::clicked, [this]{ do_it(); });
 }
@@ -80,9 +80,9 @@ void Out_box::attach(Window& win)
 Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)
     : Widget(xy,w,h,label,0), k(kk), offset(0)
 {
-    WidgetPrivate& impl = get_impl();
+    WidgetPrivate& w_impl = get_impl();
     QWidget* widget = new QPushButton();
-    impl.widget = widget;
+    w_impl.widget = widget;
     if (k == Menu::horizontal) {
         widget->setLayout(new QHBoxLayout());
     } else {
@@ -112,8 +112,8 @@ int Menu::attach(Button& b)
 		offset+=b.height;
 		break;
 	}
-    WidgetPrivate& impl = get_impl();
-    impl.widget->layout()->addWidget(b.get_impl().widget);
+    WidgetPrivate& w_impl = get_impl();
+    w_impl.widget->layout()->addWidget(b.get_impl().widget);
 	selection.push_back(&b);
 	return int(selection.size()-1);
 }

@@ -247,11 +247,11 @@ void Window::draw()
     //for (unsigned int i=0; i<shapes.size(); ++i) shapes[i]->draw();
 }
 
-void Window::attach(Widget& w)
+void Window::attach(Widget& ww)
 {
-    QWidget* widget = w.get_impl().widget;
+    QWidget* widget = ww.get_impl().widget;
     widget->setParent(impl.get());
-    widget->setGeometry(w.loc.x, w.loc.y, w.width, w.height);
+    widget->setGeometry(ww.loc.x, ww.loc.y, ww.width, ww.height);
     widget->show();
     //begin();			// FTLK: begin attaching new Fl_Wigets to this window
     //	w.attach(*this);	// let the Widget create its Fl_Wigits

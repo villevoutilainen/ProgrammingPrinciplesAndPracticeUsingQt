@@ -22,13 +22,13 @@ struct Color {
 	enum Transparency { invisible = 0, visible=255 };
 
     Color(Color_type cc) :c(cc), v(visible) { }
-    Color(Color_type cc, Transparency vv) :c(cc), v(vv) { }
+    Color(Color_type cc, Transparency vv) :c((int)cc), v((unsigned char)vv) { }
     Color(int cc) :c(cc), v(visible) { }
-    Color(Transparency vv) :c(), v(vv) { }
+    Color(Transparency vv) :c(), v((unsigned char)vv) { }
 
 	int as_int() const { return c; }
 	char visibility() const { return v; }
-	void set_visibility(Transparency vv) { v=vv; }
+    void set_visibility(Transparency vv) { v=(unsigned char)vv; }
 private:
     int c;
     unsigned char v;	// 0 or 1 for now
@@ -120,7 +120,7 @@ public:
 
 	T& operator[](int i) { return *v[i]; }
 	const T& operator[](int i) const { return *v[i]; }
-	int size() const { return v.size(); }
+    int size() const { return (int)v.size(); }
 };
 
 typedef double Fct(double);

@@ -79,8 +79,8 @@ void Polygon::add(Point p)
 	}
 
 	for (int i = 1; i<np-1; ++i) {	// check that new segment doesn't interset and old point
-		Point ignore(0,0);
-		if (line_segment_intersect(point(np-1),p,point(i-1),point(i),ignore))
+        Point ignored_point(0,0);
+        if (line_segment_intersect(point(np-1),p,point(i-1),point(i),ignored_point))
 			error("intersect in polygon");
 	}
 	
