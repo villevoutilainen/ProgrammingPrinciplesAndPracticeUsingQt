@@ -252,7 +252,7 @@ bool can_open(const string& s)
 
 // somewhat overelaborate constructor
 // because errors related to image files can be such a pain to debug
-Image::Image(Point xy, string s, Suffix::Encoding e)
+Image::Image(Point xy, string s)
     :w(0), h(0), fn(xy,""), impl(std::make_unique<ImagePrivate>())
 {
 	add(xy);

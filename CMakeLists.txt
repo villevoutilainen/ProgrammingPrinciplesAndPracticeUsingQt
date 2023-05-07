@@ -87,6 +87,15 @@ set_target_properties(Programming_Qt PROPERTIES
 
 set_target_properties(PPP PROPERTIES PUBLIC_HEADER "${LIBRARY_PUBLIC_HEADERS}")
 set_target_properties(PPPStatic PROPERTIES PUBLIC_HEADER "${LIBRARY_PUBLIC_HEADERS}")
+if(MSVC)
+  target_compile_options(PPP PRIVATE /W4 /WX)
+  target_compile_options(PPPStatic PRIVATE /W4 /WX)
+  target_compile_options(Programming_Qt PRIVATE /W4 /WX)
+else()
+  target_compile_options(PPP PRIVATE -Wall -Wextra -Wpedantic -Werror)
+  target_compile_options(PPPStatic PRIVATE -Wall -Wextra -Wpedantic -Werror)
+  target_compile_options(Programming_Qt PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
 
 install(TARGETS Programming_Qt
     BUNDLE DESTINATION .

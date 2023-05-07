@@ -30,8 +30,8 @@ struct Color {
 	char visibility() const { return v; }
 	void set_visibility(Transparency vv) { v=vv; }
 private:
-	unsigned char v;	// 0 or 1 for now
     int c;
+    unsigned char v;	// 0 or 1 for now
 };
 
 inline bool operator<(Color a, Color b)
@@ -111,7 +111,7 @@ public:
 			if (d) push_back(d);
 	}
 
-	~Vector_ref() { for (int i=0; i<owned.size(); ++i) delete owned[i]; }
+    ~Vector_ref() { for (unsigned int i=0; i<owned.size(); ++i) delete owned[i]; }
 
 	void push_back(T& s) { v.push_back(&s); }
 	void push_back(T* p) { v.push_back(p); owned.push_back(p); }
@@ -221,8 +221,8 @@ struct Rectangle : Shape {
 	int height() const { return h; }
 	int width() const { return w; }
 private:
-	int h;			// height
-	int w;			// width
+    int w;			// width
+    int h;			// height
 //	Color fcolor;	// fill color; 0 means "no fill"
 };
 
@@ -283,7 +283,7 @@ struct Axis : Shape {
 	Axis(Orientation d, Point xy, int length, int nummber_of_notches=0, string label = "");
 
     void draw_lines(Painter& painter) const override;
-	void move(int dx, int dy);
+    void move(int dx, int dy) override;
 
 	void set_color(Color c);
 
@@ -365,24 +365,13 @@ private:
 };
 */
 
-struct Bad_image {
-    Bad_image(int h, int w) { }
-    void draw(int x,int y, int, int, int, int) { }
-};
-
-struct Suffix {
-	enum Encoding { none, jpg, gif, bmp };
-};
-
-Suffix::Encoding get_encoding(const string& s);
-
 class ImagePrivate;
 struct Image : Shape {
-	Image(Point xy, string s, Suffix::Encoding e = Suffix::none);
+    Image(Point xy, string s);
     ~Image();
     void draw_lines(Painter& painter) const override;
 	void set_mask(Point xy, int ww, int hh) { w=ww; h=hh; cx=xy.x; cy=xy.y; }
-    void move(int dx,int dy) { Shape::move(dx,dy); /*p->draw(point(0).x,point(0).y);*/ }
+    void move(int dx,int dy) override { Shape::move(dx,dy); /*p->draw(point(0).x,point(0).y);*/ }
     ImagePrivate& get_impl() const {return *impl;}
 private:
 	int w,h,cx,cy; // define "masking box" within image relative to position (cx,cy)

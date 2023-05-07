@@ -6,7 +6,7 @@
 #include <iostream>
 
 using namespace Graph_lib;
-int main(int argc, char *argv[])
+int main(int /*argc*/, char* /*argv*/[])
 {
     Application app;
     Window w1(Point(20, 20), 600, 400, "Shazam!");

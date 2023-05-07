@@ -25,7 +25,7 @@ namespace Graph_lib {
     public:
         Widget(Point xy, int w, int h, const string& s, Callback cb);
 
-        virtual void move(int dx,int dy) { hide(); /*pw->position(loc.x+=dx, loc.y+=dy);*/ show(); }
+        virtual void move(int /*dx*/,int /*dy*/) { hide(); /*pw->position(loc.x+=dx, loc.y+=dy);*/ show(); }
         virtual void hide() { /*pw->hide();*/ }
         virtual void show() { /*pw->show();*/ }
         virtual void attach(Window&) = 0;
@@ -96,17 +96,17 @@ namespace Graph_lib {
 
         void show()                 // show all buttons
         {
-            for (unsigned int i = 0; i<selection.size(); ++i)
+            for (int i = 0; i<selection.size(); ++i)
                 selection[i].show();
         }
         void hide()                 // hide all buttons
         {
-            for (unsigned int i = 0; i<selection.size(); ++i) 
+            for (int i = 0; i<selection.size(); ++i)
                 selection[i].hide(); 
         }
         void move(int dx, int dy)   // move all buttons
         {
-            for (unsigned int i = 0; i<selection.size(); ++i) 
+            for (int i = 0; i<selection.size(); ++i)
                 selection[i].move(dx,dy);
         }
 

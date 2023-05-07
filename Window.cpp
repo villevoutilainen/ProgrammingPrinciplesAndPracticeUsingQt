@@ -192,7 +192,7 @@ Painter::Painter(std::unique_ptr<PainterPrivate>&& pp)
 
 Painter::~Painter() {}
 
-void WindowPrivate::paintEvent(QPaintEvent *event)
+void WindowPrivate::paintEvent(QPaintEvent*/*event*/)
 {
     std::unique_ptr<PainterPrivate> priv =
             std::make_unique<PainterPrivate>();
@@ -209,6 +209,7 @@ Window::Window(int ww, int hh, const string& title)
 : impl(std::make_unique<WindowPrivate>())
 {
     impl->setGeometry(0, 0, ww, hh);
+    impl->setWindowTitle(QString::fromStdString(title));
     impl->show();
 	init();
 }
@@ -257,7 +258,7 @@ void Window::attach(Widget& w)
     //end();				// FTLK: stop attaching new Fl_Wigets to this window
 }
 
-void Window::detach(Widget& b)
+void Window::detach(Widget& /*b*/)
 {
       //b.hide();
 }
@@ -274,7 +275,7 @@ void Window::detach(Shape& s)
 
 
 void Window::put_on_top(Shape& p) {
-	for (int i=0; i<shapes.size(); ++i) {
+    for (unsigned int i=0; i<shapes.size(); ++i) {
 		if (&p==shapes[i]) {
 			for (++i; i<shapes.size(); ++i)
 				shapes[i-1] = shapes[i];
