@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(Programming_Qt VERSION 0.1 LANGUAGES CXX)
+project(kitchensink VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -16,33 +16,33 @@ find_library(PPPStatic NAMES libPPPStatic.a PPPStatic.lib PATHS /usr/local/lib64
 set(PROJECT_SOURCES main.cpp)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(Programming_Qt
+    qt_add_executable(kitchensink
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
 
 # Define target properties for Android with Qt 6 as:
-#    set_property(TARGET Programming_Qt APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#    set_property(TARGET kitchensink APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(Programming_Qt SHARED
+        add_library(kitchensink SHARED
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(Programming_Qt
+        add_executable(kitchensink
             ${PROJECT_SOURCES}
         )
     endif()
 endif()
 
-target_link_libraries(Programming_Qt PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_link_libraries(Programming_Qt PRIVATE PPPStatic)
+target_link_libraries(kitchensink PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(kitchensink PRIVATE PPPStatic)
 
-set_target_properties(Programming_Qt PROPERTIES
+set_target_properties(kitchensink PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -50,10 +50,10 @@ set_target_properties(Programming_Qt PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS Programming_Qt
+install(TARGETS kitchensink
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(Programming_Qt)
+    qt_finalize_executable(kitchensink)
 endif()
