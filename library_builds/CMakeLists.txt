@@ -12,26 +12,44 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-set(PROJECT_SOURCES
-    main.cpp
+set(SMOKETEST_SOURCES
+        main.cpp
+)
+
+set(LIBRARY_PUBLIC_HEADERS
     PPP/Window.h
     PPP/Graph.h
     PPP/GUI.h
     PPP/Simple_window.h
     PPP/Point.h
     PPP/std_lib_facilities.h
-    Window.cpp
-    Graph.cpp
-    PPP/Image_private.h
-    GUI.cpp
-    PPP/GUI_private.h
-    Simple_window.cpp
 )
+
+set(LIBRARY_SOURCES
+        Window.cpp
+        Graph.cpp
+        PPP/Image_private.h
+        GUI.cpp
+        PPP/GUI_private.h
+        Simple_window.cpp
+)
+
+list (PREPEND LIBRARY_SOURCES ${LIBRARY_PUBLIC_HEADERS})
+set(PROJECT_SOURCES)
+
+list(APPEND PROJECT_SOURCES ${LIBRARY_SOURCES})
+list(APPEND PROJECT_SOURCES ${SMOKETEST_SOURCES})
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Programming_Qt
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+    )
+    add_library(PPP SHARED
+        ${LIBRARY_SOURCES}
+    )
+    add_library(PPPStatic STATIC
+        ${LIBRARY_SOURCES}
     )
 
 # Define target properties for Android with Qt 6 as:
@@ -53,7 +71,11 @@ else()
 endif()
 
 target_link_libraries(Programming_Qt PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(PPP PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(PPPStatic PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_include_directories(Programming_Qt PRIVATE .)
+target_include_directories(PPP PRIVATE .)
+target_include_directories(PPPStatic PRIVATE .)
 
 set_target_properties(Programming_Qt PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
@@ -63,15 +85,31 @@ set_target_properties(Programming_Qt PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+set_target_properties(PPP PROPERTIES PUBLIC_HEADER "${LIBRARY_PUBLIC_HEADERS}")
+set_target_properties(PPPStatic PROPERTIES PUBLIC_HEADER "${LIBRARY_PUBLIC_HEADERS}")
 if(MSVC)
+  target_compile_options(PPP PRIVATE /W4 /WX)
+  target_compile_options(PPPStatic PRIVATE /W4 /WX)
   target_compile_options(Programming_Qt PRIVATE /W4 /WX)
 else()
+  target_compile_options(PPP PRIVATE -Wall -Wextra -Wpedantic -Werror)
+  target_compile_options(PPPStatic PRIVATE -Wall -Wextra -Wpedantic -Werror)
   target_compile_options(Programming_Qt PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif()
 
 install(TARGETS Programming_Qt
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+install(TARGETS PPP
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/PPP)
+
+install(TARGETS PPPStatic
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/PPP)
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(Programming_Qt)
