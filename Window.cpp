@@ -249,6 +249,7 @@ void Window::init()
 
 void Window::draw()
 {
+    impl->repaint();
     //Fl_Window::draw();
     //for (unsigned int i=0; i<shapes.size(); ++i) shapes[i]->draw();
 }
@@ -273,10 +274,12 @@ void Window::attach(Shape& s)
 {
     impl->attach(s);
 //		s.attached = this;
+    s.set_window(this);
 }
 void Window::detach(Shape& s)
 {
     impl->detach(s);
+    s.set_window(nullptr);
 }
 
 

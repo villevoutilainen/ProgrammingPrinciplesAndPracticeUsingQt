@@ -157,7 +157,7 @@ public:
 
 	Point point(int i) const { return points[i]; }
 	int number_of_points() const { return int(points.size()); }
-
+    void set_window(Window* win) { parent_window = win;}
 	virtual ~Shape() { }
 	/*
 	struct Window* attached;

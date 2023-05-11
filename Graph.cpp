@@ -113,6 +113,8 @@ void Shape::move(int dx, int dy)
 		points[i].x+=dx;
 		points[i].y+=dy;
 	}
+    if (parent_window)
+        parent_window->draw();
 }
 
 void Lines::draw_lines(Painter& painter) const

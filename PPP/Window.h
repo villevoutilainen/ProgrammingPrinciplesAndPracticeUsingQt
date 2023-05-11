@@ -78,7 +78,6 @@ public:
 	void put_on_top(Shape& p);	// put p on top of other shapes
 
     WindowPrivate& get_impl() const;
-protected:
 	void draw();
      
 private:
