@@ -165,6 +165,7 @@ class ApplicationPrivate
 public:
     ApplicationPrivate() : app(argc, nullptr) {}
     void gui_main() { app.exec(); }
+    void quit() { app.quit(); }
 private:
     int argc = 0;
     QApplication app;
@@ -183,6 +184,11 @@ Application::~Application()
 void Application::gui_main()
 {
     impl->gui_main();
+}
+
+void Application::quit()
+{
+    impl->quit();
 }
 
 Painter::Painter(std::unique_ptr<PainterPrivate>&& pp)

@@ -50,6 +50,7 @@ public:
     Application();
     ~Application();
     void gui_main();
+    void quit();
 private:
     std::unique_ptr<ApplicationPrivate> impl;
 };
