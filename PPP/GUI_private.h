@@ -24,12 +24,14 @@ namespace Graph_lib {
         void attach(Shape& s)
         {
             shapes.push_back(&s);
+            repaint();
         }
         void detach(Shape& s)
         {
             for (size_t i = shapes.size(); 0<i; --i)	// guess last attached will be first released
                 if (shapes[i-1]==&s)
                     shapes.erase(shapes.begin()+(i-1));//&shapes[i-1]);
+            repaint();
         }
     private:
         void paintEvent(QPaintEvent *event) override;
