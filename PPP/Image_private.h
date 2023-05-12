@@ -11,6 +11,7 @@ class ImagePrivate
 public:
     QImage image;
     void load(const std::string& s);
+    void scale(int w, int h, bool keep_aspect_ratio = true);
 };
 
 }

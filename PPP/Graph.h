@@ -373,6 +373,7 @@ struct Image : Shape {
 	void set_mask(Point xy, int ww, int hh) { w=ww; h=hh; cx=xy.x; cy=xy.y; }
     void move(int dx,int dy) override { Shape::move(dx,dy); /*p->draw(point(0).x,point(0).y);*/ }
     ImagePrivate& get_impl() const {return *impl;}
+    void scale(int ww, int hh, bool keep_aspect_ratio = true);
 private:
 	int w,h,cx,cy; // define "masking box" within image relative to position (cx,cy)
 	Text fn;

@@ -159,6 +159,10 @@ void ImagePrivate::load(const std::string& s)
     image.load(QString::fromStdString(s));
 }
 
+void ImagePrivate::scale(int ww, int hh, bool keep_aspect_ratio)
+{
+    image = image.scaled(QSize(ww, hh), keep_aspect_ratio ? Qt::KeepAspectRatio : Qt::IgnoreAspectRatio);
+}
 
 class ApplicationPrivate
 {

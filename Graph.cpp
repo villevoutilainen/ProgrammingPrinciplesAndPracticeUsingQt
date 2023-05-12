@@ -282,4 +282,9 @@ void Image::draw_lines(Painter& painter) const
         painter.draw_image(point(0), *this);
 }
 
+void Image::scale(int ww, int hh, bool keep_aspect_ratio)
+{
+    impl->scale(ww, hh, keep_aspect_ratio);
+}
+
 } // Graph
