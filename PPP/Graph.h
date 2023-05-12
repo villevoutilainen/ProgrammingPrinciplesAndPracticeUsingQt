@@ -169,12 +169,13 @@ public:
 	*/
 	Shape(const Shape&) = delete;
 	Shape& operator=(const Shape&) = delete;
+protected:
+    Window* parent_window = nullptr;
 private:
     vector<Point> points;	// not used by all shapes
     Color lcolor {Color::black};
 	Line_style ls {0};
 	Color fcolor {Color::invisible};
-    Window* parent_window = nullptr;
 
 //	Shape(const Shape&);
 //	Shape& operator=(const Shape&);

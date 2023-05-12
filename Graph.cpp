@@ -285,6 +285,8 @@ void Image::draw_lines(Painter& painter) const
 void Image::scale(int ww, int hh, bool keep_aspect_ratio)
 {
     impl->scale(ww, hh, keep_aspect_ratio);
+    if (parent_window)
+        parent_window->draw();
 }
 
 } // Graph
