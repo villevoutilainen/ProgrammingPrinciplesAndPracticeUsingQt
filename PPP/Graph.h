@@ -174,7 +174,7 @@ private:
     Color lcolor {Color::black};
 	Line_style ls {0};
 	Color fcolor {Color::invisible};
-    Window* parent_window;
+    Window* parent_window = nullptr;
 
 //	Shape(const Shape&);
 //	Shape& operator=(const Shape&);
