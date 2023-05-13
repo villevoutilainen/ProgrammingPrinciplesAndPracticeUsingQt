@@ -271,9 +271,11 @@ void Window::attach(Widget& ww)
     //end();				// FTLK: stop attaching new Fl_Wigets to this window
 }
 
-void Window::detach(Widget& /*b*/)
+void Window::detach(Widget& ww)
 {
-      //b.hide();
+    QWidget* widget = ww.get_impl().widget;
+    widget->setParent(nullptr);
+    widget->hide();
 }
 
 void Window::attach(Shape& s)

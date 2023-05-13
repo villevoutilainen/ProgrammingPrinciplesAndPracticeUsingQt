@@ -29,6 +29,8 @@ void Widget::move(int dx,int dy)
     geom.moveLeft(geom.left() + dx);
     geom.moveTop(geom.top() + dy);
     impl->widget->setGeometry(geom);
+    loc.x += dx;
+    loc.y += dy;
 }
 
 void Widget::hide() {impl->widget->setVisible(false);}
