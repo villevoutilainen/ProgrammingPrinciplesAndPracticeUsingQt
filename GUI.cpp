@@ -65,7 +65,7 @@ string In_box::get_string()
 
 void In_box::attach(Window& win)
 {
-    w.attach(*this);
+    win.attach(*this);
 }
 
 void Out_box::put(int i)
@@ -87,7 +87,7 @@ void Out_box::put(const string& s)
 
 void Out_box::attach(Window& win)
 {
-    w.attach(*this);
+    win.attach(*this);
 }
 
 Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)
