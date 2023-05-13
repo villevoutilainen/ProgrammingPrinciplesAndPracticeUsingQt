@@ -123,6 +123,7 @@ void Painter::set_line_style(Line_style style)
         {Line_style::dashdotdot, Qt::DashDotDotLine}
     };
     impl->pen.setStyle(line_style_map[style]);
+    impl->pen.setWidth(style.width());
 }
 
 void Painter::set_font_size(int s)
