@@ -23,6 +23,17 @@ Widget::~Widget()
 
 }
 
+void Widget::move(int dx,int dy)
+{
+    QRect geom = impl->widget->geometry();
+    geom.moveLeft(geom.left() + dx);
+    geom.moveTop(geom.top() + dy);
+    impl->widget->setGeometry(geom);
+}
+
+void Widget::hide() {impl->widget->setVisible(false);}
+void Widget::show() {impl->widget->setVisible(true);}
+
 Button::Button(Point xy, int w, int h, const string& label, Callback cb)
     : Widget(xy,w,h,label,cb)
 {

@@ -25,9 +25,9 @@ namespace Graph_lib {
     public:
         Widget(Point xy, int w, int h, const string& s, Callback cb);
 
-        virtual void move(int /*dx*/,int /*dy*/) { hide(); /*pw->position(loc.x+=dx, loc.y+=dy);*/ show(); }
-        virtual void hide() { /*pw->hide();*/ }
-        virtual void show() { /*pw->show();*/ }
+        virtual void move(int dx,int dy);
+        virtual void hide();
+        virtual void show();
         virtual void attach(Window&) = 0;
 
         Point loc;
