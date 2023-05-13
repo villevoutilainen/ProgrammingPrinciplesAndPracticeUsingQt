@@ -46,6 +46,7 @@ void Painter::draw_polygon(const Shape& s)
 
 void Painter::draw_text(const Point& p1, const std::string text)
 {
+    impl->painter->setPen(impl->pen);
     impl->painter->setFont(impl->font);
     impl->painter->drawText(QPoint(p1.x, p1.y), QString::fromStdString(text));
 }
