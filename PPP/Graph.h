@@ -136,9 +136,9 @@ protected:
 //	Shape() : lcolor(fl_color()),
 //		ls(0),
 //		fcolor(Color::invisible) { }
-	
-	void add(Point p){ points.push_back(p); }
-	void set_point(int i, Point p) { points[i] = p; }
+
+    void add(Point p){ points.push_back(p); redraw();}
+    void set_point(int i, Point p) { points[i] = p; redraw();}
 public:
     void draw(Painter& painter) const;					// deal with color and draw_lines
 protected:
@@ -146,13 +146,13 @@ protected:
 public:
 	virtual void move(int dx, int dy);	// move the shape +=dx and +=dy
 
-	void set_color(Color col) { lcolor = col; }
+    void set_color(Color col) { lcolor = col; redraw();}
 	Color color() const { return lcolor; }
 
-	void set_style(Line_style sty) { ls = sty; }
+    void set_style(Line_style sty) { ls = sty; redraw();}
 	Line_style style() const { return ls; }
 
-	void set_fill_color(Color col) { fcolor = col; }
+    void set_fill_color(Color col) { fcolor = col; redraw();}
 	Color fill_color() const { return fcolor; }
 
 	Point point(int i) const { return points[i]; }
@@ -170,6 +170,7 @@ public:
 	Shape(const Shape&) = delete;
 	Shape& operator=(const Shape&) = delete;
 protected:
+    void redraw();
     Window* parent_window = nullptr;
 private:
     vector<Point> points;	// not used by all shapes
@@ -191,7 +192,7 @@ struct Fill {
 	Fill() :no_fill(true), fcolor(0) { }
 	Fill(Color c) :no_fill(false), fcolor(c) { }
 
-	void set_fill_color(Color col) { fcolor = col; }
+    void set_fill_color(Color col) { fcolor = col; }
 	Color fill_color() { return fcolor; }
 protected:
 	bool no_fill;
@@ -231,8 +232,8 @@ bool intersect(Point p1, Point p2, Point p3, Point p4);
 
 
 struct Open_polyline : Shape {	// open sequence of lines
-	using Shape::Shape;
-	void add(Point p) { Shape::add(p); }
+    using Shape::Shape;
+    void add(Point p) { Shape::add(p); redraw();}
     void draw_lines(Painter& painter) const override;
 };
 
@@ -254,7 +255,7 @@ struct Lines : Shape {	// indepentdent lines
 	Lines() {}
 	Lines(initializer_list<Point> lst) : Shape{lst} { if (lst.size() % 2) error("odd number of points for Lines"); }
     void draw_lines(Painter& painter) const override;
-	void add(Point p1, Point p2) { Shape::add(p1); Shape::add(p2); }
+    void add(Point p1, Point p2) { Shape::add(p1); Shape::add(p2); redraw();}
 };
 
 struct Text : Shape {
@@ -263,13 +264,13 @@ struct Text : Shape {
 
     void draw_lines(Painter& painter) const override;
 
-	void set_label(const string& s) { lab = s; }
+    void set_label(const string& s) { lab = s; redraw();}
 	string label() const { return lab; }
 
-	void set_font(Font f) { fnt = f; }
+    void set_font(Font f) { fnt = f; redraw();}
 	Font font() const { return Font(fnt); }
 
-	void set_font_size(int s) { fnt_sz = s; }
+    void set_font_size(int s) { fnt_sz = s; redraw();}
 	int font_size() const { return fnt_sz; }
 private:
 	string lab;	// label
@@ -304,7 +305,7 @@ struct Circle : Shape {
 
 	Point center() const { return { point(0).x + r, point(0).y + r }; }
 
-	void set_radius(int rr) { r=rr; }
+    void set_radius(int rr) { r=rr; redraw();}
 	int radius() const { return r; }
 private:
 	int r;
@@ -321,11 +322,11 @@ struct Ellipse : Shape {
 
 	Point center() const { return{ point(0).x + w, point(0).y + h }; }
 	Point focus1() const { return{ center().x + int(sqrt(double(w*w - h*h))), center().y }; }
-	Point focus2() const { return{ center().x - int(sqrt(double(w*w - h*h))), center().y }; }
-	
-	void set_major(int ww) { w=ww; }
-	int major() const { return w; }
-	void set_minor(int hh) { h=hh; }
+    Point focus2() const { return{ center().x - int(sqrt(double(w*w - h*h))), center().y }; }
+
+    void set_major(int ww) { w=ww; redraw();}
+    int major() const { return w; }
+    void set_minor(int hh) { h=hh; redraw();}
 	int minor() const { return h; }
 private:
 	int w;
@@ -371,8 +372,8 @@ struct Image : Shape {
     Image(Point xy, string s);
     ~Image();
     void draw_lines(Painter& painter) const override;
-	void set_mask(Point xy, int ww, int hh) { w=ww; h=hh; cx=xy.x; cy=xy.y; }
-    void move(int dx,int dy) override { Shape::move(dx,dy); /*p->draw(point(0).x,point(0).y);*/ }
+    void set_mask(Point xy, int ww, int hh) { w=ww; h=hh; cx=xy.x; cy=xy.y; redraw();}
+    void move(int dx,int dy) override { Shape::move(dx,dy); redraw(); /*p->draw(point(0).x,point(0).y);*/ }
     ImagePrivate& get_impl() const {return *impl;}
     void scale(int ww, int hh, bool keep_aspect_ratio = true);
 private:

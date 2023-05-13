@@ -29,7 +29,11 @@ void Shape::draw(Painter& painter) const
     painter.restore();
 }
 
-
+void Shape::redraw()
+{
+    if (parent_window)
+        parent_window->draw();
+}
 // does two lines (p1,p2) and (p3,p4) intersect?
 // if se return the distance of the intersect point as distances from p1
 inline pair<double,double> line_intersect(Point p1, Point p2, Point p3, Point p4, bool& parallel) 
@@ -113,8 +117,7 @@ void Shape::move(int dx, int dy)
 		points[i].x+=dx;
 		points[i].y+=dy;
 	}
-    if (parent_window)
-        parent_window->draw();
+    redraw();
 }
 
 void Lines::draw_lines(Painter& painter) const
@@ -205,6 +208,7 @@ void Axis::set_color(Color c)
 	Shape::set_color(c);
 	notches.set_color(c);
 	label.set_color(c);
+    redraw();
 }
 
 void Axis::move(int dx, int dy)
@@ -212,6 +216,7 @@ void Axis::move(int dx, int dy)
 	Shape::move(dx,dy);
 	notches.move(dx,dy);
 	label.move(dx,dy);
+    redraw();
 }
 
 void Circle::draw_lines(Painter& painter) const
