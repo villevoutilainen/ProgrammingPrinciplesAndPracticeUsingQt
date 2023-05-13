@@ -47,9 +47,9 @@ Button::Button(Point xy, int w, int h, const string& label, Callback cb)
 }
 
 void Button::attach(Window& win)
-	{
-        win.attach(*this);
-    }
+{
+    win.attach(*this);
+}
 
 int In_box::get_int()
 {
@@ -65,7 +65,7 @@ string In_box::get_string()
 
 void In_box::attach(Window& win)
 {
-    window = &win;
+    w.attach(*this);
 }
 
 void Out_box::put(int i)
@@ -87,7 +87,7 @@ void Out_box::put(const string& s)
 
 void Out_box::attach(Window& win)
 {
-    window = &win;
+    w.attach(*this);
 }
 
 Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)
@@ -133,6 +133,5 @@ int Menu::attach(Button& b)
 
 int Menu::attach(Button* p)
 {
-//	owned.push_back(p);
 	return attach(*p);
 }

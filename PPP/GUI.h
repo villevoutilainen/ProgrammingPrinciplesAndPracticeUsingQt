@@ -20,8 +20,8 @@ namespace Graph_lib {
 
     struct WidgetPrivate;
     class Widget {
-    // Widget is a handle to an Fl_widget - it is *not* an Fl_widget
-    // We try to keep our interface classes at arm's length from FLTK
+    // Widget is a handle to a QWidget - it is *not* a QWidget
+    // We keep our interface classes at arm's length from Qt
     public:
         Widget(Point xy, int w, int h, const string& s, Callback cb);
 
@@ -39,9 +39,6 @@ namespace Graph_lib {
         virtual ~Widget();
 
         WidgetPrivate& get_impl() const { return *impl; }
-    protected:
-        Window* own;    // every Widget belongs to a Window
-        //Fl_Widget* pw;  // connection to the FLTK Widget
     private:
         Widget& operator=(const Widget&); // don't copy Widgets
         Widget(const Widget&);
@@ -92,7 +89,7 @@ namespace Graph_lib {
         Kind k;
         int offset;
         int attach(Button& b);      // Menu does not delete &b
-        int attach(Button* p);      // Menu deletes p
+        int attach(Button* p);      // Menu does not delete p
 
         void show()                 // show all buttons
         {
