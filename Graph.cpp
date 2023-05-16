@@ -221,13 +221,13 @@ void Axis::move(int dx, int dy)
 
 void Circle::draw_lines(Painter& painter) const
 {
-    painter.draw_ellipse(point(0), r, r);
+    painter.draw_ellipse(center(), r, r);
 }
 
 
 void Ellipse::draw_lines(Painter& painter) const
 {
-    painter.draw_ellipse(point(0), w, h);
+    painter.draw_ellipse(center(), w, h);
 }
 
 void draw_mark(Painter& painter, Point xy, char c)
