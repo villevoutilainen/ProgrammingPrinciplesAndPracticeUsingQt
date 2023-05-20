@@ -79,6 +79,7 @@ public:
 
     WindowPrivate& get_impl() const;
 	void draw();
+    void close();
      
 private:
 	  vector<Shape*> shapes;	// shapes attached to window

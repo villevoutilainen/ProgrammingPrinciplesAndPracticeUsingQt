@@ -15,7 +15,7 @@ namespace Graph_lib {
 
     struct WidgetPrivate
     {
-        QWidget* widget;
+        QWidget* widget = nullptr;
     };
 
     class WindowPrivate : public QWidget

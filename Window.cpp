@@ -263,9 +263,12 @@ void Window::draw()
 void Window::attach(Widget& ww)
 {
     QWidget* widget = ww.get_impl().widget;
-    widget->setParent(impl.get());
-    widget->setGeometry(ww.loc.x, ww.loc.y, ww.width, ww.height);
-    widget->show();
+    if (widget) {
+        widget->setParent(impl.get());
+        widget->setGeometry(ww.loc.x, ww.loc.y, ww.width, ww.height);
+        widget->show();
+    }
+    ww.attach(*this);
     //begin();			// FTLK: begin attaching new Fl_Wigets to this window
     //	w.attach(*this);	// let the Widget create its Fl_Wigits
     //end();				// FTLK: stop attaching new Fl_Wigets to this window
@@ -300,6 +303,11 @@ void Window::put_on_top(Shape& p) {
 			return;
 		}
 	}
+}
+
+void Window::close()
+{
+    impl->close();
 }
 
 WindowPrivate& Window::get_impl() const

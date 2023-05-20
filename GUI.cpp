@@ -46,9 +46,13 @@ Button::Button(Point xy, int w, int h, const string& label, Callback cb)
     QObject::connect(button, &QPushButton::clicked, [this]{ do_it(); });
 }
 
-void Button::attach(Window& win)
+void Button::attach(Window& /*win*/)
 {
-    win.attach(*this);
+}
+
+In_box::In_box(Point xy, int w, int h, const string& s)
+    :Widget(xy,w,h,s,0)
+{
 }
 
 int In_box::get_int()
@@ -65,7 +69,7 @@ string In_box::get_string()
 
 void In_box::attach(Window& win)
 {
-    win.attach(*this);
+    window = &win;
 }
 
 void Out_box::put(int i)
@@ -87,7 +91,7 @@ void Out_box::put(const string& s)
 
 void Out_box::attach(Window& win)
 {
-    win.attach(*this);
+    window = &win;
 }
 
 Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)
@@ -104,9 +108,8 @@ Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)
 
 }
 
-void Menu::attach(Window& w)
+void Menu::attach(Window& /*w*/)
 {
-    w.attach(*this);
 }
 
 
