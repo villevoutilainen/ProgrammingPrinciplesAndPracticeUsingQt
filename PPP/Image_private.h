@@ -3,6 +3,7 @@
 #define IMAGE_PRIVATE_GUARD 1
 
 #include <QImage>
+#include <QColor>
 
 namespace Graph_lib {
 
@@ -13,6 +14,8 @@ public:
     void load(const std::string& s);
     void scale(int w, int h, bool keep_aspect_ratio = true);
 };
+
+QColor mapRawColor(unsigned char rawColor);
 
 }
 #endif

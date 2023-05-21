@@ -17,25 +17,30 @@ struct Color {
         yellow, white, black,
         magenta, cyan, dark_red,
         dark_green, dark_yellow, dark_blue,
-        dark_magenta, dark_cyan
+        dark_magenta, dark_cyan,
+        raw
 	};
 	enum Transparency { invisible = 0, visible=255 };
 
-    Color(Color_type cc) :c(cc), v(visible) { }
-    Color(Color_type cc, Transparency vv) :c((int)cc), v((unsigned char)vv) { }
-    Color(int cc) :c(cc), v(visible) { }
-    Color(Transparency vv) :c(), v((unsigned char)vv) { }
+    Color(Color_type cc) :c(cc), ct(cc), v(visible) { }
+    Color(Color_type cc, Transparency vv) :c(cc), ct(cc), v((unsigned char)vv) { }
+    Color(int cc) :c(cc), ct(Color_type::raw), v(visible) { }
+    Color(Transparency vv) :c(), ct(Color_type::raw), v((unsigned char)vv) { }
 
-	int as_int() const { return c; }
-	char visibility() const { return v; }
+    int as_int() const { return c; }
+    Color_type type() {return ct;}
+    char visibility() const { return v; }
     void set_visibility(Transparency vv) { v=(unsigned char)vv; }
 private:
     int c;
+    Color_type ct;
     unsigned char v;	// 0 or 1 for now
 };
 
 inline bool operator<(Color a, Color b)
 {
+    if (a.type() != Color::raw || b.type() != Color::raw)
+        return a.type() < b.type();
     return a.as_int() < b.as_int();
 }
 

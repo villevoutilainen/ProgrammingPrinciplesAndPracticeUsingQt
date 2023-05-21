@@ -10,6 +10,13 @@
 
 namespace Graph_lib {
 
+void f(QColor) {}
+
+void g()
+{
+    f({1,2,3});
+}
+
 class PainterPrivate
 {
 public:
@@ -96,6 +103,8 @@ static QColor map_color(Color color)
         {Color::dark_magenta, QColorConstants::DarkMagenta},
         {Color::dark_cyan, QColorConstants::DarkCyan},
     };
+    if (color.type() == Color::raw)
+        return mapRawColor(color.as_int());
     return color_map[color];
 }
 

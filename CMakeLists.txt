@@ -26,6 +26,7 @@ set(PROJECT_SOURCES
     GUI.cpp
     PPP/GUI_private.h
     Simple_window.cpp
+    Colormap.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
