@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Colormap.cpp" />
     <ClCompile Include="Simple_window.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Graph.cpp" />
