@@ -32,13 +32,15 @@ public:
     void draw_ellipse(const Point& p1, int r, int r2);
     void draw_image(const Point& p1, const Image& img);
     void draw_image(const Point& p1, const Point& p2, int w, int h, const Image& img);
+    void set_font_size(int s);
+    void set_font(Font f);
+private:
     void save();
     void restore();
     void set_color(Color color);
     void set_line_style(Line_style style);
     void set_fill_color(Color color);
-    void set_font_size(int s);
-    void set_font(Font f);
+    friend class Shape;
 private:
     std::unique_ptr<PainterPrivate> impl;
 };
@@ -80,12 +82,12 @@ public:
     WindowPrivate& get_impl() const;
 	void draw();
     void close();
-     
+
 private:
       int w,h;					// window size
       unique_ptr<WindowPrivate> impl;
-	  void init();
-}; 
+      void init();
+};
 
 int gui_main();	// invoke GUI library's main event loop
 
