@@ -103,7 +103,12 @@ static QColor map_color(Color color)
 
 void Painter::set_color(Color color)
 {
-    impl->pen.setColor(map_color(color));
+    if (color.visibility() != Color::invisible) {
+        impl->pen.setColor(map_color(color));
+    } else {
+        impl->pen.setStyle(Qt::NoPen);
+    }
+
 }
 
 void Painter::set_fill_color(Color color)

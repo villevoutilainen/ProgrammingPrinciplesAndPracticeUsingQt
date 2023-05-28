@@ -22,9 +22,11 @@ void Shape::draw_lines(Painter& painter) const
 void Shape::draw(Painter& painter) const
 {
     painter.save();
+    painter.set_line_style(style());
+    // Color must be set after line style so that
+    // setting an invisible color can set the line style to "no pen".
     painter.set_color(color());
     painter.set_fill_color(fill_color());
-    painter.set_line_style(style());
     draw_lines(painter);
     painter.restore();
 }
@@ -107,9 +109,7 @@ void Open_polyline::draw_lines(Painter& painter) const
 
 void Closed_polyline::draw_lines(Painter& painter) const
 {
-    if (color().visibility()) {
-        painter.draw_polygon(*this);
-    }
+    painter.draw_polygon(*this);
 }
 void Shape::move(int dx, int dy)
 {
@@ -151,9 +151,6 @@ Function::Function(Fct f, double r1, double r2, Point xy, int count, double xsca
 
 void Rectangle::draw_lines(Painter& painter) const
 {
-    if (!color().visibility())
-        painter.set_line_style(Line_style::none);
-
     painter.draw_rectangle(point(0), w, h);
 }
 
