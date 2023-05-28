@@ -82,7 +82,6 @@ public:
     void close();
      
 private:
-	  vector<Shape*> shapes;	// shapes attached to window
       int w,h;					// window size
       unique_ptr<WindowPrivate> impl;
 	  void init();

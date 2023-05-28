@@ -151,6 +151,9 @@ Function::Function(Fct f, double r1, double r2, Point xy, int count, double xsca
 
 void Rectangle::draw_lines(Painter& painter) const
 {
+    if (!color().visibility())
+        painter.set_line_style(Line_style::none);
+
     painter.draw_rectangle(point(0), w, h);
 }
 

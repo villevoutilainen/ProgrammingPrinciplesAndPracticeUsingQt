@@ -10,13 +10,6 @@
 
 namespace Graph_lib {
 
-void f(QColor) {}
-
-void g()
-{
-    f({1,2,3});
-}
-
 class PainterPrivate
 {
 public:
@@ -126,6 +119,7 @@ void Painter::set_fill_color(Color color)
 void Painter::set_line_style(Line_style style)
 {
     static const QMap<Line_style, Qt::PenStyle> line_style_map = {
+        {Line_style::none, Qt::NoPen},
         {Line_style::solid, Qt::SolidLine},
         {Line_style::dash, Qt::DashLine},
         {Line_style::dot, Qt::DotLine},
@@ -304,14 +298,8 @@ void Window::detach(Shape& s)
 
 
 void Window::put_on_top(Shape& p) {
-    for (unsigned int i=0; i<shapes.size(); ++i) {
-		if (&p==shapes[i]) {
-			for (++i; i<shapes.size(); ++i)
-				shapes[i-1] = shapes[i];
-			shapes[shapes.size()-1] = &p;
-			return;
-		}
-	}
+    impl->put_on_top(p);
+    draw();
 }
 
 void Window::close()

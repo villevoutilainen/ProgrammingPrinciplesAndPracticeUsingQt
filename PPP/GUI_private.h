@@ -33,6 +33,18 @@ namespace Graph_lib {
                     shapes.erase(shapes.begin()+(i-1));//&shapes[i-1]);
             repaint();
         }
+        void put_on_top(Shape& s)
+        {
+            for (unsigned int i=0; i<shapes.size(); ++i) {
+                if (&s==shapes[i]) {
+                    for (++i; i<shapes.size(); ++i)
+                        shapes[i-1] = shapes[i];
+                    shapes[shapes.size()-1] = &s;
+                    return;
+                }
+            }
+
+        }
     private:
         void paintEvent(QPaintEvent *event) override;
         vector<Shape*> shapes;	// shapes attached to window

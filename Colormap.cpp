@@ -264,9 +264,9 @@ static QColor rawColorMap[] = {
 };
 
 namespace Graph_lib {
-QColor mapRawColor(unsigned char rawColor)
+QColor mapRawColor(int rawColor)
 {
-    return rawColorMap[rawColor];
+    return rawColorMap[rawColor % 256];
 }
 
 }

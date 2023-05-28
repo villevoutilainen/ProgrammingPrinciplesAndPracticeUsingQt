@@ -25,7 +25,7 @@ struct Color {
     Color(Color_type cc) :c(cc), ct(cc), v(visible) { }
     Color(Color_type cc, Transparency vv) :c(cc), ct(cc), v((unsigned char)vv) { }
     Color(int cc) :c(cc), ct(Color_type::raw), v(visible) { }
-    Color(Transparency vv) :c(), ct(Color_type::raw), v((unsigned char)vv) { }
+    Color(Transparency vv) :c(), ct(Color_type::white), v((unsigned char)vv) { }
 
     int as_int() const { return c; }
     Color_type type() {return ct;}
@@ -50,8 +50,9 @@ struct Line_style {
         dash,				// - - - -
         dot,					// .......
         dashdot,			// - . - .
-        dashdotdot	// -..-..
-	};
+        dashdotdot,	// -..-..
+        none
+    };
 	Line_style(Line_style_type ss) :s(ss), w(0) { }
 	Line_style(Line_style_type lst, int ww) :s(lst), w(ww) { }
 	Line_style(int ss) :s(ss), w(0) { }
@@ -238,6 +239,7 @@ bool intersect(Point p1, Point p2, Point p3, Point p4);
 
 struct Open_polyline : Shape {	// open sequence of lines
     using Shape::Shape;
+    Open_polyline(std::initializer_list<Point> p) : Shape(p) {}
     void add(Point p) { Shape::add(p); redraw();}
     void draw_lines(Painter& painter) const override;
 };
@@ -346,7 +348,13 @@ struct Mark : Text {
 */
 
 struct Marked_polyline : Open_polyline {
-	Marked_polyline(const string& m) :mark(m) { }
+    Marked_polyline(const string& m) :mark(m) { }
+    Marked_polyline(const string& m, initializer_list<Point> lst)
+        : Open_polyline{ lst }, mark{ m }
+    {
+        if (m == "")
+            mark = "*";
+    }
     void draw_lines(Painter& painter) const override;
 private:
 	string mark;
@@ -354,7 +362,12 @@ private:
 
 struct Marks : Marked_polyline {
 	Marks(const string& m) :Marked_polyline(m)
-	{ set_color(Color(Color::invisible)); }
+    { set_color(Color(Color::invisible)); }
+    Marks(const string& m, initializer_list<Point> lst)
+        : Marked_polyline{ m,lst }
+    {
+        set_color(Color{ Color::invisible });
+    }
 };
 
 struct Mark : Marks {

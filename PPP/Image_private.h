@@ -15,7 +15,7 @@ public:
     void scale(int w, int h, bool keep_aspect_ratio = true);
 };
 
-QColor mapRawColor(unsigned char rawColor);
+QColor mapRawColor(int rawColor);
 
 }
 #endif
