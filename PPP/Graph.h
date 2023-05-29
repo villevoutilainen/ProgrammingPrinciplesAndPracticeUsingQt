@@ -356,17 +356,20 @@ struct Marked_polyline : Open_polyline {
             mark = "*";
     }
     void draw_lines(Painter& painter) const override;
+protected:
+    void hide_lines(bool hide = true) {lines_hidden = hide;}
 private:
 	string mark;
+    bool lines_hidden = false;
 };
 
 struct Marks : Marked_polyline {
-	Marks(const string& m) :Marked_polyline(m)
-    { set_color(Color(Color::invisible)); }
+    Marks(const string& m) :Marked_polyline(m)
+    { hide_lines(); }
     Marks(const string& m, initializer_list<Point> lst)
         : Marked_polyline{ m,lst }
     {
-        set_color(Color{ Color::invisible });
+        hide_lines();
     }
 };
 

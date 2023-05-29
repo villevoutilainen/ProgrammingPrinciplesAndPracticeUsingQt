@@ -242,7 +242,9 @@ void draw_mark(Painter& painter, Point xy, char c)
 
 void Marked_polyline::draw_lines(Painter& painter) const
 {
-    Open_polyline::draw_lines(painter);
+    if (!lines_hidden) {
+        Open_polyline::draw_lines(painter);
+    }
 	for (int i=0; i<number_of_points(); ++i) 
         draw_mark(painter, point(i),mark[i%mark.size()]);
 }
