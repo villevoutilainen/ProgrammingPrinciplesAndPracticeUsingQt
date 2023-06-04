@@ -60,14 +60,14 @@ struct Line_style {
         dashdotdot,	// -..-..
         none
     };
+    Line_style() {}
     Line_style(Line_style_type ss) :s(ss) { }
 	Line_style(Line_style_type lst, int ww) :s(lst), w(ww) { }
-    Line_style(int ss) :s(ss) { }
 
 	int width() const { return w; }
 	int style() const { return s; }
 private:
-	int s;
+    int s = Line_style::solid;
     int w = 1;
 };
 
@@ -188,7 +188,7 @@ protected:
 private:
     vector<Point> points;	// not used by all shapes
     Color lcolor {Color::black};
-	Line_style ls {0};
+    Line_style ls;
 	Color fcolor {Color::invisible};
 
 //	Shape(const Shape&);
