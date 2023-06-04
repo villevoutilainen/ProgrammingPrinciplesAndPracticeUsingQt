@@ -18,28 +18,35 @@ struct Color {
         magenta, cyan, dark_red,
         dark_green, dark_yellow, dark_blue,
         dark_magenta, dark_cyan,
-        raw
+        palette_index,
+        rgb
 	};
 	enum Transparency { invisible = 0, visible=255 };
 
     Color(Color_type cc) :c(cc), ct(cc), v(visible) { }
     Color(Color_type cc, Transparency vv) :c(cc), ct(cc), v((unsigned char)vv) { }
-    Color(int cc) :c(cc), ct(Color_type::raw), v(visible) { }
-    Color(Transparency vv) :c(), ct(Color_type::white), v((unsigned char)vv) { }
+    Color(int cc) :c(cc), ct(Color_type::palette_index), v(visible) { }
+    Color(Transparency vv) :c(), ct(Color_type::black), v((unsigned char)vv) { }
+    Color(int redc, int greenc, int bluec) : c(), ct(Color_type::rgb),
+        r(redc), g(greenc), b(bluec), v(visible) {}
 
     int as_int() const { return c; }
+    int red_component() {return r;}
+    int green_component() {return g;}
+    int blue_component() {return b;}
     Color_type type() {return ct;}
     char visibility() const { return v; }
     void set_visibility(Transparency vv) { v=(unsigned char)vv; }
 private:
     int c;
     Color_type ct;
+    int r, g, b;
     unsigned char v;	// 0 or 1 for now
 };
 
 inline bool operator<(Color a, Color b)
 {
-    if (a.type() != Color::raw || b.type() != Color::raw)
+    if (a.type() != Color::palette_index || b.type() != Color::palette_index)
         return a.type() < b.type();
     return a.as_int() < b.as_int();
 }

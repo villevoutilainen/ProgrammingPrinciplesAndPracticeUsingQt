@@ -1,7 +1,7 @@
 #include <QColor>
 #include <PPP/Image_private.h>
 
-static QColor rawColorMap[] = {
+static QColor paletteColorMap[] = {
     {0, 0, 0},
     {255, 0, 0},
     {0, 255, 0},
@@ -261,9 +261,9 @@ static QColor rawColorMap[] = {
 };
 
 namespace Graph_lib {
-QColor mapRawColor(int rawColor)
+QColor mapPaletteColor(int rawColor)
 {
-    return rawColorMap[rawColor % 256];
+    return paletteColorMap[rawColor % 256];
 }
 
 }

@@ -96,8 +96,10 @@ static QColor map_color(Color color)
         {Color::dark_magenta, QColorConstants::DarkMagenta},
         {Color::dark_cyan, QColorConstants::DarkCyan},
     };
-    if (color.type() == Color::raw)
-        return mapRawColor(color.as_int());
+    if (color.type() == Color::palette_index)
+        return mapPaletteColor(color.as_int());
+    if (color.type() == Color::rgb)
+        return QColor(color.red_component(), color.green_component(), color.blue_component());
     return color_map[color];
 }
 
