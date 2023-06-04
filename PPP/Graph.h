@@ -98,11 +98,10 @@ public:
 	};
 
 	Font(Font_type ff) :f(ff) { }
-	Font(int ff) :f(ff) { }
 
 	int as_int() const { return f; }
 private:
-	int f;
+    int f;
 };
 
 inline bool operator<(Font a, Font b)
