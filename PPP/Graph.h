@@ -53,15 +53,15 @@ struct Line_style {
         dashdotdot,	// -..-..
         none
     };
-	Line_style(Line_style_type ss) :s(ss), w(0) { }
+    Line_style(Line_style_type ss) :s(ss) { }
 	Line_style(Line_style_type lst, int ww) :s(lst), w(ww) { }
-	Line_style(int ss) :s(ss), w(0) { }
+    Line_style(int ss) :s(ss) { }
 
 	int width() const { return w; }
 	int style() const { return s; }
 private:
 	int s;
-	int w;
+    int w = 1;
 };
 
 inline bool operator<(Line_style a, Line_style b)
