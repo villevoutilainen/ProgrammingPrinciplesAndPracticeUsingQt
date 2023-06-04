@@ -47,7 +47,7 @@ void Simple_window::windowClosed()
     // exit from outside won't do it, but this will.
     QObject::connect(&impl->timer, &QTimer::timeout,
                      [this] {impl->nested_loop.quit();});
-    impl->timer.start();
+    impl->timer.start(0);
 }
 
 //------------------------------------------------------------------------------
