@@ -6,11 +6,15 @@ using namespace Graph_lib;
 // Simple_window is basic scaffolding for ultra-simple interaction with graphics
 // it provides one window with one "next" button for ultra-simple animation
 
+struct Simple_windowPrivate;
+
 struct Simple_window : Window {
     Simple_window(Point xy, int w, int h, const string& title );
-	
+    ~Simple_window();
+    void windowClosed() override;
     void wait_for_button();
 
 	Button next_button;
 private:
+    std::unique_ptr<Simple_windowPrivate> impl;
 };

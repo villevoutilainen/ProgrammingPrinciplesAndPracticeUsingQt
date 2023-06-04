@@ -82,6 +82,7 @@ public:
     WindowPrivate& get_impl() const;
 	void draw();
     void close();
+    virtual void windowClosed() {};
 
 private:
       int w,h;					// window size

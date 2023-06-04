@@ -18,9 +18,11 @@ namespace Graph_lib {
         QWidget* widget = nullptr;
     };
 
+    class Window;
     class WindowPrivate : public QWidget
     {
     public:
+        explicit WindowPrivate(Window* window) : wnd(window) {}
         void attach(Shape& s)
         {
             shapes.push_back(&s);
@@ -47,8 +49,10 @@ namespace Graph_lib {
         }
     private:
         void paintEvent(QPaintEvent *event) override;
+        void closeEvent(QCloseEvent *event) override;
         vector<Shape*> shapes;	// shapes attached to window
         int w,h;					// window size
+        Window* wnd;
     };
 
 } // of namespace Graph_lib

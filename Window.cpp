@@ -226,9 +226,13 @@ void WindowPrivate::paintEvent(QPaintEvent*/*event*/)
     }
 }
 
+void WindowPrivate::closeEvent(QCloseEvent*/*event*/)
+{
+    wnd->windowClosed();
+}
 
 Window::Window(int ww, int hh, const string& title)
-    : w(ww), h(hh), impl(std::make_unique<WindowPrivate>())
+    : w(ww), h(hh), impl(std::make_unique<WindowPrivate>(this))
 {
     impl->setGeometry(0, 0, ww, hh);
     impl->setWindowTitle(QString::fromStdString(title));
@@ -237,7 +241,7 @@ Window::Window(int ww, int hh, const string& title)
 }
 
 Window::Window(Point xy, int ww, int hh, const string& title)
-    : w(ww), h(hh), impl(std::make_unique<WindowPrivate>())
+    : w(ww), h(hh), impl(std::make_unique<WindowPrivate>(this))
 {
     impl->setGeometry(xy.x, xy.y, ww, hh);
     impl->setWindowTitle(QString::fromStdString(title));
