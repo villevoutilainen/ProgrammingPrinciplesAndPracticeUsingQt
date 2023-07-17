@@ -183,8 +183,8 @@ public:
 	Shape& operator=(const Shape&) = delete;
 protected:
     void redraw();
-    Window* parent_window = nullptr;
 private:
+    Window* parent_window = nullptr;
     vector<Point> points;	// not used by all shapes
     Color lcolor {Color::black};
     Line_style ls;
