@@ -14,7 +14,7 @@ struct Simple_window : Window {
     void windowClosed() override;
     void wait_for_button();
 
-	Button next_button;
 private:
+    Button next_button;
     std::unique_ptr<Simple_windowPrivate> impl;
 };
