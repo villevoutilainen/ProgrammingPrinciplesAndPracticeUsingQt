@@ -22,6 +22,7 @@ Simple_window::Simple_window(Point xy, int w, int h, const string& title) :
     impl(std::make_unique<Simple_windowPrivate>())
 {
     attach(next_button);
+    next_button.do_it = [&] {impl->nested_loop.exit();};
 }
 
 Simple_window::~Simple_window() {}
@@ -33,9 +34,7 @@ void Simple_window::wait_for_button()
 // handle all events (as per default), quit when button_pushed becomes true
 // this allows graphics without control inversion
 {
-    next_button.do_it = [&] {impl->nested_loop.exit();};
     impl->nested_loop.exec();
-    next_button.do_it = []{};
 }
 
 
