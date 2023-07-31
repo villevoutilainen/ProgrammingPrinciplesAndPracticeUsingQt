@@ -195,8 +195,8 @@ private:
 };
 
 struct Function : Shape {
-	// the function parameters are not stored
-	Function(Fct f, double r1, double r2, Point orig, int count = 100, double xscale = 25, double yscale = 25);
+    // the function parameters are not stored
+    Function(std::function<double(double)> f, double r1, double r2, Point orig, int count = 100, double xscale = 25, double yscale = 25);
 	//Function(Point orig, Fct f, double r1, double r2, int count, double xscale = 1, double yscale = 1);	
 };
 
@@ -245,6 +245,7 @@ bool intersect(Point p1, Point p2, Point p3, Point p4);
 
 struct Open_polyline : Shape {	// open sequence of lines
     using Shape::Shape;
+    Open_polyline() : Shape() {}
     Open_polyline(std::initializer_list<Point> p) : Shape(p) {}
     void add(Point p) { Shape::add(p); redraw();}
     void draw_lines(Painter& painter) const override;

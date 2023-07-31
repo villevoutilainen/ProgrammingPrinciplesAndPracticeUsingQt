@@ -18,7 +18,7 @@ struct Simple_windowPrivate
 
 Simple_window::Simple_window(Point xy, int w, int h, const string& title) :
     Window(xy,w,h,title),
-    next_button(Point(w-70,0), 70, 20, "Next", []{}),
+    next_button(Point{w-70,0}, 70, 20, "Next", []{}),
     impl(std::make_unique<Simple_windowPrivate>())
 {
     attach(next_button);

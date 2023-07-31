@@ -119,22 +119,38 @@ int Menu::attach(Button& b)
 	b.height = height;
 
 	switch(k) {
-	case horizontal:
-		b.loc = Point(loc.x+offset,loc.y);
+    case horizontal:
+        b.loc = Point{loc.x+offset,loc.y};
 		offset+=b.width;
 		break;
-	case vertical:
-		b.loc = Point(loc.x,loc.y+offset);
+    case vertical:
+        b.loc = Point{loc.x,loc.y+offset};
 		offset+=b.height;
 		break;
 	}
     WidgetPrivate& w_impl = get_impl();
     w_impl.widget->layout()->addWidget(b.get_impl().widget);
-	selection.push_back(&b);
+    selection.push_back(b);
 	return int(selection.size()-1);
 }
 
 int Menu::attach(Button* p)
 {
-	return attach(*p);
+    p->width = width;
+    p->height = height;
+
+    switch(k) {
+    case horizontal:
+        p->loc = Point{loc.x+offset,loc.y};
+        offset+=p->width;
+        break;
+    case vertical:
+        p->loc = Point{loc.x,loc.y+offset};
+        offset+=p->height;
+        break;
+    }
+    WidgetPrivate& w_impl = get_impl();
+    w_impl.widget->layout()->addWidget(p->get_impl().widget);
+    selection.push_back(p);
+    return int(selection.size()-1);
 }
