@@ -107,6 +107,9 @@ namespace Graph_lib {
         }
 
         void attach(Window& win);    // attach all buttons
+    private:
+        void layoutButtons(Button& b);
+        void layoutMenu();
     };
 
 //------------------------------------------------------------------------------

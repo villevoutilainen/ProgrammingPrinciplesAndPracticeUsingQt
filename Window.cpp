@@ -279,7 +279,9 @@ void Window::attach(Widget& ww)
     QWidget* widget = ww.get_impl().widget;
     if (widget) {
         widget->setParent(impl.get());
-        widget->setGeometry(ww.loc.x, ww.loc.y, ww.width, ww.height);
+        widget->move(ww.loc.x, ww.loc.y);
+        widget->setMinimumWidth(ww.width);
+        widget->setMinimumHeight(ww.height);
         widget->show();
     }
     ww.attach(*this);

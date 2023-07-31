@@ -101,9 +101,15 @@ Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)
     QWidget* widget = new QWidget();
     w_impl.widget = widget;
     if (k == Menu::horizontal) {
-        widget->setLayout(new QHBoxLayout());
+        QHBoxLayout* layout = new QHBoxLayout();
+        layout->setContentsMargins(0,0,0,0);
+        layout->setSpacing(0);
+        widget->setLayout(layout);
     } else {
-        widget->setLayout(new QVBoxLayout());
+        QVBoxLayout* layout = new QVBoxLayout();
+        layout->setContentsMargins(0,0,0,0);
+        layout->setSpacing(0);
+        widget->setLayout(layout);
     }
 
 }
@@ -112,45 +118,47 @@ void Menu::attach(Window& /*w*/)
 {
 }
 
+void Menu::layoutButtons(Button& b)
+{
+    b.width = width;
+    b.height = height;
+
+    switch(k) {
+    case horizontal:
+        b.loc = Point{loc.x+offset,loc.y};
+        offset+= b.width;
+        break;
+    case vertical:
+        b.loc = Point{loc.x,loc.y+offset};
+        offset+= b.height;
+        break;
+    }
+    b.get_impl().widget->setMaximumHeight(height);
+    b.get_impl().widget->setMaximumWidth(width);
+    get_impl().widget->layout()->addWidget(b.get_impl().widget);
+}
+
+void Menu::layoutMenu()
+{
+    if (k == vertical) {
+        get_impl().widget->setMinimumHeight(height * selection.size());
+    } else {
+        get_impl().widget->setMinimumWidth(width * selection.size());
+    }
+}
 
 int Menu::attach(Button& b)
 {
-	b.width = width;
-	b.height = height;
-
-	switch(k) {
-    case horizontal:
-        b.loc = Point{loc.x+offset,loc.y};
-		offset+=b.width;
-		break;
-    case vertical:
-        b.loc = Point{loc.x,loc.y+offset};
-		offset+=b.height;
-		break;
-	}
-    WidgetPrivate& w_impl = get_impl();
-    w_impl.widget->layout()->addWidget(b.get_impl().widget);
+    layoutButtons(b);
     selection.push_back(b);
-	return int(selection.size()-1);
+    layoutMenu();
+    return int(selection.size()-1);
 }
 
 int Menu::attach(Button* p)
 {
-    p->width = width;
-    p->height = height;
-
-    switch(k) {
-    case horizontal:
-        p->loc = Point{loc.x+offset,loc.y};
-        offset+=p->width;
-        break;
-    case vertical:
-        p->loc = Point{loc.x,loc.y+offset};
-        offset+=p->height;
-        break;
-    }
-    WidgetPrivate& w_impl = get_impl();
-    w_impl.widget->layout()->addWidget(p->get_impl().widget);
+    layoutButtons(*p);
     selection.push_back(p);
+    layoutMenu();
     return int(selection.size()-1);
 }
