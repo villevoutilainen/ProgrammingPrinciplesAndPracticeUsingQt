@@ -98,7 +98,7 @@ Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)
     : Widget(xy,w,h,label,0), k(kk), offset(0)
 {
     WidgetPrivate& w_impl = get_impl();
-    QWidget* widget = new QPushButton();
+    QWidget* widget = new QWidget();
     w_impl.widget = widget;
     if (k == Menu::horizontal) {
         widget->setLayout(new QHBoxLayout());
