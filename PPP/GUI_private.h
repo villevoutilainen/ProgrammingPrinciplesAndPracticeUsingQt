@@ -51,10 +51,12 @@ namespace Graph_lib {
 
         }
         void wait_for_button(Button* button);
+        void end_button_wait();
         QEventLoop nested_loop;
         QTimer timer{&nested_loop};
         std::function<void()> stored_callback;
         Button* stored_button = nullptr;
+        bool invoke_stored_callback = false;
     private:
         void paintEvent(QPaintEvent *event) override;
         void closeEvent(QCloseEvent *event) override;

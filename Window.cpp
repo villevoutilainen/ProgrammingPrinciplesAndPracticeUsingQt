@@ -204,7 +204,7 @@ void Application::gui_main()
 
 void Application::quit()
 {
-    impl->quit();
+    QTimer::singleShot(0, [&] { impl->quit(); });
 }
 
 Painter::Painter(std::unique_ptr<PainterPrivate>&& pp)
@@ -226,12 +226,17 @@ void WindowPrivate::paintEvent(QPaintEvent*/*event*/)
     }
 }
 
-void WindowPrivate::closeEvent(QCloseEvent*/*event*/)
+void WindowPrivate::end_button_wait()
 {
+    invoke_stored_callback = false;
     QObject::connect(&timer, &QTimer::timeout,
                      [this] {nested_loop.quit();});
     timer.start(0);
+}
 
+void WindowPrivate::closeEvent(QCloseEvent*/*event*/)
+{
+    end_button_wait();
     wnd->windowClosed();
 }
 
@@ -240,11 +245,14 @@ void WindowPrivate::wait_for_button(Button* button)
     stored_button = button;
     stored_callback = stored_button->do_it;
     stored_button->do_it = [&] {nested_loop.exit();};
+    invoke_stored_callback = true;
     nested_loop.exec();
     stored_button->do_it = stored_callback;
-    stored_button->do_it();
+    if (invoke_stored_callback)
+        stored_button->do_it();
 
 }
+
 
 Window::Window(int ww, int hh, const string& title)
     : w(ww), h(hh), impl(std::make_unique<WindowPrivate>(this))
@@ -333,6 +341,16 @@ void Window::put_on_top(Shape& p) {
 void Window::close()
 {
     impl->close();
+}
+
+void Window::wait_for_button(Button *button)
+{
+    impl->wait_for_button(button);
+}
+
+void Window::end_button_wait()
+{
+    impl->end_button_wait();
 }
 
 WindowPrivate& Window::get_impl() const

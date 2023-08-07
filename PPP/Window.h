@@ -57,6 +57,7 @@ private:
     std::unique_ptr<ApplicationPrivate> impl;
 };
 
+class Button;
 class WindowPrivate;
 class Window {
 public: 
@@ -83,7 +84,8 @@ public:
 	void draw();
     void close();
     virtual void windowClosed() {};
-
+    void wait_for_button(Button* button);
+    void end_button_wait();
 private:
       int w,h;					// window size
       unique_ptr<WindowPrivate> impl;
