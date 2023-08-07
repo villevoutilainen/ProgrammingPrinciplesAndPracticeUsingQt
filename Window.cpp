@@ -228,7 +228,22 @@ void WindowPrivate::paintEvent(QPaintEvent*/*event*/)
 
 void WindowPrivate::closeEvent(QCloseEvent*/*event*/)
 {
+    QObject::connect(&timer, &QTimer::timeout,
+                     [this] {nested_loop.quit();});
+    timer.start(0);
+
     wnd->windowClosed();
+}
+
+void WindowPrivate::wait_for_button(Button* button)
+{
+    stored_button = button;
+    stored_callback = stored_button->do_it;
+    stored_button->do_it = [&] {nested_loop.exit();};
+    nested_loop.exec();
+    stored_button->do_it = stored_callback;
+    stored_button->do_it();
+
 }
 
 Window::Window(int ww, int hh, const string& title)

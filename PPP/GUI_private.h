@@ -20,6 +20,7 @@ namespace Graph_lib {
         QWidget* widget = nullptr;
     };
 
+    class Button;
     class Window;
     class WindowPrivate : public QWidget
     {
@@ -49,8 +50,11 @@ namespace Graph_lib {
             }
 
         }
+        void wait_for_button(Button* button);
         QEventLoop nested_loop;
         QTimer timer{&nested_loop};
+        std::function<void()> stored_callback;
+        Button* stored_button = nullptr;
     private:
         void paintEvent(QPaintEvent *event) override;
         void closeEvent(QCloseEvent *event) override;
