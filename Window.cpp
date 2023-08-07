@@ -250,7 +250,7 @@ void WindowPrivate::wait_for_button(Button* button)
     stored_button->do_it = stored_callback;
     if (invoke_stored_callback)
         stored_button->do_it();
-
+    stored_button = nullptr;
 }
 
 
