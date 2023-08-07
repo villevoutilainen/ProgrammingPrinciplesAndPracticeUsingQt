@@ -9,6 +9,8 @@
 
 #include <PPP/Graph.h>
 
+#include <QEventLoop>
+#include <QTimer>
 #include <QWidget>
 
 namespace Graph_lib {
@@ -47,6 +49,8 @@ namespace Graph_lib {
             }
 
         }
+        QEventLoop nested_loop;
+        QTimer timer{&nested_loop};
     private:
         void paintEvent(QPaintEvent *event) override;
         void closeEvent(QCloseEvent *event) override;

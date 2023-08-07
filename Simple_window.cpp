@@ -10,19 +10,12 @@
 #include <PPP/GUI_private.h>
 //------------------------------------------------------------------------------
 
-struct Simple_windowPrivate
-{
-    QEventLoop nested_loop;
-    QTimer timer{&nested_loop};
-};
-
 Simple_window::Simple_window(Point xy, int w, int h, const string& title) :
     Window(xy,w,h,title),
-    next_button(Point{w-70,0}, 70, 20, "Next", []{}),
-    impl(std::make_unique<Simple_windowPrivate>())
+    next_button(Point{w-70,0}, 70, 20, "Next", []{})
 {
     attach(next_button);
-    next_button.do_it = [&] {impl->nested_loop.exit();};
+    next_button.do_it = [&] {get_impl().nested_loop.exit();};
 }
 
 Simple_window::~Simple_window() {}
@@ -34,7 +27,7 @@ void Simple_window::wait_for_button()
 // handle all events (as per default), quit when button_pushed becomes true
 // this allows graphics without control inversion
 {
-    impl->nested_loop.exec();
+    get_impl().nested_loop.exec();
 }
 
 
@@ -44,9 +37,9 @@ void Simple_window::windowClosed()
     // loop, that's why we create a timer that is owned by it.
     // Then, we can tell that timer to exit the loop. Telling it to
     // exit from outside won't do it, but this will.
-    QObject::connect(&impl->timer, &QTimer::timeout,
-                     [this] {impl->nested_loop.quit();});
-    impl->timer.start(0);
+    QObject::connect(&get_impl().timer, &QTimer::timeout,
+                     [this] {get_impl().nested_loop.quit();});
+    get_impl().timer.start(0);
 }
 
 //------------------------------------------------------------------------------

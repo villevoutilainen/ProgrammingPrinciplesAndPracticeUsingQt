@@ -16,5 +16,4 @@ struct Simple_window : Window {
 
 private:
     Button next_button;
-    std::unique_ptr<Simple_windowPrivate> impl;
 };
