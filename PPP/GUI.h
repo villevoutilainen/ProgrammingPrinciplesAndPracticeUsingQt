@@ -59,10 +59,15 @@ namespace Graph_lib {
         In_box(Point xy, int w, int h, const string& s);
         int get_int();
         string get_string();
-
+        int get_int_keep_open();
+        string get_string_keep_open();
         void attach(Window& win);
+        void close();
+        enum State {idle, accepted, rejected};
+        State last_result() {return state;}
     private:
         Window* window;
+        State state = idle;
     };
 
 //------------------------------------------------------------------------------

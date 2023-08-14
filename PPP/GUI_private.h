@@ -20,7 +20,7 @@ namespace Graph_lib {
         QWidget* widget = nullptr;
     };
 
-    class Button;
+    struct Button;
     class Window;
     class WindowPrivate : public QWidget
     {

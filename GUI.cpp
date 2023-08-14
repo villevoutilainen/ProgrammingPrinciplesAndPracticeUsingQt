@@ -50,26 +50,121 @@ void Button::attach(Window& /*win*/)
 {
 }
 
+class InputDialog : public QInputDialog
+{
+public:
+    InputDialog(QWidget* parent = nullptr) : QInputDialog(parent) {}
+    void done(int result) override
+    {
+        if (result == QDialog::Rejected) {
+            QInputDialog::done(result);
+        } else if (result == QDialog::Accepted) {
+            if (close_on_accept) {
+                QInputDialog::done(result);
+            } else {
+                QInputDialog::accepted();
+            }
+        }
+    }
+    void set_close_on_accept(bool val) {close_on_accept = val;}
+private:
+    bool close_on_accept = false;
+};
+
 In_box::In_box(Point xy, int w, int h, const string& s)
     :Widget(xy,w,h,s,0)
 {
+    WidgetPrivate& w_impl = get_impl();
+    InputDialog* dialog = new InputDialog();
+    dialog->setVisible(false);
+    w_impl.widget = dialog;
+}
+
+void setup_input(InputDialog* dialog, const std::string& label,
+                 bool close_on_accept,
+                 QInputDialog::InputMode inputMode)
+{
+    dialog->setWindowTitle(QString::fromStdString(label));
+    dialog->setLabelText(QString::fromStdString(label));
+    dialog->set_close_on_accept(close_on_accept);
+    dialog->setInputMode(inputMode);
+    dialog->setModal(false);
+
+}
+
+void wait_for_input(InputDialog* dialog, In_box::State& state)
+{
+    QEventLoop nested_loop;
+    QTimer timer(&nested_loop);
+    timer.setSingleShot(true);
+    QObject::connect(&timer, &QTimer::timeout,
+                     [&] {nested_loop.quit();});
+    auto conn1 = QObject::connect(dialog, &QInputDialog::accepted, [&] {state = In_box::accepted; timer.start(0);});
+    auto conn2 = QObject::connect(dialog, &QInputDialog::rejected, [&] {state = In_box::rejected; timer.start(0);});
+    nested_loop.exec();
+    QObject::disconnect(conn1);
+    QObject::disconnect(conn2);
+}
+
+void exec_input(InputDialog* dialog, In_box::State& state)
+{
+    auto conn1 = QObject::connect(dialog, &QInputDialog::accepted, [&] {state = In_box::accepted;});
+    auto conn2 = QObject::connect(dialog, &QInputDialog::rejected, [&] {state = In_box::rejected;});
+    dialog->exec();
+    QObject::disconnect(conn1);
+    QObject::disconnect(conn2);
 }
 
 int In_box::get_int()
 {
-    return QInputDialog::getInt(&window->get_impl(), QString::fromStdString(label),
-                         QString::fromStdString(label));
+    state = idle;
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    setup_input(dialog, label, true, QInputDialog::IntInput);
+    exec_input(dialog, state);
+    return dialog->intValue();
+}
+
+int In_box::get_int_keep_open()
+{
+    state = idle;
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    setup_input(dialog, label, false, QInputDialog::IntInput);
+    dialog->show();
+    wait_for_input(dialog, state);
+    return dialog->intValue();
 }
 
 string In_box::get_string()
 {
-    return QInputDialog::getText(&window->get_impl(), QString::fromStdString(label),
-                         QString::fromStdString(label)).toStdString();
+    state = idle;
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    setup_input(dialog, label, true, QInputDialog::TextInput);
+    exec_input(dialog, state);
+    return dialog->textValue().toStdString();
+}
+
+string In_box::get_string_keep_open()
+{
+    state = idle;
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    setup_input(dialog, label, false, QInputDialog::TextInput);
+    dialog->show();
+    wait_for_input(dialog, state);
+    return dialog->textValue().toStdString();
 }
 
 void In_box::attach(Window& win)
 {
     window = &win;
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    dialog->hide();
+}
+
+void In_box::close()
+{
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    dialog->reject();
+    state = idle;
 }
 
 void Out_box::put(int i)

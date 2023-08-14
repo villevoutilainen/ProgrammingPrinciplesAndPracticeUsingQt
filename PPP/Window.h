@@ -57,7 +57,7 @@ private:
     std::unique_ptr<ApplicationPrivate> impl;
 };
 
-class Button;
+struct Button;
 class WindowPrivate;
 class Window {
 public: 
