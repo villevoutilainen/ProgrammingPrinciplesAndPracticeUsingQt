@@ -145,10 +145,6 @@ protected:
 	Shape() { }
     Shape(std::initializer_list<Point> lst);  // add() the Points to this Shape
 
-//	Shape() : lcolor(fl_color()),
-//		ls(0),
-//		fcolor(Color::invisible) { }
-
     void add(Point p){ points.push_back(p); redraw();}
     void set_point(int i, Point p) { points[i] = p; redraw();}
 public:
