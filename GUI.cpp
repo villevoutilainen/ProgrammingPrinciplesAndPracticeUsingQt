@@ -186,13 +186,15 @@ void In_box::attach(Window& win)
     window = &win;
     InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
     dialog->hide();
+    QObject::connect(&window->get_impl(), &WindowPrivate::windowClosed,
+                     [=] {dialog->reject();});
 }
 
 void In_box::close()
 {
     InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
     dialog->reject();
-    state = idle;
+    state = rejected;
 }
 
 Out_box::Out_box(Point xy, int w, int h, const string& s)
@@ -270,6 +272,14 @@ void Out_box::attach(Window& win)
     window = &win;
     QMessageBox* dialog = static_cast<QMessageBox*>(get_impl().widget);
     dialog->hide();
+    QObject::connect(&window->get_impl(), &WindowPrivate::windowClosed,
+                     [=] {dialog->reject();});
+}
+
+void Out_box::close()
+{
+    QMessageBox* dialog = static_cast<QMessageBox*>(get_impl().widget);
+    dialog->reject();
 }
 
 Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)

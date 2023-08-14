@@ -83,6 +83,7 @@ namespace Graph_lib {
         void put_nonblocking(const string&);
 
         void attach(Window& win);
+        void close();
     private:
         Window* window;
         bool waiting = false;

@@ -24,6 +24,7 @@ namespace Graph_lib {
     class Window;
     class WindowPrivate : public QWidget
     {
+        Q_OBJECT
     public:
         explicit WindowPrivate(Window* window) : wnd(window) {}
         void attach(Shape& s)
@@ -57,6 +58,8 @@ namespace Graph_lib {
         std::function<void()> stored_callback;
         Button* stored_button = nullptr;
         bool invoke_stored_callback = false;
+    signals:
+        void windowClosed();
     private:
         void paintEvent(QPaintEvent *event) override;
         void closeEvent(QCloseEvent *event) override;
