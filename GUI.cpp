@@ -117,39 +117,67 @@ void exec_input(InputDialog* dialog, In_box::State& state)
 
 int In_box::get_int()
 {
-    state = idle;
     InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    if (waiting) {
+        dialog->reject();
+        state = rejected;
+        return 0;
+    }
+    state = idle;
     setup_input(dialog, label, true, QInputDialog::IntInput);
+    waiting = true;
     exec_input(dialog, state);
+    waiting = false;
     return dialog->intValue();
 }
 
 int In_box::get_int_keep_open()
 {
-    state = idle;
     InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    if (waiting) {
+        dialog->reject();
+        state = rejected;
+        return 0;
+    }
+    state = idle;
     setup_input(dialog, label, false, QInputDialog::IntInput);
     dialog->show();
+    waiting = true;
     wait_for_input(dialog, state);
+    waiting = false;
     return dialog->intValue();
 }
 
 string In_box::get_string()
 {
-    state = idle;
     InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    if (waiting) {
+        dialog->reject();
+        state = rejected;
+        return "";
+    }
+    state = idle;
     setup_input(dialog, label, true, QInputDialog::TextInput);
+    waiting = true;
     exec_input(dialog, state);
+    waiting = false;
     return dialog->textValue().toStdString();
 }
 
 string In_box::get_string_keep_open()
 {
-    state = idle;
     InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    if (waiting) {
+        dialog->reject();
+        state = rejected;
+        return "";
+    }
+    state = idle;
     setup_input(dialog, label, false, QInputDialog::TextInput);
     dialog->show();
+    waiting = true;
     wait_for_input(dialog, state);
+    waiting = false;
     return dialog->textValue().toStdString();
 }
 

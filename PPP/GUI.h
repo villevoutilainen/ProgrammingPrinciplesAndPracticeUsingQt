@@ -68,6 +68,7 @@ namespace Graph_lib {
     private:
         Window* window;
         State state = idle;
+        bool waiting = false;
     };
 
 //------------------------------------------------------------------------------
