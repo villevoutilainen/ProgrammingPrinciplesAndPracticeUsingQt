@@ -195,26 +195,81 @@ void In_box::close()
     state = idle;
 }
 
+Out_box::Out_box(Point xy, int w, int h, const string& s)
+    : Widget(xy,w,h,s,0)
+{
+    WidgetPrivate& w_impl = get_impl();
+    QMessageBox* dialog = new QMessageBox();
+    dialog->setModal(false);
+    dialog->setVisible(false);
+    w_impl.widget = dialog;
+}
+
 void Out_box::put(int i)
 {
+    QMessageBox* dialog = static_cast<QMessageBox*>(get_impl().widget);
     std::ostringstream os;
     os << i;
     QString data = QString::fromStdString(os.str());
     data.resize(data.size() + label.size()*2, QChar(' ')); // hack to make the messagebox wider
-    QMessageBox::information(&window->get_impl(), QString::fromStdString(label), data);
+    dialog->setText(QString::fromStdString(label));
+    dialog->setInformativeText(data);
+    if (!waiting) {
+        waiting = true;
+        dialog->exec();
+        waiting = false;
+    }
 }
 
 void Out_box::put(const string& s)
 {
+    QMessageBox* dialog = static_cast<QMessageBox*>(get_impl().widget);
     QString data = QString::fromStdString(s);
     data.resize(data.size() + label.size()*2, QChar(' ')); // hack to make the messagebox wider
-    QMessageBox::information(&window->get_impl(), QString::fromStdString(label),
-                             data);
+    dialog->setText(QString::fromStdString(label));
+    dialog->setInformativeText(data);
+    if (!waiting) {
+        waiting = true;
+        dialog->exec();
+        waiting = false;
+    }
+}
+
+void Out_box::put_nonblocking(int i)
+{
+    QMessageBox* dialog = static_cast<QMessageBox*>(get_impl().widget);
+    std::ostringstream os;
+    os << i;
+    QString data = QString::fromStdString(os.str());
+    data.resize(data.size() + label.size()*2, QChar(' ')); // hack to make the messagebox wider
+    dialog->setText(QString::fromStdString(label));
+    dialog->setInformativeText(data);
+    if (!waiting) {
+        waiting = true;
+        dialog->show();
+        waiting = false;
+    }
+}
+
+void Out_box::put_nonblocking(const string& s)
+{
+    QMessageBox* dialog = static_cast<QMessageBox*>(get_impl().widget);
+    QString data = QString::fromStdString(s);
+    data.resize(data.size() + label.size()*2, QChar(' ')); // hack to make the messagebox wider
+    dialog->setText(QString::fromStdString(label));
+    dialog->setInformativeText(data);
+    if (!waiting) {
+        waiting = true;
+        dialog->show();
+        waiting = false;
+    }
 }
 
 void Out_box::attach(Window& win)
 {
     window = &win;
+    QMessageBox* dialog = static_cast<QMessageBox*>(get_impl().widget);
+    dialog->hide();
 }
 
 Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)

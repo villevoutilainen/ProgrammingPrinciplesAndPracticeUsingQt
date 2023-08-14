@@ -74,14 +74,18 @@ namespace Graph_lib {
 //------------------------------------------------------------------------------
 
     struct Out_box : Widget {
-        Out_box(Point xy, int w, int h, const string& s)
-            :Widget(xy,w,h,s,0) { }
+        Out_box(Point xy, int w, int h, const string& s);
+
         void put(int);
         void put(const string&);
+
+        void put_nonblocking(int);
+        void put_nonblocking(const string&);
 
         void attach(Window& win);
     private:
         Window* window;
+        bool waiting = false;
     };
 
 //------------------------------------------------------------------------------
