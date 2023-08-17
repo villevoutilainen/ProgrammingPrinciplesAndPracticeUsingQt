@@ -10,8 +10,26 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Colormap.cpp" />
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Simple_window.cpp" />
+    <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PPP\Graph.h" />
+    <ClInclude Include="PPP\GUI.h" />
+    <ClInclude Include="PPP\Image_private.h" />
+    <ClInclude Include="PPP\Point.h" />
+    <ClInclude Include="PPP\Simple_window.h" />
+    <ClInclude Include="PPP\std_lib_facilities.h" />
+    <ClInclude Include="PPP\Window.h" />
+    <QtMoc Include="PPP\GUI_private.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{773840E4-9882-4A92-91AB-E3708EF977CA}</ProjectGuid>
+    <ProjectGuid>{A2DCEA33-CBAE-4090-A239-85BE6E704E24}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.22000.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.22000.0</WindowsTargetPlatformVersion>
@@ -55,10 +73,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <IncludePath>.;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <IncludePath>.;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -84,24 +103,6 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Colormap.cpp" />
-    <ClCompile Include="Simple_window.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="Graph.cpp" />
-    <ClCompile Include="GUI.cpp" />
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="PPP\Graph.h" />
-    <ClInclude Include="PPP\GUI.h" />
-    <ClInclude Include="PPP\GUI_private.h" />
-    <ClInclude Include="PPP\Image_private.h" />
-    <ClInclude Include="PPP\Point.h" />
-    <ClInclude Include="PPP\Simple_window.h" />
-    <ClInclude Include="PPP\std_lib_facilities.h" />
-    <ClInclude Include="PPP\Window.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />
