@@ -95,7 +95,7 @@ void setup_input(InputDialog* dialog, const std::string& label,
     dialog->set_close_on_accept(close_on_accept);
     dialog->setInputMode(inputMode);
     dialog->setModal(false);
-    auto conn1 = QObject::connect(dialog, &QInputDialog::accepted,
+    QObject::connect(dialog, &QInputDialog::accepted,
         [dialog, &do_it, &result] {
             result.state = Graph_lib::In_box::accepted;
             if (dialog->inputMode() == QInputDialog::IntInput) {
@@ -107,6 +107,13 @@ void setup_input(InputDialog* dialog, const std::string& label,
                 do_it();
             }
     });
+    QObject::connect(dialog, &QInputDialog::rejected,
+                     [&do_it, &result] {
+                         result.state = Graph_lib::In_box::rejected;
+                         if (do_it) {
+                             do_it();
+                         }
+                     });
 
 }
 
