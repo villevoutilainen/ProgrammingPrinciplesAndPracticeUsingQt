@@ -61,13 +61,24 @@ namespace Graph_lib {
         string get_string();
         int get_int_keep_open();
         string get_string_keep_open();
-        void attach(Window& win);
-        void close();
+        void attach(Window& win) override;
+        void dismiss();
+        void hide() override;
+        void show() override;
         enum State {idle, accepted, rejected};
-        State last_result() {return state;}
+        State last_result();
+        void clear_last_result();
+        string last_string_value();
+        int last_int_value();
+        struct ResultData {
+            State state = idle;
+            string last_string;
+            int last_int = 0;
+        };
+
     private:
         Window* window;
-        State state = idle;
+        ResultData result;
         bool waiting = false;
     };
 
@@ -82,8 +93,10 @@ namespace Graph_lib {
         void put_nonblocking(int);
         void put_nonblocking(const string&);
 
-        void attach(Window& win);
-        void close();
+        void attach(Window& win) override;
+        void dismiss();
+        void hide() override;
+        void show() override;
     private:
         Window* window;
         bool waiting = false;
