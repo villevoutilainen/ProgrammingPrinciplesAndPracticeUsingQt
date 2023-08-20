@@ -241,15 +241,13 @@ void WindowPrivate::closeEvent(QCloseEvent*/*event*/)
 
 void WindowPrivate::wait_for_button(Button* button)
 {
-    stored_button = button;
-    stored_callback = stored_button->do_it;
-    stored_button->do_it = [&] {nested_loop.exit();};
+    std::function<void()> stored_callback = button->do_it;
+    button->do_it = [&] {nested_loop.exit();};
     invoke_stored_callback = true;
     nested_loop.exec();
-    stored_button->do_it = stored_callback;
+    button->do_it = stored_callback;
     if (invoke_stored_callback)
-        stored_button->do_it();
-    stored_button = nullptr;
+        button->do_it();
 }
 
 

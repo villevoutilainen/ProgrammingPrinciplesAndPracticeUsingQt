@@ -55,8 +55,6 @@ namespace Graph_lib {
         void end_button_wait();
         QEventLoop nested_loop;
         QTimer timer{&nested_loop};
-        std::function<void()> stored_callback;
-        Button* stored_button = nullptr;
         bool invoke_stored_callback = false;
     signals:
         void windowClosed();
