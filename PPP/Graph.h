@@ -28,19 +28,20 @@ struct Color {
     Color(int cc) :c(cc), ct(Color_type::palette_index), v(visible) { }
     Color(Transparency vv) :c(), ct(Color_type::black), v((unsigned char)vv) { }
     Color(int redc, int greenc, int bluec) : c(), ct(Color_type::rgb),
-        r(redc), g(greenc), b(bluec), v(visible) {}
+        rgb_color(redc, greenc, bluec), v(visible) {}
 
     int as_int() const { return c; }
-    int red_component() {return r;}
-    int green_component() {return g;}
-    int blue_component() {return b;}
+    int red_component() {return rgb_color.r;}
+    int green_component() {return rgb_color.g;}
+    int blue_component() {return rgb_color.b;}
     Color_type type() {return ct;}
     char visibility() const { return v; }
     void set_visibility(Transparency vv) { v=(unsigned char)vv; }
 private:
-    int c;
-    Color_type ct;
-    int r, g, b;
+    int c = 0;
+    Color_type ct = black;
+    struct Rgb {int r; int g; int b;};
+    Rgb rgb_color = {0, 0, 0};
     unsigned char v;	// 0 or 1 for now
 };
 
