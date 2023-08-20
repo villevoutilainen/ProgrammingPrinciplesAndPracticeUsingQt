@@ -30,15 +30,4 @@ void Simple_window::wait_for_button()
 }
 
 
-void Simple_window::windowClosed()
-{
-    // We need to do this with a QObject that is owned by the nested
-    // loop, that's why we create a timer that is owned by it.
-    // Then, we can tell that timer to exit the loop. Telling it to
-    // exit from outside won't do it, but this will.
-/*    QObject::connect(&get_impl().timer, &QTimer::timeout,
-                     [this] {get_impl().nested_loop.quit();});
-    get_impl().timer.start(0);*/
-}
-
 //------------------------------------------------------------------------------

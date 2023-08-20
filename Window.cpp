@@ -237,8 +237,6 @@ void WindowPrivate::end_button_wait()
 void WindowPrivate::closeEvent(QCloseEvent*/*event*/)
 {
     end_button_wait();
-    wnd->windowClosed();
-    windowClosed();
 }
 
 void WindowPrivate::wait_for_button(Button* button)

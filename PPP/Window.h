@@ -83,7 +83,6 @@ public:
     WindowPrivate& get_impl() const;
 	void draw();
     void close();
-    virtual void windowClosed() {};
     void wait_for_button(Button* button);
     void end_button_wait();
 private:

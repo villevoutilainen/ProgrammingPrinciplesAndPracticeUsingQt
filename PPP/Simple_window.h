@@ -11,7 +11,6 @@ struct Simple_windowPrivate;
 struct Simple_window : Window {
     Simple_window(Point xy, int w, int h, const string& title );
     ~Simple_window();
-    void windowClosed() override;
     void wait_for_button();
 
 private:
