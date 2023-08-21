@@ -9,6 +9,7 @@
 #include <QPushButton>
 
 #include <QInputDialog>
+#include <QKeyEvent>
 #include <QMessageBox>
 
 using namespace Graph_lib;
@@ -68,6 +69,17 @@ public:
             } else {
                 QInputDialog::accepted();
             }
+        }
+    }
+    void keyPressEvent(QKeyEvent *e) override {
+        if ((options() | QInputDialog::NoButtons)) {
+            if (e->key() == Qt::Key_Return) {
+                done(QDialog::Accepted);
+            } else if (e->key() == Qt::Key_Escape) {
+                done(QDialog::Rejected);
+            }
+        } else {
+            QInputDialog::keyPressEvent(e);
         }
     }
     void set_close_on_accept(bool val) {close_on_accept = val;}
@@ -252,6 +264,18 @@ void In_box::show()
     setup_input(dialog, label, false, QInputDialog::TextInput,
                 do_it, result);
     dialog->show();
+}
+
+void In_box::hide_buttons()
+{
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    dialog->setOption(QInputDialog::NoButtons, true);
+}
+
+void In_box::show_buttons()
+{
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    dialog->setOption(QInputDialog::NoButtons, false);
 }
 
 In_box::State In_box::last_result()

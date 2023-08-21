@@ -65,6 +65,8 @@ namespace Graph_lib {
         void dismiss();
         void hide() override;
         void show() override;
+        void hide_buttons();
+        void show_buttons();
         enum State {idle, accepted, rejected};
         State last_result();
         void clear_last_result();
