@@ -112,20 +112,27 @@ void setup_input(InputDialog* dialog, const std::string& label,
             result.state = Graph_lib::In_box::accepted;
             if (dialog->inputMode() == QInputDialog::IntInput) {
                 result.last_int = dialog->intValue();
+                dialog->setIntValue(0);
             } else if ((dialog->inputMode() == QInputDialog::TextInput)) {
                 result.last_string = dialog->textValue().toStdString();
+                dialog->setTextValue("");
             }
             if (do_it) {
                 do_it();
             }
     });
     QObject::connect(dialog, &QInputDialog::rejected,
-                     [&do_it, &result] {
-                         result.state = Graph_lib::In_box::rejected;
-                         if (do_it) {
-                             do_it();
-                         }
-                     });
+        [dialog, &do_it, &result] {
+            result.state = Graph_lib::In_box::rejected;
+            if (dialog->inputMode() == QInputDialog::TextInput) {
+                dialog->setTextValue("");
+            } else if (dialog->inputMode() == QInputDialog::IntInput) {
+                dialog->setIntValue(0);
+            }
+            if (do_it) {
+                do_it();
+            }
+    });
 
 }
 
