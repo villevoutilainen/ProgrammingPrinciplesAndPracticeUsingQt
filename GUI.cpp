@@ -308,6 +308,11 @@ Out_box::Out_box(Point xy, int w, int h, const string& s)
     dialog->setModal(false);
     dialog->setVisible(false);
     w_impl.widget = dialog;
+    QObject::connect(dialog, &QDialog::finished, [this] {
+        if (do_it) {
+            do_it();
+        }
+    });
 }
 
 void Out_box::put(int i)
