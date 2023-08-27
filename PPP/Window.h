@@ -42,6 +42,8 @@ private:
     void set_color(Color color);
     void set_line_style(Line_style style);
     void set_fill_color(Color color);
+    void setup_from_text(const Text& text);
+    void draw_text_vector(const Point& p1, const Vector_ref<const Text>& texts, std::function<void(Point&, int, int)> point_transform);
     friend class Shape;
 private:
     std::unique_ptr<PainterPrivate> impl;

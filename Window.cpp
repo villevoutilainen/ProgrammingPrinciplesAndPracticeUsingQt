@@ -52,14 +52,20 @@ void Painter::draw_text(const Point& p1, const std::string& text)
     impl->painter->drawText(QPoint(p1.x, p1.y), QString::fromStdString(text));
 }
 
-void Painter::draw_text_line(const Point& p1, const Vector_ref<const Text>& texts)
+void Painter::setup_from_text(const Text& text)
+{
+    set_color(text.color());
+    set_font(text.font());
+    set_font_size(text.font_size());
+
+}
+
+void Painter::draw_text_vector(const Point& p1, const Vector_ref<const Text>& texts, std::function<void(Point&, int, int)> point_transform)
 {
     if (texts.size() == 0) {
         return;
     }
-    set_color(texts[0].color());
-    set_font(texts[0].font());
-    set_font_size(texts[0].font_size());
+    setup_from_text(texts[0]);
     draw_text(p1, texts[0].label());
     if (texts.size() < 2) {
         return;
@@ -70,39 +76,27 @@ void Painter::draw_text_line(const Point& p1, const Vector_ref<const Text>& text
         QRect bounding_rect =
             font_metrics.boundingRect(
                 QString::fromStdString(texts[i-1].label() + " "));
-        current_pos.x += bounding_rect.width();
-        set_color(texts[i].color());
-        set_font(texts[i].font());
-        set_font_size(texts[i].font_size());
+        point_transform(current_pos, bounding_rect.width(), bounding_rect.height());
+        setup_from_text(texts[i]);
         draw_text(current_pos, texts[i].label());
     }
+
+}
+
+void Painter::draw_text_line(const Point& p1, const Vector_ref<const Text>& texts)
+{
+    draw_text_vector(p1, texts,
+        [](Point& current_pos, int prev_width, int /*prev_height*/) {
+        current_pos.x += prev_width;
+    });
 }
 
 void Painter::draw_text_column(const Point& p1, const Vector_ref<const Text>& texts)
 {
-    if (texts.size() == 0) {
-        return;
-    }
-    set_color(texts[0].color());
-    set_font(texts[0].font());
-    set_font_size(texts[0].font_size());
-    draw_text(p1, texts[0].label());
-    if (texts.size() < 2) {
-        return;
-    }
-    Point current_pos = p1;
-    for (int i = 1; i < texts.size(); ++i) {
-        QFontMetrics font_metrics(impl->font);
-        QRect bounding_rect =
-            font_metrics.boundingRect(
-                QString::fromStdString(texts[i-1].label() + " "));
-        current_pos.y += bounding_rect.height();
-        //current_pos.y += font_metrics.lineSpacing();
-        set_color(texts[i].color());
-        set_font(texts[i].font());
-        set_font_size(texts[i].font_size());
-        draw_text(current_pos, texts[i].label());
-    }
+    draw_text_vector(p1, texts,
+                     [](Point& current_pos, int /*prev_width*/, int prev_height) {
+                         current_pos.y += prev_height;
+                     });
 }
 
 void Painter::draw_ellipse(const Point& p1, int r, int r2)
