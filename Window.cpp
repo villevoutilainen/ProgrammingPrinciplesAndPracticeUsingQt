@@ -2,6 +2,7 @@
 #include "PPP/Graph.h"
 #include "PPP/Image_private.h"
 #include <QApplication>
+#include <QFontMetrics>
 #include <QPainter>
 #include <QVector>
 #include <QWidget>
@@ -44,11 +45,64 @@ void Painter::draw_polygon(const Shape& s)
     impl->painter->drawPolygon(points.data(), points.size());
 }
 
-void Painter::draw_text(const Point& p1, const std::string text)
+void Painter::draw_text(const Point& p1, const std::string& text)
 {
     impl->painter->setPen(impl->pen);
     impl->painter->setFont(impl->font);
     impl->painter->drawText(QPoint(p1.x, p1.y), QString::fromStdString(text));
+}
+
+void Painter::draw_text_line(const Point& p1, const Vector_ref<const Text>& texts)
+{
+    if (texts.size() == 0) {
+        return;
+    }
+    set_color(texts[0].color());
+    set_font(texts[0].font());
+    set_font_size(texts[0].font_size());
+    draw_text(p1, texts[0].label());
+    if (texts.size() < 2) {
+        return;
+    }
+    Point current_pos = p1;
+    for (int i = 1; i < texts.size(); ++i) {
+        QFontMetrics font_metrics(impl->font);
+        QRect bounding_rect =
+            font_metrics.boundingRect(
+                QString::fromStdString(texts[i-1].label() + " "));
+        current_pos.x += bounding_rect.width();
+        set_color(texts[i].color());
+        set_font(texts[i].font());
+        set_font_size(texts[i].font_size());
+        draw_text(current_pos, texts[i].label());
+    }
+}
+
+void Painter::draw_text_column(const Point& p1, const Vector_ref<const Text>& texts)
+{
+    if (texts.size() == 0) {
+        return;
+    }
+    set_color(texts[0].color());
+    set_font(texts[0].font());
+    set_font_size(texts[0].font_size());
+    draw_text(p1, texts[0].label());
+    if (texts.size() < 2) {
+        return;
+    }
+    Point current_pos = p1;
+    for (int i = 1; i < texts.size(); ++i) {
+        QFontMetrics font_metrics(impl->font);
+        QRect bounding_rect =
+            font_metrics.boundingRect(
+                QString::fromStdString(texts[i-1].label() + " "));
+        current_pos.y += bounding_rect.height();
+        //current_pos.y += font_metrics.lineSpacing();
+        set_color(texts[i].color());
+        set_font(texts[i].font());
+        set_font_size(texts[i].font_size());
+        draw_text(current_pos, texts[i].label());
+    }
 }
 
 void Painter::draw_ellipse(const Point& p1, int r, int r2)

@@ -4,7 +4,7 @@
 #include <PPP/std_lib_facilities.h>
 
 #include <PPP/Point.h>
-//#include "GUI.h"
+#include "Graph.h"
 
 namespace Graph_lib {
 
@@ -28,7 +28,9 @@ public:
     void draw_rectangle(const Point& p1, int w, int h);
     void draw_line(const Point& p1, const Point& p2);
     void draw_polygon(const Shape& s);
-    void draw_text(const Point& p1, const std::string text);
+    void draw_text(const Point& p1, const std::string& text);
+    void draw_text_line(const Point& p1, const Vector_ref<const Text>& texts);
+    void draw_text_column(const Point& p1, const Vector_ref<const Text>& texts);
     void draw_ellipse(const Point& p1, int r, int r2);
     void draw_image(const Point& p1, const Image& img);
     void draw_image(const Point& p1, const Point& p2, int w, int h, const Image& img);

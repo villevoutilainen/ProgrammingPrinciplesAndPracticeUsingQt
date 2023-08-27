@@ -166,7 +166,10 @@ public:
 
 	Point point(int i) const { return points[i]; }
 	int number_of_points() const { return int(points.size()); }
-    void set_window(Window* win) { parent_window = win;}
+    void set_window(Window* win) {
+        parent_window = win;
+        set_parent_window(win);
+    }
 	virtual ~Shape() { }
 	/*
 	struct Window* attached;
@@ -181,6 +184,7 @@ public:
 protected:
     void redraw();
 private:
+    virtual void set_parent_window(Window* /*win*/) {}
     Window* parent_window = nullptr;
     vector<Point> points;	// not used by all shapes
     Color lcolor {Color::black};
@@ -379,6 +383,28 @@ struct Marks : Marked_polyline {
 
 struct Mark : Marks {
 	Mark(Point xy, char c) : Marks(string(1,c)) {add(xy); }
+};
+
+struct Out_box : Shape {
+    enum Kind { horizontal, vertical };
+    Out_box(Point p, const string& s, Kind k = horizontal)
+        : label_text(p, s),
+          data(p, ""),
+          orientation(k)
+    {
+        Shape::add(p);
+    }
+    void set_parent_window(Window* win) override {
+        label_text.set_window(win);
+        data.set_window(win);
+    }
+
+    void put(int);
+    void put(const string&);
+    void draw_lines(Painter& painter) const override;	// simply draw the appropriate lines
+    Text label_text;
+    Text data;
+    Kind orientation;
 };
 
 /*

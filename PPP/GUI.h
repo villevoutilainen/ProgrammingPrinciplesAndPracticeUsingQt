@@ -84,25 +84,6 @@ namespace Graph_lib {
         bool waiting = false;
     };
 
-//------------------------------------------------------------------------------
-
-    struct Out_box : Widget {
-        Out_box(Point xy, int w, int h, const string& s);
-
-        void put(int);
-        void put(const string&);
-
-        void put_nonblocking(int);
-        void put_nonblocking(const string&);
-
-        void attach(Window& win) override;
-        void dismiss();
-        void hide() override;
-        void show() override;
-    private:
-        Window* window;
-        bool waiting = false;
-    };
 
 //------------------------------------------------------------------------------
 

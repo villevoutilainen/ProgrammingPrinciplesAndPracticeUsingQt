@@ -295,4 +295,30 @@ void Image::scale(int ww, int hh, bool keep_aspect_ratio)
     redraw();
 }
 
+void Out_box::put(int i)
+{
+    std::ostringstream os;
+    os << i;
+    data.set_label(os.str());
+    redraw();
+}
+
+void Out_box::put(const std::string& s)
+{
+    data.set_label(s);
+    redraw();
+}
+
+void Out_box::draw_lines(Painter& painter) const
+{
+    Vector_ref<const Text> texts;
+    texts.push_back(label_text);
+    texts.push_back(data);
+    if (orientation == horizontal) {
+        painter.draw_text_line(point(0), texts);
+    } else {
+        painter.draw_text_column(point(0), texts);
+    }
+}
+
 } // Graph
