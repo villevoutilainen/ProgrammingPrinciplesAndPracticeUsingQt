@@ -94,9 +94,9 @@ void Painter::draw_text_line(const Point& p1, const Vector_ref<const Text>& text
 void Painter::draw_text_column(const Point& p1, const Vector_ref<const Text>& texts)
 {
     draw_text_vector(p1, texts,
-                     [](Point& current_pos, int /*prev_width*/, int prev_height) {
-                         current_pos.y += prev_height;
-                     });
+        [](Point& current_pos, int /*prev_width*/, int prev_height) {
+        current_pos.y += prev_height;
+    });
 }
 
 void Painter::draw_ellipse(const Point& p1, int r, int r2)
