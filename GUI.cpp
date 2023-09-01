@@ -245,10 +245,9 @@ string In_box::get_string_keep_open()
 
 void In_box::attach(Window& win)
 {
-    window = &win;
     InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
     dialog->hide();
-    QObject::connect(&window->get_impl(), &WindowPrivate::windowClosed,
+    QObject::connect(&win.get_impl(), &WindowPrivate::windowClosed,
                      [=] {dialog->reject();});
 }
 

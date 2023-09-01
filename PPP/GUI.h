@@ -79,7 +79,6 @@ namespace Graph_lib {
         };
 
     private:
-        Window* window;
         ResultData result;
         bool waiting = false;
     };
