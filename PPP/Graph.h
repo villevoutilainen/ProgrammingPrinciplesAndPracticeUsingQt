@@ -372,9 +372,7 @@ private:
 };
 
 struct Marks : Marked_polyline {
-    Marks(const string& m) :Marked_polyline(m)
-    { hide_lines(); }
-    Marks(const string& m, initializer_list<Point> lst)
+    Marks(const string& m, initializer_list<Point> lst = {})
         : Marked_polyline{ m,lst }
     {
         hide_lines();
