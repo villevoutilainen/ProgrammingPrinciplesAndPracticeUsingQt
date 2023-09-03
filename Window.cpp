@@ -45,11 +45,17 @@ void Painter::draw_polygon(const Shape& s)
     impl->painter->drawPolygon(points.data(), points.size());
 }
 
-void Painter::draw_text(const Point& p1, const std::string& text)
+Point Painter::draw_text(const Point& p1, const std::string& text)
 {
     impl->painter->setPen(impl->pen);
     impl->painter->setFont(impl->font);
-    impl->painter->drawText(QPoint(p1.x, p1.y), QString::fromStdString(text));
+    QFontMetrics font_metrics(impl->font);
+    QRect bounding_rect =
+        font_metrics.boundingRect(
+            QString::fromStdString(text + " "));
+    impl->painter->drawText(QPoint(p1.x, p1.y + bounding_rect.height()),
+                            QString::fromStdString(text));
+    return {p1.x + bounding_rect.width(), p1.y + bounding_rect.height()};
 }
 
 void Painter::setup_from_text(const Text& text)
@@ -57,46 +63,32 @@ void Painter::setup_from_text(const Text& text)
     set_color(text.color());
     set_font(text.font());
     set_font_size(text.font_size());
-
-}
-
-void Painter::draw_text_vector(const Point& p1, const Vector_ref<const Text>& texts, std::function<void(Point&, int, int)> point_transform)
-{
-    if (texts.size() == 0) {
-        return;
-    }
-    setup_from_text(texts[0]);
-    draw_text(p1, texts[0].label());
-    if (texts.size() < 2) {
-        return;
-    }
-    Point current_pos = p1;
-    for (int i = 1; i < texts.size(); ++i) {
-        QFontMetrics font_metrics(impl->font);
-        QRect bounding_rect =
-            font_metrics.boundingRect(
-                QString::fromStdString(texts[i-1].label() + " "));
-        point_transform(current_pos, bounding_rect.width(), bounding_rect.height());
-        setup_from_text(texts[i]);
-        draw_text(current_pos, texts[i].label());
-    }
-
 }
 
 void Painter::draw_text_line(const Point& p1, const Vector_ref<const Text>& texts)
 {
-    draw_text_vector(p1, texts,
-        [](Point& current_pos, int prev_width, int /*prev_height*/) {
-        current_pos.x += prev_width;
-    });
+    if (texts.size() == 0) {
+        return;
+    }
+    Point current_pos = p1;
+    for (auto&& text : texts) {
+        setup_from_text(*text);
+        Point next_pos = draw_text(current_pos, text->label());
+        current_pos.x = next_pos.x;
+    }
 }
 
 void Painter::draw_text_column(const Point& p1, const Vector_ref<const Text>& texts)
 {
-    draw_text_vector(p1, texts,
-        [](Point& current_pos, int /*prev_width*/, int prev_height) {
-        current_pos.y += prev_height;
-    });
+    if (texts.size() == 0) {
+        return;
+    }
+    Point current_pos = p1;
+    for (auto&& text : texts) {
+        setup_from_text(*text);
+        Point next_pos = draw_text(current_pos, text->label());
+        current_pos.y = next_pos.y;
+    }
 }
 
 void Painter::draw_ellipse(const Point& p1, int r, int r2)

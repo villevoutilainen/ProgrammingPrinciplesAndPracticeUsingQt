@@ -134,6 +134,10 @@ public:
 	T& operator[](int i) { return *v[i]; }
 	const T& operator[](int i) const { return *v[i]; }
     int size() const { return (int)v.size(); }
+    auto begin() { return v.begin(); }
+    auto end() { return v.end(); }
+    auto begin() const { return v.begin(); }
+    auto end() const { return v.end(); }
 };
 
 typedef double Fct(double);
