@@ -170,14 +170,6 @@ public:
         set_parent_window(win);
     }
 	virtual ~Shape() { }
-	/*
-	struct Window* attached;
-	Shape(const Shape& a)
-		:attached(a.attached), points(a.points), line_color(a.line_color), ls(a.ls)
-	{
-		if (a.attached)error("attempt to copy attached shape");
-	}
-	*/
 	Shape(const Shape&) = delete;
 	Shape& operator=(const Shape&) = delete;
 protected:
