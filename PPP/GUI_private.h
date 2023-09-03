@@ -62,7 +62,6 @@ namespace Graph_lib {
         void paintEvent(QPaintEvent *event) override;
         void closeEvent(QCloseEvent *event) override;
         vector<Shape*> shapes;	// shapes attached to window
-        int w{600}, h{400};					// window size
         Window* wnd{};
     };
 

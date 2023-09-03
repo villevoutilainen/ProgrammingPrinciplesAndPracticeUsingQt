@@ -71,7 +71,7 @@ public:
 	int x_max() const { return w; }
 	int y_max() const { return h; }
 
-    void resize(int ww, int hh) { w=ww, h=hh; }
+    void resize(int ww, int hh);
 
     void set_label(const string& s);
 
@@ -89,6 +89,7 @@ public:
     void wait_for_button(Button* button);
     void end_button_wait();
 private:
+      Point p;
       int w,h;					// window size
       unique_ptr<WindowPrivate> impl;
       void init();

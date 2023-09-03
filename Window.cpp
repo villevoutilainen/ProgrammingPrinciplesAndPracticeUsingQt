@@ -287,7 +287,7 @@ void WindowPrivate::wait_for_button(Button* button)
 
 
 Window::Window(int ww, int hh, const string& title)
-    : w(ww), h(hh), impl(std::make_unique<WindowPrivate>(this))
+    : p{0, 0}, w(ww), h(hh), impl(std::make_unique<WindowPrivate>(this))
 {
     impl->setGeometry(0, 0, ww, hh);
     impl->setWindowTitle(QString::fromStdString(title));
@@ -296,7 +296,7 @@ Window::Window(int ww, int hh, const string& title)
 }
 
 Window::Window(Point xy, int ww, int hh, const string& title)
-    : w(ww), h(hh), impl(std::make_unique<WindowPrivate>(this))
+    : p{xy}, w(ww), h(hh), impl(std::make_unique<WindowPrivate>(this))
 {
     impl->setGeometry(xy.x, xy.y, ww, hh);
     impl->setWindowTitle(QString::fromStdString(title));
@@ -382,6 +382,13 @@ void Window::end_button_wait()
 WindowPrivate& Window::get_impl() const
 {
     return *impl;
+}
+
+void Window::resize(int ww, int hh)
+{
+    w = ww;
+    h = hh;
+    impl->setGeometry(p.x, p.y, ww, hh);
 }
 
 int gui_main()
