@@ -24,9 +24,9 @@ struct Color {
 	enum Transparency { invisible = 0, visible=255 };
 
     Color(Color_type cc) :c(cc), ct(cc), v(visible) { }
-    Color(Color_type cc, Transparency vv) :c(cc), ct(cc), v((unsigned char)vv) { }
+    Color(Color_type cc, Transparency vv) :c(cc), ct(cc), v(vv) { }
     Color(int cc) :c(cc), ct(Color_type::palette_index), v(visible) { }
-    Color(Transparency vv) :c(), ct(Color_type::black), v((unsigned char)vv) { }
+    Color(Transparency vv) :c(), ct(Color_type::black), v(vv) { }
     Color(int redc, int greenc, int bluec) : c(), ct(Color_type::rgb),
         rgb_color(redc, greenc, bluec), v(visible) {}
 
@@ -35,14 +35,14 @@ struct Color {
     int green_component() {return rgb_color.g;}
     int blue_component() {return rgb_color.b;}
     Color_type type() {return ct;}
-    char visibility() const { return v; }
-    void set_visibility(Transparency vv) { v=(unsigned char)vv; }
+    Transparency visibility() const { return v; }
+    void set_visibility(Transparency vv) { v= vv; }
 private:
     int c = 0;
     Color_type ct = black;
     struct Rgb {int r; int g; int b;};
     Rgb rgb_color = {0, 0, 0};
-    unsigned char v;	// 0 or 1 for now
+    Transparency v;	// 0 or 1 for now
 };
 
 inline bool operator<(Color a, Color b)
