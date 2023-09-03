@@ -6,12 +6,6 @@
 
 namespace Graph_lib {
 
-Shape::Shape(std::initializer_list<Point> points)
-{
-    for (auto&& x : points)
-        add(x);
-}
-
 void Shape::draw_lines(Painter& painter) const
 {
     if (color().visibility() && 1<points.size())	// draw sole pixel?

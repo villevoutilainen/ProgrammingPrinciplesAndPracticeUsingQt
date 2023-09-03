@@ -143,8 +143,7 @@ class Painter;
 class Window;
 class Shape  {	// deals with color and style, and holds sequence of lines
 protected:
-	Shape() { }
-    Shape(std::initializer_list<Point> lst);  // add() the Points to this Shape
+    Shape(std::initializer_list<Point> points = {}) { for (auto&& x : points) add(x);}
 
     void add(Point p){ points.push_back(p); redraw();}
     void set_point(int i, Point p) { points[i] = p; redraw();}
@@ -246,8 +245,7 @@ bool intersect(Point p1, Point p2, Point p3, Point p4);
 
 struct Open_polyline : Shape {	// open sequence of lines
     using Shape::Shape;
-    Open_polyline() : Shape() {}
-    Open_polyline(std::initializer_list<Point> p) : Shape(p) {}
+    Open_polyline(std::initializer_list<Point> p = {}) : Shape(p) {}
     void add(Point p) { Shape::add(p); redraw();}
     void draw_lines(Painter& painter) const override;
 };
@@ -267,8 +265,7 @@ struct Polygon : Closed_polyline {	// closed sequence of non-intersecting lines
 };
 
 struct Lines : Shape {	// indepentdent lines
-	Lines() {}
-	Lines(initializer_list<Point> lst) : Shape{lst} { if (lst.size() % 2) error("odd number of points for Lines"); }
+    Lines(initializer_list<Point> lst = {}) : Shape{lst} { if (lst.size() % 2) error("odd number of points for Lines"); }
     void draw_lines(Painter& painter) const override;
     void add(Point p1, Point p2) { Shape::add(p1); Shape::add(p2); redraw();}
 };
@@ -356,8 +353,7 @@ struct Mark : Text {
 */
 
 struct Marked_polyline : Open_polyline {
-    Marked_polyline(const string& m) :mark(m) { }
-    Marked_polyline(const string& m, initializer_list<Point> lst)
+    Marked_polyline(const string& m, initializer_list<Point> lst = {})
         : Open_polyline{ lst }, mark{ m }
     {
         if (m == "")
