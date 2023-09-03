@@ -67,9 +67,6 @@ void Painter::setup_from_text(const Text& text)
 
 void Painter::draw_text_line(const Point& p1, const Vector_ref<const Text>& texts)
 {
-    if (texts.size() == 0) {
-        return;
-    }
     Point current_pos = p1;
     for (auto&& text : texts) {
         setup_from_text(*text);
@@ -80,9 +77,6 @@ void Painter::draw_text_line(const Point& p1, const Vector_ref<const Text>& text
 
 void Painter::draw_text_column(const Point& p1, const Vector_ref<const Text>& texts)
 {
-    if (texts.size() == 0) {
-        return;
-    }
     Point current_pos = p1;
     for (auto&& text : texts) {
         setup_from_text(*text);
