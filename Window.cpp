@@ -263,15 +263,41 @@ void WindowPrivate::paintEvent(QPaintEvent*/*event*/)
 void WindowPrivate::end_button_wait()
 {
     invoke_stored_callback = false;
-    QObject::connect(&timer, &QTimer::timeout,
+    QObject::connect(&loop_stopping_timer, &QTimer::timeout,
                      [this] {nested_loop.quit();});
-    timer.start(0);
+    loop_stopping_timer.start(0);
 }
 
 void WindowPrivate::closeEvent(QCloseEvent*/*event*/)
 {
+    accept_waits = false;
+    user_timer.stop();
     end_button_wait();
     windowClosed();
+}
+
+void WindowPrivate::timer_wait(int seconds)
+{
+    if (!accept_waits)
+        return;
+    auto conn = QObject::connect(&user_timer, &QTimer::timeout,
+                     [this] {nested_loop.quit();});
+    user_timer.start(seconds * 1000);
+    nested_loop.exec();
+    QObject::disconnect(conn);
+}
+
+void WindowPrivate::timer_wait(int seconds, std::function<void()> cb)
+{
+    if (!accept_waits)
+        return;
+    auto conn = std::make_shared<QMetaObject::Connection>();
+    *conn = QObject::connect(&user_timer, &QTimer::timeout,
+                     [conn, func = std::move(cb)] {
+        QObject::disconnect(*conn);
+        func();
+    });
+    user_timer.start(seconds * 1000);
 }
 
 void WindowPrivate::wait_for_button(Button* button)
@@ -389,6 +415,16 @@ void Window::resize(int ww, int hh)
     w = ww;
     h = hh;
     impl->setGeometry(p.x, p.y, ww, hh);
+}
+
+void Window::timer_wait(int seconds)
+{
+    impl->timer_wait(seconds);
+}
+
+void Window::timer_wait(int seconds, std::function<void()> cb)
+{
+    impl->timer_wait(seconds, cb);
 }
 
 int gui_main()

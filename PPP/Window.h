@@ -88,6 +88,8 @@ public:
     void close();
     void wait_for_button(Button* button);
     void end_button_wait();
+    void timer_wait(int seconds);
+    void timer_wait(int seconds, std::function<void()> cb);
 private:
       Point p;
       int w,h;					// window size

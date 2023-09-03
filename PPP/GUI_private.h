@@ -26,7 +26,15 @@ namespace Graph_lib {
     {
         Q_OBJECT
     public:
-        explicit WindowPrivate(Window* window) : wnd(window) {}
+        explicit WindowPrivate(Window* window) : wnd(window)
+        {
+            loop_stopping_timer.setSingleShot(true);
+            user_timer.setSingleShot(true);
+        }
+        ~WindowPrivate()
+        {
+            user_timer.stop();
+        }
         void attach(Shape& s)
         {
             shapes.push_back(&s);
@@ -51,10 +59,14 @@ namespace Graph_lib {
             }
 
         }
+        void timer_wait(int seconds);
+        void timer_wait(int seconds, std::function<void()> cb);
         void wait_for_button(Button* button);
         void end_button_wait();
         QEventLoop nested_loop;
-        QTimer timer{&nested_loop};
+        QTimer user_timer{&nested_loop};
+        bool accept_waits = true;
+        QTimer loop_stopping_timer{&nested_loop};
         bool invoke_stored_callback = false;
     signals:
         void windowClosed();
