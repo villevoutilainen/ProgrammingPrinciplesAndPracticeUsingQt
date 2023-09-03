@@ -378,21 +378,21 @@ struct Mark : Marks {
 struct Out_box : Shape {
     enum Kind { horizontal, vertical };
     Out_box(Point p, const string& s, Kind k = horizontal)
-        : label_text(p, s),
+        : label(p, s),
           data(p, ""),
           orientation(k)
     {
         Shape::add(p);
     }
     void set_parent_window(Window* win) override {
-        label_text.set_window(win);
+        label.set_window(win);
         data.set_window(win);
     }
 
     void put(int);
     void put(const string&);
     void draw_lines(Painter& painter) const override;	// simply draw the appropriate lines
-    Text label_text;
+    Text label;
     Text data;
     Kind orientation;
 };

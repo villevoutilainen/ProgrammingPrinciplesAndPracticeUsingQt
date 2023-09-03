@@ -306,7 +306,7 @@ void Out_box::put(const std::string& s)
 void Out_box::draw_lines(Painter& painter) const
 {
     Vector_ref<const Text> texts;
-    texts.push_back(label_text);
+    texts.push_back(label);
     texts.push_back(data);
     if (orientation == horizontal) {
         painter.draw_text_line(point(0), texts);
