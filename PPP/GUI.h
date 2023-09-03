@@ -28,7 +28,7 @@ namespace Graph_lib {
         virtual void move(int dx,int dy);
         virtual void hide();
         virtual void show();
-        virtual void attach(Window&) = 0;
+        virtual void attach(Window&) {}
 
         Point loc;
         int width;
@@ -50,7 +50,6 @@ namespace Graph_lib {
     struct Button : Widget {
         Button(Point xy, int w, int h, const string& label, Callback cb);
 
-        void attach(Window&);
     };
 
 //------------------------------------------------------------------------------
@@ -93,6 +92,7 @@ namespace Graph_lib {
         Vector_ref<Button> selection;
         Kind k;
         int offset;
+        using Widget::attach;
         int attach(Button& b);      // Menu does not delete &b
         int attach(Button* p);      // Menu does not delete p
 
@@ -112,7 +112,6 @@ namespace Graph_lib {
                 selection[i].move(dx,dy);
         }
 
-        void attach(Window& win);    // attach all buttons
     private:
         void layoutButtons(Button& b);
         void layoutMenu();

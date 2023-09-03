@@ -364,7 +364,6 @@ void Window::detach(Widget& ww)
 void Window::attach(Shape& s)
 {
     impl->attach(s);
-//		s.attached = this;
     s.set_window(this);
 }
 void Window::detach(Shape& s)

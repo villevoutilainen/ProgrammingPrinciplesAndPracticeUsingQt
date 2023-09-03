@@ -47,10 +47,6 @@ Button::Button(Point xy, int w, int h, const string& label, Callback cb)
     QObject::connect(button, &QPushButton::clicked, [this]{ do_it(); });
 }
 
-void Button::attach(Window& /*win*/)
-{
-}
-
 class InputDialog : public QInputDialog
 {
 public:
@@ -324,10 +320,6 @@ Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)
         widget->setLayout(layout);
     }
 
-}
-
-void Menu::attach(Window& /*w*/)
-{
 }
 
 void Menu::layoutButtons(Button& b)
