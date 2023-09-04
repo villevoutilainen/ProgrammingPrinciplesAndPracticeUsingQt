@@ -89,9 +89,6 @@ namespace Graph_lib {
         enum Kind { horizontal, vertical };
         Menu(Point xy, int w, int h, Kind kk, const string& label);
 
-        Vector_ref<Button> selection;
-        Kind k;
-        int offset;
         using Widget::attach;
         int attach(Button& b);      // Menu does not delete &b
         int attach(Button* p);      // Menu does not delete p
@@ -113,6 +110,9 @@ namespace Graph_lib {
         }
 
     private:
+        Vector_ref<Button> selection;
+        Kind k;
+        int offset;
         void layoutButtons(Button& b);
         void layoutMenu();
     };
