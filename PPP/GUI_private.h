@@ -59,8 +59,8 @@ namespace Graph_lib {
             }
 
         }
-        void timer_wait(int seconds);
-        void timer_wait(int seconds, std::function<void()> cb);
+        void timer_wait(int milliseconds);
+        void timer_wait(int milliseconds, std::function<void()> cb);
         void wait_for_button(Button* button);
         void end_button_wait();
         QEventLoop nested_loop;

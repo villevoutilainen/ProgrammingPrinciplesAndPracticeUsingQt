@@ -276,18 +276,18 @@ void WindowPrivate::closeEvent(QCloseEvent*/*event*/)
     windowClosed();
 }
 
-void WindowPrivate::timer_wait(int seconds)
+void WindowPrivate::timer_wait(int milliseconds)
 {
     if (!accept_waits)
         return;
     auto conn = QObject::connect(&user_timer, &QTimer::timeout,
                      [this] {nested_loop.quit();});
-    user_timer.start(seconds * 1000);
+    user_timer.start(milliseconds);
     nested_loop.exec();
     QObject::disconnect(conn);
 }
 
-void WindowPrivate::timer_wait(int seconds, std::function<void()> cb)
+void WindowPrivate::timer_wait(int milliseconds, std::function<void()> cb)
 {
     if (!accept_waits)
         return;
@@ -297,7 +297,7 @@ void WindowPrivate::timer_wait(int seconds, std::function<void()> cb)
         QObject::disconnect(*conn);
         func();
     });
-    user_timer.start(seconds * 1000);
+    user_timer.start(milliseconds);
 }
 
 void WindowPrivate::wait_for_button(Button* button)
@@ -417,14 +417,14 @@ void Window::resize(int ww, int hh)
     impl->setGeometry(p.x, p.y, ww, hh);
 }
 
-void Window::timer_wait(int seconds)
+void Window::timer_wait(int milliseconds)
 {
-    impl->timer_wait(seconds);
+    impl->timer_wait(milliseconds);
 }
 
-void Window::timer_wait(int seconds, std::function<void()> cb)
+void Window::timer_wait(int milliseconds, std::function<void()> cb)
 {
-    impl->timer_wait(seconds, cb);
+    impl->timer_wait(milliseconds, cb);
 }
 
 int gui_main()
