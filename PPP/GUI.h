@@ -98,18 +98,18 @@ namespace Graph_lib {
 
         void show()                 // show all buttons
         {
-            for (int i = 0; i<selection.size(); ++i)
-                selection[i].show();
+            for (auto&& x : selection)
+                x->show();
         }
         void hide()                 // hide all buttons
         {
-            for (int i = 0; i<selection.size(); ++i)
-                selection[i].hide(); 
+            for (auto&& x : selection)
+                x->hide();
         }
         void move(int dx, int dy)   // move all buttons
         {
-            for (int i = 0; i<selection.size(); ++i)
-                selection[i].move(dx,dy);
+            for (auto&& x : selection)
+                x->move(dx,dy);
         }
 
     private:
