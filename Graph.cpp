@@ -227,7 +227,7 @@ void Ellipse::draw_lines(Painter& painter) const
 void draw_mark(Painter& painter, Point xy, char c)
 {
     static const int dx = 4;
-    static const int dy = 4;
+    static const int dy = -12;
     xy.x -= dx;
     xy.y += dy;
 	string m(1,c);
