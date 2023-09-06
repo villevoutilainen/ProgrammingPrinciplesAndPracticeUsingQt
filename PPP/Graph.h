@@ -361,13 +361,17 @@ struct Marked_polyline : Open_polyline {
     void set_font_size(int s) { fnt_sz = s; redraw();}
     int font_size() const { return fnt_sz; }
 
+    void set_mark_color(Color c) { m_color = c; redraw();}
+    Color mark_color() const { return m_color; }
+
     void draw_lines(Painter& painter) const override;
 protected:
     void hide_lines(bool hide = true) {lines_hidden = hide;}
 private:
+    string mark;
     Font fnt{ Font::courier };
     int fnt_sz{ 14 };	// at least 14 point
-    string mark;
+    Color m_color{Color::black};
     bool lines_hidden = false;
 };
 

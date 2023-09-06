@@ -35,14 +35,14 @@ public:
     void draw_ellipse(const Point& p1, int r, int r2);
     void draw_image(const Point& p1, const Image& img);
     void draw_image(const Point& p1, const Point& p2, int w, int h, const Image& img);
+    void set_line_style(Line_style style); // set_color must be called after set_line_style
     void set_font_size(int s);
     void set_font(Font f);
+    void set_color(Color color); // set_color must be called after set_line_style
+    void set_fill_color(Color color);
 private:
     void save();
     void restore();
-    void set_color(Color color);
-    void set_line_style(Line_style style);
-    void set_fill_color(Color color);
     void setup_from_text(const Text& text);
     friend class Shape;
 private:
