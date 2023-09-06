@@ -40,6 +40,7 @@
 #include<functional>
 #include <array>
 #include <regex>
+#include <optional>
 #include<random>
 #include<stdexcept>
 
