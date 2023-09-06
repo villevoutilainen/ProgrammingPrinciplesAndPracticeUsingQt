@@ -58,6 +58,20 @@ Point Painter::draw_text(const Point& p1, const std::string& text)
     return {p1.x + bounding_rect.width(), p1.y + bounding_rect.height()};
 }
 
+Point Painter::draw_centered_text(const Point& p1, const std::string& text)
+{
+    impl->painter->setPen(impl->pen);
+    impl->painter->setFont(impl->font);
+    QFontMetrics font_metrics(impl->font);
+    QRect bounding_rect =
+        font_metrics.tightBoundingRect(
+        QString::fromStdString(text));
+    impl->painter->drawText(QPoint(p1.x - bounding_rect.width()/2,
+                                   p1.y + bounding_rect.height()/2),
+                            QString::fromStdString(text));
+    return {p1.x + bounding_rect.width()/2, p1.y + bounding_rect.height()/2};
+}
+
 void Painter::setup_from_text(const Text& text)
 {
     set_color(text.color());

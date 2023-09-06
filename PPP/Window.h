@@ -29,6 +29,7 @@ public:
     void draw_line(const Point& p1, const Point& p2);
     void draw_polygon(const Shape& s);
     Point draw_text(const Point& p1, const std::string& text);
+    Point draw_centered_text(const Point& p1, const std::string& text);
     void draw_text_line(const Point& p1, const Vector_ref<const Text>& texts);
     void draw_text_column(const Point& p1, const Vector_ref<const Text>& texts);
     void draw_ellipse(const Point& p1, int r, int r2);

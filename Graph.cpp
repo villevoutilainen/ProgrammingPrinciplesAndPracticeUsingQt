@@ -226,12 +226,8 @@ void Ellipse::draw_lines(Painter& painter) const
 
 void draw_mark(Painter& painter, Point xy, char c)
 {
-    static const int dx = 4;
-    static const int dy = -12;
-    xy.x -= dx;
-    xy.y += dy;
-	string m(1,c);
-    painter.draw_text(xy, m);
+    string m(1,c);
+    painter.draw_centered_text(xy, m);
 }
 
 void Marked_polyline::draw_lines(Painter& painter) const
