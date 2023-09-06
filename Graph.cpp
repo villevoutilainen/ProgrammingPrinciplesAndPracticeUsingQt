@@ -235,7 +235,9 @@ void Marked_polyline::draw_lines(Painter& painter) const
     if (!lines_hidden) {
         Open_polyline::draw_lines(painter);
     }
-	for (int i=0; i<number_of_points(); ++i) 
+    painter.set_font(font());
+    painter.set_font_size(font_size());
+    for (int i=0; i<number_of_points(); ++i)
         draw_mark(painter, point(i),mark[i%mark.size()]);
 }
 
