@@ -362,7 +362,7 @@ struct Marked_polyline : Open_polyline {
     int font_size() const { return fnt_sz; }
 
     void set_mark_color(Color c) { m_color = c; redraw();}
-    Color mark_color() const { return m_color ? *m_color : Color::black; }
+    Color mark_color() const { return m_color ? *m_color : color(); }
 
     void draw_lines(Painter& painter) const override;
 protected:
