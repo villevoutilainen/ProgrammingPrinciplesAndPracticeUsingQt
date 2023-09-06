@@ -363,6 +363,7 @@ struct Marked_polyline : Open_polyline {
 
     void set_mark_color(Color c) { m_color = c; redraw();}
     Color mark_color() const { return m_color ? *m_color : color(); }
+    void reset_mark_color() { m_color = {}; redraw();}
 
     void draw_lines(Painter& painter) const override;
 protected:
