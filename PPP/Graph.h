@@ -173,7 +173,7 @@ public:
         parent_window = win;
         set_parent_window(win);
     }
-	virtual ~Shape() { }
+    virtual ~Shape();
 	Shape(const Shape&) = delete;
 	Shape& operator=(const Shape&) = delete;
 protected:

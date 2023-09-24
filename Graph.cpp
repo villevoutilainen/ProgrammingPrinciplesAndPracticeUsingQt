@@ -6,6 +6,13 @@
 
 namespace Graph_lib {
 
+Shape::~Shape()
+{
+    if (parent_window) {
+        parent_window->detach(*this);
+    }
+}
+
 void Shape::draw_lines(Painter& painter) const
 {
     if (color().visibility() && 1<points.size())	// draw sole pixel?
