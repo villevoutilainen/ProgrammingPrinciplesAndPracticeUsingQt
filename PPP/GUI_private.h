@@ -17,7 +17,7 @@ namespace Graph_lib {
 
     struct WidgetPrivate
     {
-        QWidget* widget = nullptr;
+        std::unique_ptr<QWidget> widget;
     };
 
     struct Button;

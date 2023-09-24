@@ -369,7 +369,7 @@ void Window::draw()
 
 void Window::attach(Widget& ww)
 {
-    QWidget* widget = ww.get_impl().widget;
+    auto& widget = ww.get_impl().widget;
     if (widget) {
         widget->setParent(impl.get());
         widget->move(ww.loc.x, ww.loc.y);
@@ -382,7 +382,7 @@ void Window::attach(Widget& ww)
 
 void Window::detach(Widget& ww)
 {
-    QWidget* widget = ww.get_impl().widget;
+    auto& widget = ww.get_impl().widget;
     widget->setParent(nullptr);
     widget->hide();
 }

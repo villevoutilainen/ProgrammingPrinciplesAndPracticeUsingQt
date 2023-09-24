@@ -42,7 +42,7 @@ Button::Button(Point xy, int w, int h, const string& label, Callback cb)
 {
     WidgetPrivate& w_impl = get_impl();
     QPushButton* button = new QPushButton();
-    w_impl.widget = button;
+    w_impl.widget.reset(button);
     button->setText(QString::fromStdString(label));
     QObject::connect(button, &QPushButton::clicked, [this]{ do_it(); });
 }
@@ -89,7 +89,7 @@ In_box::In_box(Point xy, int w, int h, const string& s)
     WidgetPrivate& w_impl = get_impl();
     InputDialog* dialog = new InputDialog();
     dialog->setVisible(false);
-    w_impl.widget = dialog;
+    w_impl.widget.reset(dialog);
 }
 
 void setup_input(InputDialog* dialog, const std::string& label,
@@ -171,7 +171,7 @@ void exec_input(InputDialog* dialog, In_box::State& state)
 
 int In_box::get_int()
 {
-    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget.get());
     if (waiting) {
         dialog->reject();
         result.state = rejected;
@@ -188,7 +188,7 @@ int In_box::get_int()
 
 int In_box::get_int_keep_open()
 {
-    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget.get());
     if (waiting) {
         dialog->reject();
         result.state = rejected;
@@ -206,7 +206,7 @@ int In_box::get_int_keep_open()
 
 string In_box::get_string()
 {
-    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget.get());
     if (waiting) {
         dialog->reject();
         result.state = rejected;
@@ -223,7 +223,7 @@ string In_box::get_string()
 
 string In_box::get_string_keep_open()
 {
-    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget.get());
     if (waiting) {
         dialog->reject();
         result.state = rejected;
@@ -241,7 +241,7 @@ string In_box::get_string_keep_open()
 
 void In_box::attach(Window& win)
 {
-    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget.get());
     dialog->hide();
     QObject::connect(&win.get_impl(), &WindowPrivate::windowClosed,
                      [=] {dialog->reject();});
@@ -249,20 +249,20 @@ void In_box::attach(Window& win)
 
 void In_box::dismiss()
 {
-    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget.get());
     dialog->reject();
     result.state = rejected;
 }
 
 void In_box::hide()
 {
-    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget.get());
     dialog->hide();
 }
 
 void In_box::show()
 {
-    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget.get());
     setup_input(dialog, label, false, QInputDialog::TextInput,
                 do_it, result);
     dialog->show();
@@ -270,13 +270,13 @@ void In_box::show()
 
 void In_box::hide_buttons()
 {
-    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget.get());
     dialog->setOption(QInputDialog::NoButtons, true);
 }
 
 void In_box::show_buttons()
 {
-    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget);
+    InputDialog* dialog = static_cast<InputDialog*>(get_impl().widget.get());
     dialog->setOption(QInputDialog::NoButtons, false);
 }
 
@@ -307,7 +307,7 @@ Menu::Menu(Point xy, int w, int h, Kind kk, const string& label)
 {
     WidgetPrivate& w_impl = get_impl();
     QWidget* widget = new QWidget();
-    w_impl.widget = widget;
+    w_impl.widget.reset(widget);
     if (k == Menu::horizontal) {
         QHBoxLayout* layout = new QHBoxLayout();
         layout->setContentsMargins(0,0,0,0);
@@ -339,7 +339,7 @@ void Menu::layoutButtons(Button& b)
     }
     b.get_impl().widget->setMaximumHeight(height);
     b.get_impl().widget->setMaximumWidth(width);
-    get_impl().widget->layout()->addWidget(b.get_impl().widget);
+    get_impl().widget->layout()->addWidget(b.get_impl().widget.get());
 }
 
 void Menu::layoutMenu()
