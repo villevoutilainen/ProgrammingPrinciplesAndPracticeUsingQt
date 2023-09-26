@@ -60,6 +60,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <IncludePath>.;$(IncludePath)</IncludePath>
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -95,7 +105,7 @@
   <ItemGroup>
     <ClInclude Include="PPP\Graph.h" />
     <ClInclude Include="PPP\GUI.h" />
-    <ClInclude Include="PPP\GUI_private.h" />
+    <QtMoc Include="PPP\GUI_private.h" />
     <ClInclude Include="PPP\Image_private.h" />
     <ClInclude Include="PPP\Point.h" />
     <ClInclude Include="PPP\Simple_window.h" />
