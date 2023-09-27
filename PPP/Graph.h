@@ -28,7 +28,7 @@ struct Color {
     Color(int cc) :c(cc), ct(Color_type::palette_index), v(visible) { }
     Color(Transparency vv) :c(), ct(Color_type::black), v(vv) { }
     Color(int redc, int greenc, int bluec) : c(), ct(Color_type::rgb),
-        rgb_color(redc, greenc, bluec), v(visible) {}
+        rgb_color{redc, greenc, bluec}, v(visible) {}
 
     int as_int() const { return c; }
     int red_component() {return rgb_color.r;}
