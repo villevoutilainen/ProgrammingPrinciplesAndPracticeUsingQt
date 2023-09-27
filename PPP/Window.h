@@ -82,7 +82,7 @@ public:
 	void detach(Shape& s);	// remove s from shapes 
 	void detach(Widget& w);	// remove w from window (deactivate callbacks)
 
-	void put_on_top(Shape& p);	// put p on top of other shapes
+	void put_on_top(Shape& s);	// put p on top of other shapes
 
     WindowPrivate& get_impl() const;
 	void draw();

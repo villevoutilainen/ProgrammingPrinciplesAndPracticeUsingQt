@@ -65,7 +65,7 @@ set_target_properties(Programming_Qt PROPERTIES
 )
 
 if(MSVC)
-  target_compile_options(Programming_Qt PRIVATE /W4 /WX)
+  target_compile_options(Programming_Qt PRIVATE /EHsc /W4 /WX)
 else()
   target_compile_options(Programming_Qt PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif()

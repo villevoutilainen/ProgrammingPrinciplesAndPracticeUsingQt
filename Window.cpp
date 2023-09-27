@@ -399,8 +399,8 @@ void Window::detach(Shape& s)
 }
 
 
-void Window::put_on_top(Shape& p) {
-    impl->put_on_top(p);
+void Window::put_on_top(Shape& s) {
+    impl->put_on_top(s);
     draw();
 }
 
