@@ -70,6 +70,10 @@ else()
   target_compile_options(Programming_Qt PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif()
 
+if (EMSCRIPTEN)
+    target_link_options(Programming_Qt PUBLIC -sASYNCIFY -Os)
+endif()
+
 install(TARGETS Programming_Qt
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
