@@ -359,10 +359,10 @@ int Menu::attach(Button& b)
     return int(selection.size()-1);
 }
 
-int Menu::attach(Button* p)
+int Menu::attach(unique_ptr<Button> p)
 {
     layoutButtons(*p);
-    selection.push_back(p);
+    selection.push_back(std::move(p));
     layoutMenu();
     return int(selection.size()-1);
 }

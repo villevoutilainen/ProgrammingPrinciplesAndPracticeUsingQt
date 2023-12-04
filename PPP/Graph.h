@@ -112,22 +112,22 @@ inline bool operator<(Font a, Font b)
 
 template<class T> class Vector_ref {
     vector<T*> v;
-    vector<T*> owned;
+    vector<unique_ptr<T>> owned;
 public:
 	Vector_ref() {}
 
-	Vector_ref(T* a, T* b=0, T* c=0, T* d=0)
-	{
-			if (a) push_back(a);
-			if (b) push_back(b);
-			if (c) push_back(c);
-			if (d) push_back(d);
+    Vector_ref(unique_ptr<T> a, unique_ptr<T> b={}, unique_ptr<T> c={}, unique_ptr<T> d={})
+    {
+            if (a) push_back(std::move(a));
+            if (b) push_back(std::move(b));
+            if (c) push_back(std::move(c));
+            if (d) push_back(std::move(d));
 	}
 
-    ~Vector_ref() { for (unsigned int i=0; i<owned.size(); ++i) delete owned[i]; }
+    ~Vector_ref() = default;
 
-	void push_back(T& s) { v.push_back(&s); }
-	void push_back(T* p) { v.push_back(p); owned.push_back(p); }
+    void push_back(T& s) { v.push_back(&s); }
+    void push_back(unique_ptr<T> p) { v.push_back(p.get()); owned.push_back(std::move(p)); }
 
 	// ???void erase(???)
 

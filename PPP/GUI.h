@@ -91,7 +91,7 @@ namespace Graph_lib {
 
         using Widget::attach;
         int attach(Button& b);      // Menu does not delete &b
-        int attach(Button* p);      // Menu does not delete p
+        int attach(unique_ptr<Button> p);      // Menu destroys p
 
         void show()                 // show all buttons
         {
