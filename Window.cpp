@@ -106,6 +106,13 @@ void Painter::draw_ellipse(const Point& p1, int r, int r2)
     impl->painter->drawEllipse(QPoint(p1.x, p1.y), r, r2);
 }
 
+void Painter::draw_arc(const Point& p1, int r, int r2, int start_angle, int end_angle)
+{
+    impl->painter->setPen(impl->pen);
+    impl->painter->setBrush(impl->brush);
+    impl->painter->drawArc(p1.x, p1.y, r, r2, start_angle, end_angle);
+}
+
 void Painter::draw_image(const Point& p1, const Image& img)
 {
     impl->painter->drawImage(QPoint(p1.x, p1.y), img.get_impl().image);

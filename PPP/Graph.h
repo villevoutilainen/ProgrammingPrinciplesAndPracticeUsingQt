@@ -336,10 +336,23 @@ struct Ellipse : Shape {
     int major() const { return w; }
     void set_minor(int hh) { h=hh; redraw();}
 	int minor() const { return h; }
-private:
+protected:
 	int w;
 	int h;
 };
+
+struct Arc : Ellipse {
+    Arc(Point p, int ww, int hh, int s_angle, int dgr)	// center, min, and max distance from center
+        : Ellipse(p, ww, hh), start_angle(s_angle), degrees(dgr)
+    {
+    }
+
+    void draw_lines(Painter& painter) const override;
+private:
+    int start_angle;
+    int degrees;
+};
+
 /*
 struct Mark : Text {
 	static const int dw = 4;

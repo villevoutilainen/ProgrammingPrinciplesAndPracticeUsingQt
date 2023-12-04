@@ -231,6 +231,11 @@ void Ellipse::draw_lines(Painter& painter) const
     painter.draw_ellipse(center(), w, h);
 }
 
+void Arc::draw_lines(Painter& painter) const
+{
+    painter.draw_arc(point(0), w, h, start_angle*16, degrees*16);
+}
+
 void draw_mark(Painter& painter, Point xy, char c)
 {
     string m(1,c);
