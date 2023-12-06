@@ -236,6 +236,11 @@ void Arc::draw_lines(Painter& painter) const
     painter.draw_arc(point(0), w*2, h*2, start_angle*16, degrees*16);
 }
 
+void Pie::draw_lines(Painter& painter) const
+{
+    painter.draw_pie(point(0), w*2, h*2, start_angle*16, degrees*16);
+}
+
 void draw_mark(Painter& painter, Point xy, char c)
 {
     string m(1,c);

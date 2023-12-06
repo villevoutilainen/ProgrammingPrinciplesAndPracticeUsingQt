@@ -348,9 +348,15 @@ struct Arc : Ellipse {
     }
 
     void draw_lines(Painter& painter) const override;
-private:
+protected:
     int start_angle;
     int degrees;
+};
+
+struct Pie : Arc {
+    using Arc::Arc;
+    void draw_lines(Painter& painter) const override;
+private:
 };
 
 /*

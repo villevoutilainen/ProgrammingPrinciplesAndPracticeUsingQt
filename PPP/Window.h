@@ -34,6 +34,7 @@ public:
     void draw_text_column(const Point& p1, const Vector_ref<const Text>& texts);
     void draw_ellipse(const Point& p1, int r, int r2);
     void draw_arc(const Point& p1, int r, int r2, int start_angle, int end_angle);
+    void draw_pie(const Point& p1, int r, int r2, int start_angle, int end_angle);
     void draw_image(const Point& p1, const Image& img);
     void draw_image(const Point& p1, const Point& p2, int w, int h, const Image& img);
     void set_line_style(Line_style style); // set_color must be called after set_line_style
