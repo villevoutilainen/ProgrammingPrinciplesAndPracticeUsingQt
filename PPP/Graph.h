@@ -356,7 +356,6 @@ protected:
 struct Pie : Arc {
     using Arc::Arc;
     void draw_lines(Painter& painter) const override;
-private:
 };
 
 /*
