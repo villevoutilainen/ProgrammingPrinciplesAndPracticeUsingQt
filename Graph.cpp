@@ -13,7 +13,7 @@ Shape::~Shape()
     }
 }
 
-void Shape::draw_lines(Painter& painter) const
+void Shape::draw_specifics(Painter& painter) const
 {
     if (color().visibility() && 1<points.size())	// draw sole pixel?
         for (unsigned int i=1; i<points.size(); ++i)
@@ -28,7 +28,7 @@ void Shape::draw(Painter& painter) const
     // setting an invisible color can set the line style to "no pen".
     painter.set_color(color());
     painter.set_fill_color(fill_color());
-    draw_lines(painter);
+    draw_specifics(painter);
     painter.restore();
 }
 
@@ -96,13 +96,13 @@ void Polygon::add(Point p)
 }
 
 
-void Polygon::draw_lines(Painter& painter) const
+void Polygon::draw_specifics(Painter& painter) const
 {
     if (number_of_points() < 3) error("less than 3 points in a Polygon");
-    Closed_polyline::draw_lines(painter);
+    Closed_polyline::draw_specifics(painter);
 }
 
-void Closed_polyline::draw_lines(Painter& painter) const
+void Closed_polyline::draw_specifics(Painter& painter) const
 {
     painter.draw_polygon(*this);
 }
@@ -115,7 +115,7 @@ void Shape::move(int dx, int dy)
     redraw();
 }
 
-void Lines::draw_lines(Painter& painter) const
+void Lines::draw_specifics(Painter& painter) const
 {
     if (number_of_points()%2==1) error("odd number of points in set of lines");
 	if (color().visibility())
@@ -123,7 +123,7 @@ void Lines::draw_lines(Painter& painter) const
             painter.draw_line(point(i-1) ,point(i));
 }
 
-void Text::draw_lines(Painter& painter) const
+void Text::draw_specifics(Painter& painter) const
 {
     painter.set_font(font());
     painter.set_font_size(font_size());
@@ -144,7 +144,7 @@ Function::Function(std::function<double(double)> f, double r1, double r2, Point 
 	}
 }
 
-void Rectangle::draw_lines(Painter& painter) const
+void Rectangle::draw_specifics(Painter& painter) const
 {
     painter.draw_rectangle(point(0), w, h);
 }
@@ -190,9 +190,9 @@ Axis::Axis(Orientation d, Point xy, int length, int n, string lab)
 	}
 }
 
-void Axis::draw_lines(Painter& painter) const
+void Axis::draw_specifics(Painter& painter) const
 {
-    Shape::draw_lines(painter);	// the line
+    Shape::draw_specifics(painter);	// the line
     notches.draw(painter);	// the notches may have a different color from the line
     label.draw(painter);	// the label may have a different color from the line
 }
@@ -214,23 +214,23 @@ void Axis::move(int dx, int dy)
     redraw();
 }
 
-void Circle::draw_lines(Painter& painter) const
+void Circle::draw_specifics(Painter& painter) const
 {
     painter.draw_ellipse(center(), r, r);
 }
 
 
-void Ellipse::draw_lines(Painter& painter) const
+void Ellipse::draw_specifics(Painter& painter) const
 {
     painter.draw_ellipse(center(), w, h);
 }
 
-void Arc::draw_lines(Painter& painter) const
+void Arc::draw_specifics(Painter& painter) const
 {
     painter.draw_arc(point(0), w*2, h*2, start_angle*16, degrees*16);
 }
 
-void Pie::draw_lines(Painter& painter) const
+void Pie::draw_specifics(Painter& painter) const
 {
     painter.draw_pie(point(0), w*2, h*2, start_angle*16, degrees*16);
 }
@@ -241,10 +241,10 @@ void draw_mark(Painter& painter, Point xy, char c)
     painter.draw_centered_text(xy, m);
 }
 
-void Marked_polyline::draw_lines(Painter& painter) const
+void Marked_polyline::draw_specifics(Painter& painter) const
 {
     if (!lines_hidden) {
-        Open_polyline::draw_lines(painter);
+        Open_polyline::draw_specifics(painter);
     }
     if (m_color)
         painter.set_color(*m_color);
@@ -280,9 +280,9 @@ Image::Image(Point xy, string s)
 
 Image::~Image() {}
 
-void Image::draw_lines(Painter& painter) const
+void Image::draw_specifics(Painter& painter) const
 {
-    if (fn.label()!="") fn.draw_lines(painter);
+    if (fn.label()!="") fn.draw_specifics(painter);
 
     if (w&&h) {
         Point p = point(0);
@@ -314,7 +314,7 @@ void Out_box::put(const std::string& s)
     redraw();
 }
 
-void Out_box::draw_lines(Painter& painter) const
+void Out_box::draw_specifics(Painter& painter) const
 {
     Vector_ref<const Text> texts;
     texts.push_back(label);

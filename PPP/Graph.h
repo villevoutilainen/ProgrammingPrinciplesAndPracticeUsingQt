@@ -154,7 +154,7 @@ protected:
 public:
     void draw(Painter& painter) const;					// deal with color and draw_lines
 protected:
-    virtual void draw_lines(Painter& painter) const;	// simply draw the appropriate lines
+    virtual void draw_specifics(Painter& painter) const;	// simply draw the appropriate lines
 public:
 	virtual void move(int dx, int dy);	// move the shape +=dx and +=dy
 
@@ -223,7 +223,7 @@ struct Rectangle : Shape {
 		if (h<=0 || w<=0) error("Bad rectangle: first point is not top left");
 		add(x);
 	}
-    void draw_lines(Painter& painter) const override;
+    void draw_specifics(Painter& painter) const override;
 
 //	void set_fill_color(Color col) { fcolor = col; }
 //	Color fill_color() { return fcolor; }
@@ -247,19 +247,19 @@ struct Open_polyline : Shape {	// open sequence of lines
 
 struct Closed_polyline : Open_polyline {	// closed sequence of lines
 	using Open_polyline::Open_polyline;
-    void draw_lines(Painter& painter) const override;
+    void draw_specifics(Painter& painter) const override;
 };
 
 
 struct Polygon : Closed_polyline {	// closed sequence of non-intersecting lines
 	using Closed_polyline::Closed_polyline;
 	void add(Point p);
-    void draw_lines(Painter& painter) const override;
+    void draw_specifics(Painter& painter) const override;
 };
 
 struct Lines : Shape {	// indepentdent lines
     Lines(initializer_list<Point> lst = {}) : Shape{lst} { if (lst.size() % 2) error("odd number of points for Lines"); }
-    void draw_lines(Painter& painter) const override;
+    void draw_specifics(Painter& painter) const override;
     void add(Point p1, Point p2) { Shape::add(p1); Shape::add(p2); redraw();}
 };
 
@@ -267,7 +267,7 @@ struct Text : Shape {
 	// the point is the bottom left of the first letter
 	Text(Point x, const string& s) : lab{ s } { add(x); }
 
-    void draw_lines(Painter& painter) const override;
+    void draw_specifics(Painter& painter) const override;
 
     void set_label(const string& s) { lab = s; redraw();}
 	string label() const { return lab; }
@@ -289,7 +289,7 @@ struct Axis : Shape {
 	enum Orientation { x, y, z };
 	Axis(Orientation d, Point xy, int length, int nummber_of_notches=0, string label = "");
 
-    void draw_lines(Painter& painter) const override;
+    void draw_specifics(Painter& painter) const override;
     void move(int dx, int dy) override;
 
 	void set_color(Color c);
@@ -306,7 +306,7 @@ struct Circle : Shape {
 		add(Point{ p.x - r, p.y - r });
 	}
 
-    void draw_lines(Painter& painter) const override;
+    void draw_specifics(Painter& painter) const override;
 
 	Point center() const { return { point(0).x + r, point(0).y + r }; }
 
@@ -323,7 +323,7 @@ struct Ellipse : Shape {
 		add(Point{ p.x - ww, p.y - hh });
 	}
 
-    void draw_lines(Painter& painter) const override;
+    void draw_specifics(Painter& painter) const override;
 
 	Point center() const { return{ point(0).x + w, point(0).y + h }; }
 	Point focus1() const { return{ center().x + int(sqrt(double(w*w - h*h))), center().y }; }
@@ -344,7 +344,7 @@ struct Arc : Ellipse {
     {
     }
 
-    void draw_lines(Painter& painter) const override;
+    void draw_specifics(Painter& painter) const override;
 protected:
     int start_angle;
     int degrees;
@@ -352,7 +352,7 @@ protected:
 
 struct Pie : Arc {
     using Arc::Arc;
-    void draw_lines(Painter& painter) const override;
+    void draw_specifics(Painter& painter) const override;
 };
 
 /*
@@ -380,7 +380,7 @@ struct Marked_polyline : Open_polyline {
     Color mark_color() const { return m_color ? *m_color : color(); }
     void reset_mark_color() { m_color = {}; redraw();}
 
-    void draw_lines(Painter& painter) const override;
+    void draw_specifics(Painter& painter) const override;
 protected:
     void hide_lines(bool hide = true) {lines_hidden = hide;}
 private:
@@ -419,7 +419,7 @@ struct Out_box : Shape {
 
     void put(int);
     void put(const string&);
-    void draw_lines(Painter& painter) const override;	// simply draw the appropriate lines
+    void draw_specifics(Painter& painter) const override;	// simply draw the appropriate lines
     Text label;
     Text data;
     Kind orientation;
@@ -440,7 +440,7 @@ class ImagePrivate;
 struct Image : Shape {
     Image(Point xy, string s);
     ~Image();
-    void draw_lines(Painter& painter) const override;
+    void draw_specifics(Painter& painter) const override;
     void set_mask(Point xy, int ww, int hh) { w=ww; h=hh; cx=xy.x; cy=xy.y; redraw();}
     void move(int dx,int dy) override { Shape::move(dx,dy); redraw(); /*p->draw(point(0).x,point(0).y);*/ }
     ImagePrivate& get_impl() const {return *impl;}
