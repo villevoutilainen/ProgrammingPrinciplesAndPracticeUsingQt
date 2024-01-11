@@ -102,12 +102,6 @@ void Polygon::draw_lines(Painter& painter) const
     Closed_polyline::draw_lines(painter);
 }
 
-void Open_polyline::draw_lines(Painter& painter) const
-{
-    Shape::draw_lines(painter);
-}
-
-
 void Closed_polyline::draw_lines(Painter& painter) const
 {
     painter.draw_polygon(*this);

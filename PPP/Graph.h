@@ -243,14 +243,11 @@ struct Open_polyline : Shape {	// open sequence of lines
     using Shape::Shape;
     Open_polyline(std::initializer_list<Point> p = {}) : Shape(p) {}
     void add(Point p) { Shape::add(p); redraw();}
-    void draw_lines(Painter& painter) const override;
 };
 
 struct Closed_polyline : Open_polyline {	// closed sequence of lines
 	using Open_polyline::Open_polyline;
     void draw_lines(Painter& painter) const override;
-	
-//	void add(Point p) { Shape::add(p); }
 };
 
 
