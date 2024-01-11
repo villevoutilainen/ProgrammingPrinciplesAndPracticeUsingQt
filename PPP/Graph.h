@@ -382,13 +382,16 @@ struct Marked_polyline : Open_polyline {
 
     void draw_specifics(Painter& painter) const override;
 protected:
-    void hide_lines(bool hide = true) {lines_hidden = hide;}
+    void hide_lines(bool hide = true) {
+        Color col = color();
+        col.set_visibility(hide ? Color::invisible : Color::visible);
+        set_color(col);
+    }
 private:
     string mark;
     Font fnt{ Font::courier };
     int fnt_sz{ 14 };	// at least 14 point
     std::optional<Color> m_color;
-    bool lines_hidden = false;
 };
 
 struct Marks : Marked_polyline {

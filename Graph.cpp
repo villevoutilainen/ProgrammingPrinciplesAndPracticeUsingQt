@@ -243,9 +243,8 @@ void draw_mark(Painter& painter, Point xy, char c)
 
 void Marked_polyline::draw_specifics(Painter& painter) const
 {
-    if (!lines_hidden) {
-        Open_polyline::draw_specifics(painter);
-    }
+    Shape::draw_specifics(painter);
+
     if (m_color)
         painter.set_color(*m_color);
     painter.set_font(font());
