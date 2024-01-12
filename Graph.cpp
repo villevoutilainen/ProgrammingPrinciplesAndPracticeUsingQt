@@ -245,14 +245,19 @@ void Marked_polyline::draw_specifics(Painter& painter) const
 {
     Shape::draw_specifics(painter);
 
-    if (m_color)
+    painter.set_line_style(style());
+    if (m_color) {
         painter.set_color(*m_color);
+    } else {
+        Color col = color();
+        col.set_visibility(Color::visible);
+        painter.set_color(col);
+    }
     painter.set_font(font());
     painter.set_font_size(font_size());
     for (int i=0; i<number_of_points(); ++i)
         draw_mark(painter, point(i),mark[i%mark.size()]);
 }
-
 
 bool can_open(const string& s)
             // check if a file named s exists and can be opened for reading
