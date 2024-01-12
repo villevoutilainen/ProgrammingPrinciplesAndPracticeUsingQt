@@ -246,13 +246,8 @@ void Marked_polyline::draw_specifics(Painter& painter) const
     Shape::draw_specifics(painter);
 
     painter.set_line_style(style());
-    if (m_color) {
+    if (m_color)
         painter.set_color(*m_color);
-    } else {
-        Color col = color();
-        col.set_visibility(Color::visible);
-        painter.set_color(col);
-    }
     painter.set_font(font());
     painter.set_font_size(font_size());
     for (int i=0; i<number_of_points(); ++i)
