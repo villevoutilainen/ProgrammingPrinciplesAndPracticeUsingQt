@@ -392,16 +392,22 @@ private:
 };
 
 struct Marks : Marked_polyline {
-    Marks(const string& m, initializer_list<Point> lst = {})
-        : Marked_polyline{ m,lst }   {}
-    void set_color(Color col) {
+private:
+    void set_colors(Color col) {
         Color orig = col;
         col.set_visibility(Color::invisible);
         Marked_polyline::set_color(col);
         set_mark_color(orig);
-        redraw();}
-
-
+        redraw();
+    }
+public:
+    Marks(const string& m, initializer_list<Point> lst = {})
+        : Marked_polyline{ m,lst }   {
+        set_colors(color());
+    }
+    void set_color(Color col) {
+        set_colors(col);
+    }
 };
 
 struct Mark : Marks {
