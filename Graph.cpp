@@ -252,8 +252,7 @@ void Marked_polyline::draw_specifics(Painter& painter) const
     Open_polyline::draw_specifics(painter);
 
     painter.set_line_style(style());
-    if (m_color)
-        painter.set_color(*m_color);
+    painter.set_color(m_color);
     painter.set_font(font());
     painter.set_font_size(font_size());
     for (int i=0; i<number_of_points(); ++i)

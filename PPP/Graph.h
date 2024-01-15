@@ -368,7 +368,7 @@ struct Mark : Text {
 
 struct Marked_polyline : Open_polyline {
     Marked_polyline(const string& m, initializer_list<Point> lst = {})
-        : Open_polyline{ lst }, mark{ m }
+        : Open_polyline{ lst }, mark{ m }, m_color(color())
     {
         if (m == "")
             mark = "*";
@@ -379,30 +379,29 @@ struct Marked_polyline : Open_polyline {
     void set_font_size(int s) { fnt_sz = s; redraw();}
     int font_size() const { return fnt_sz; }
 
+    void set_color(Color col) { Shape::set_color(col); set_mark_color(col); redraw();}
     void set_mark_color(Color c) { m_color = c; redraw();}
-    Color mark_color() const { return m_color ? *m_color : color(); }
-    void reset_mark_color() { m_color = {}; redraw();}
+    Color mark_color() const { return m_color;}
 
     void draw_specifics(Painter& painter) const override;
-protected:
-    void hide_lines(bool hide = true) {
-        Color col = color();
-        col.set_visibility(hide ? Color::invisible : Color::visible);
-        set_color(col);
-    }
 private:
     string mark;
     Font fnt{ Font::courier };
     int fnt_sz{ 14 };	// at least 14 point
-    std::optional<Color> m_color;
+    Color m_color;
 };
 
 struct Marks : Marked_polyline {
     Marks(const string& m, initializer_list<Point> lst = {})
-        : Marked_polyline{ m,lst }
-    {
-        hide_lines();
-    }
+        : Marked_polyline{ m,lst }   {}
+    void set_color(Color col) {
+        Color orig = col;
+        col.set_visibility(Color::invisible);
+        Marked_polyline::set_color(col);
+        set_mark_color(orig);
+        redraw();}
+
+
 };
 
 struct Mark : Marks {
