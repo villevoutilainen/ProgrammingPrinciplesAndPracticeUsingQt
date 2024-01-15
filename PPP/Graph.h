@@ -153,8 +153,8 @@ protected:
     void set_point(int i, Point p) { points[i] = p; redraw();}
 public:
     void draw(Painter& painter) const;					// deal with color and draw_lines
-protected:
-    virtual void draw_specifics(Painter& painter) const;	// simply draw the appropriate lines
+private:
+    virtual void draw_specifics(Painter& painter) const = 0;	// no default implementation that can be called
 public:
 	virtual void move(int dx, int dy);	// move the shape +=dx and +=dy
 
@@ -190,11 +190,6 @@ private:
 //	Shape& operator=(const Shape&);
 };
 
-struct Function : Shape {
-    // the function parameters are not stored
-    Function(std::function<double(double)> f, double r1, double r2, Point orig, int count = 100, double xscale = 25, double yscale = 25);
-	//Function(Point orig, Fct f, double r1, double r2, int count, double xscale = 1, double yscale = 1);	
-};
 
 struct Fill {
 	Fill() :no_fill(true), fcolor(0) { }
@@ -209,6 +204,7 @@ protected:
 
 struct Line : Shape {
 	Line(Point p1, Point p2) { add(p1); add(p2); }
+    void draw_specifics(Painter& painter) const override;
 };
 
 struct Rectangle : Shape {
@@ -243,6 +239,7 @@ struct Open_polyline : Shape {	// open sequence of lines
     using Shape::Shape;
     Open_polyline(std::initializer_list<Point> p = {}) : Shape(p) {}
     void add(Point p) { Shape::add(p); redraw();}
+    void draw_specifics(Painter& painter) const override;
 };
 
 struct Closed_polyline : Open_polyline {	// closed sequence of lines
@@ -250,6 +247,11 @@ struct Closed_polyline : Open_polyline {	// closed sequence of lines
     void draw_specifics(Painter& painter) const override;
 };
 
+struct Function : Open_polyline {
+    // the function parameters are not stored
+    Function(std::function<double(double)> f, double r1, double r2, Point orig, int count = 100, double xscale = 25, double yscale = 25);
+    //Function(Point orig, Fct f, double r1, double r2, int count, double xscale = 1, double yscale = 1);
+};
 
 struct Polygon : Closed_polyline {	// closed sequence of non-intersecting lines
 	using Closed_polyline::Closed_polyline;
@@ -257,7 +259,7 @@ struct Polygon : Closed_polyline {	// closed sequence of non-intersecting lines
     void draw_specifics(Painter& painter) const override;
 };
 
-struct Lines : Shape {	// indepentdent lines
+struct Lines : Shape {	// independent lines
     Lines(initializer_list<Point> lst = {}) : Shape{lst} { if (lst.size() % 2) error("odd number of points for Lines"); }
     void draw_specifics(Painter& painter) const override;
     void add(Point p1, Point p2) { Shape::add(p1); Shape::add(p2); redraw();}
@@ -296,6 +298,7 @@ struct Axis : Shape {
 
 	Text label;
 	Lines notches;
+    Line line;
 //	Orientation orin;
 //	int notches;
 };

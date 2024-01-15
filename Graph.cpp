@@ -13,13 +13,6 @@ Shape::~Shape()
     }
 }
 
-void Shape::draw_specifics(Painter& painter) const
-{
-    if (color().visibility() && 1<points.size())	// draw sole pixel?
-        for (unsigned int i=1; i<points.size(); ++i)
-            painter.draw_line(points[i-1], points[i]);
-}
-
 void Shape::draw(Painter& painter) const
 {
     painter.save();
@@ -102,6 +95,13 @@ void Polygon::draw_specifics(Painter& painter) const
     Closed_polyline::draw_specifics(painter);
 }
 
+void Open_polyline::draw_specifics(Painter& painter) const
+{
+    if (color().visibility() && 1<number_of_points())	// draw sole pixel?
+        for (int i=1; i<number_of_points(); ++i)
+            painter.draw_line(point(i-1), point(i));
+}
+
 void Closed_polyline::draw_specifics(Painter& painter) const
 {
     painter.draw_polygon(*this);
@@ -143,6 +143,10 @@ Function::Function(std::function<double(double)> f, double r1, double r2, Point 
 		r += dist;
 	}
 }
+void Line::draw_specifics(Painter& painter) const
+{
+    painter.draw_line(point(0), point(1));
+}
 
 void Rectangle::draw_specifics(Painter& painter) const
 {
@@ -151,13 +155,15 @@ void Rectangle::draw_specifics(Painter& painter) const
 
 
 Axis::Axis(Orientation d, Point xy, int length, int n, string lab)
-    :label(Point{0,0},lab)
+    :label(Point{0,0},lab),
+    line(xy, d==x ?
+                   Point(xy.x+length, xy.y) :
+                   Point(xy.x, xy.y-length))
 {
 	if (length<0) error("bad axis length");
 	switch (d){
 	case Axis::x:
-        {	Shape::add(xy);	// axis line
-            Shape::add(Point{xy.x+length,xy.y});	// axis line
+        {
 			if (1<n) {
 				int dist = length/n;
 				int x = xy.x+dist;
@@ -171,8 +177,7 @@ Axis::Axis(Orientation d, Point xy, int length, int n, string lab)
 		break;
 	}
 	case Axis::y:
-        {	Shape::add(xy);	// a y-axis goes up
-            Shape::add(Point{xy.x,xy.y-length});
+        {
 			if (1<n) {
 			int dist = length/n;
 			int y = xy.y-dist;
@@ -192,7 +197,7 @@ Axis::Axis(Orientation d, Point xy, int length, int n, string lab)
 
 void Axis::draw_specifics(Painter& painter) const
 {
-    Shape::draw_specifics(painter);	// the line
+    line.draw(painter);	// the line
     notches.draw(painter);	// the notches may have a different color from the line
     label.draw(painter);	// the label may have a different color from the line
 }
@@ -203,6 +208,7 @@ void Axis::set_color(Color c)
 	Shape::set_color(c);
 	notches.set_color(c);
 	label.set_color(c);
+    line.set_color(c);
     redraw();
 }
 
@@ -243,7 +249,7 @@ void draw_mark(Painter& painter, Point xy, char c)
 
 void Marked_polyline::draw_specifics(Painter& painter) const
 {
-    Shape::draw_specifics(painter);
+    Open_polyline::draw_specifics(painter);
 
     painter.set_line_style(style());
     if (m_color)
