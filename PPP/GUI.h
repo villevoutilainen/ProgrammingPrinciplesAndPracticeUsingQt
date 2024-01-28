@@ -55,7 +55,7 @@ namespace Graph_lib {
 //------------------------------------------------------------------------------
 
     struct In_box : Widget {
-        In_box(Point xy, int w, int h, const string& s);
+        In_box(Point xy, int w, int h, const string& s, Callback cb = {});
         int get_int();
         string get_string();
         int get_int_keep_open();

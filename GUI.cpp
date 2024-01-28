@@ -83,13 +83,14 @@ private:
     bool close_on_accept = false;
 };
 
-In_box::In_box(Point xy, int w, int h, const string& s)
+In_box::In_box(Point xy, int w, int h, const string& s, Callback cb)
     :Widget(xy,w,h,s,0)
 {
     WidgetPrivate& w_impl = get_impl();
     InputDialog* dialog = new InputDialog();
     dialog->setVisible(false);
     w_impl.widget.reset(dialog);
+    do_it = cb;
 }
 
 void setup_input(InputDialog* dialog, const std::string& label,
