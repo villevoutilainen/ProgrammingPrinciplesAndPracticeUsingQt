@@ -396,9 +396,7 @@ public:
     Marks(const string& m, initializer_list<Point> lst = {})
         : Marked_polyline{ m,lst }   {
         Color orig = color();
-        Color col = orig;
-        col.set_visibility(Color::invisible);
-        Marked_polyline::set_color(col);
+        Marked_polyline::set_color(Color::invisible);
         set_mark_color(orig);
     }
     void set_color(Color col) {
