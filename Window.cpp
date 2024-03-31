@@ -51,7 +51,7 @@ Point Painter::draw_text(const Point& p1, const std::string& text)
     impl->painter->setFont(impl->font);
     QFontMetrics font_metrics(impl->font);
     QRect bounding_rect =
-        font_metrics.boundingRect(
+        font_metrics.tightBoundingRect(
             QString::fromStdString(text + " "));
     impl->painter->drawText(QPoint(p1.x, p1.y + bounding_rect.height()),
                             QString::fromStdString(text));
@@ -86,6 +86,7 @@ void Painter::draw_text_line(const Point& p1, const Vector_ref<const Text>& text
         setup_from_text(*text);
         Point next_pos = draw_text(current_pos, text->label());
         current_pos.x = next_pos.x;
+        current_pos.y = p1.y;
     }
 }
 
@@ -96,6 +97,7 @@ void Painter::draw_text_column(const Point& p1, const Vector_ref<const Text>& te
         setup_from_text(*text);
         Point next_pos = draw_text(current_pos, text->label());
         current_pos.y = next_pos.y;
+        current_pos.x = p1.x;
     }
 }
 
