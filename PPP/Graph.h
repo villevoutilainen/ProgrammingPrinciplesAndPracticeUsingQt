@@ -266,7 +266,7 @@ struct Lines : Shape {	// independent lines
 };
 
 struct Text : Shape {
-	// the point is the bottom left of the first letter
+    // the point is the top left of the first letter
 	Text(Point x, const string& s) : lab{ s } { add(x); }
 
     void draw_specifics(Painter& painter) const override;
