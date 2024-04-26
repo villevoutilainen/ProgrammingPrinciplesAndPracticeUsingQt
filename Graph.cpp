@@ -157,8 +157,8 @@ void Rectangle::draw_specifics(Painter& painter) const
 Axis::Axis(Orientation d, Point xy, int length, int n, string lab)
     :label(Point{0,0},lab),
     line(xy, d==x ?
-                   Point(xy.x+length, xy.y) :
-                   Point(xy.x, xy.y-length))
+                   Point{xy.x+length, xy.y} :
+                   Point{xy.x, xy.y-length)}
 {
 	if (length<0) error("bad axis length");
 	switch (d){
