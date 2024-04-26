@@ -289,7 +289,7 @@ private:
 struct Axis : Shape {
 	// representation left public
 	enum Orientation { x, y, z };
-	Axis(Orientation d, Point xy, int length, int nummber_of_notches=0, string label = "");
+    Axis(Orientation d, Point xy, int length, int number_of_notches=0, string label = "");
 
     void draw_specifics(Painter& painter) const override;
     void move(int dx, int dy) override;
