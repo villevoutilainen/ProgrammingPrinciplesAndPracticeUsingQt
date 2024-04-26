@@ -2,7 +2,6 @@
 #include "PPP/Window.h"
 #include "PPP/Image_private.h"
 
-#include<map>
 
 namespace Graph_lib {
 
