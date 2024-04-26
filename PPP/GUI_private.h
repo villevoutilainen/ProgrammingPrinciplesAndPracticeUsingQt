@@ -79,4 +79,4 @@ namespace Graph_lib {
 
 } // of namespace Graph_lib
 
-#endif // GUI_GUARD
+#endif // GUI_PRIVATE_GUARD
