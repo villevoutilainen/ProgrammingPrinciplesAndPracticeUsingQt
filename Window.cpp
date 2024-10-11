@@ -42,7 +42,7 @@ void Painter::draw_polygon(const Shape& s)
         Point p = s.point(i);
         points.push_back(QPoint(p.x, p.y));
     }
-    impl->painter->drawPolygon(points.data(), points.size());
+    impl->painter->drawPolygon(points.data(), static_cast<int>(points.size()));
 }
 
 Point Painter::draw_text(const Point& p1, const std::string& text)
